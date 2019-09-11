@@ -3,6 +3,7 @@ package by.training.module1.bean;
 import java.util.List;
 
 public class Necklace {
+    private String name;
     private List<Gemstone> gemstones;
 
     public List<Gemstone> getGemstones() {
@@ -11,5 +12,13 @@ public class Necklace {
 
     public void setGemstones(List<Gemstone> gemstones) {
         this.gemstones = gemstones;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
