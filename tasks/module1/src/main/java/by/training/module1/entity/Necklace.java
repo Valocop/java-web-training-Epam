@@ -1,4 +1,4 @@
-package by.training.module1.bean;
+package by.training.module1.entity;
 
 import java.util.List;
 

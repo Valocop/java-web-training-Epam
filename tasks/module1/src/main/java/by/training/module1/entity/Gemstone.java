@@ -1,11 +1,11 @@
-package by.training.module1.bean;
+package by.training.module1.entity;
 
 public class Gemstone {
     private String gemType;
     private String gemName;
     private double value;
     private double weight;
-    private double transparency;
+    private int transparency;
 
     public String getGemType() {
         return gemType;
@@ -39,11 +39,11 @@ public class Gemstone {
         this.weight = weight;
     }
 
-    public double getTransparency() {
+    public int getTransparency() {
         return transparency;
     }
 
-    public void setTransparency(double transparency) {
+    public void setTransparency(int transparency) {
         this.transparency = transparency;
     }
 }
