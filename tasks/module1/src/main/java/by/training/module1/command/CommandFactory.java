@@ -1,15 +1,9 @@
 package by.training.module1.command;
 
+import by.training.module1.entity.Necklace;
+
 public final class CommandFactory {
     private static final CommandFactory instance = new CommandFactory();
-
-    private final Command sortValueDecreaseCommand = new SortValueDecreaseCommand();
-    private final Command sortValueIncreaseCommand = new SortValueIncreaseCommand();
-    private final Command calculateValueCommand = new CalculateValueCommand();
-    private final Command calculateWeightCommand = new CalculateWeightCommand();
-    private final Command sortWeightDecreaseCommand = new SortWeightDecreaseCommand();
-    private final Command sortWeightIncreaseCommand = new SortWeightIncreaseCommand();
-    private final Command findGemstonesTransparencyCommand = new FindGemstonesTransparencyCommand();
 
     private CommandFactory() {}
 
@@ -20,25 +14,20 @@ public final class CommandFactory {
     public Command getByType(CommandType type) {
         switch (type) {
             case CALCULATE_VALUE:
-                return calculateValueCommand;
+                return new CalculateValueCommand(Necklace.necklace1);
             case CALCULATE_WEIGHT:
-                return calculateWeightCommand;
+                return new CalculateWeightCommand(Necklace.necklace1);
             case SORT_BY_VALUE_DECREASE:
-                return sortValueDecreaseCommand;
+                return new SortValueDecreaseCommand(Necklace.necklace1);
             case SORT_BY_VALUE_INCREASE:
-                return sortValueIncreaseCommand;
+                return new SortValueIncreaseCommand(Necklace.necklace1);
             case SORT_BY_WEIGHT_DECREASE:
-                return sortWeightDecreaseCommand;
+                return new SortWeightDecreaseCommand(Necklace.necklace1);
             case SORT_BY_WEIGHT_INCREASE:
-                return sortWeightIncreaseCommand;
+                return new SortWeightIncreaseCommand(Necklace.necklace1);
             case FIND_GEMSTONES_BY_TRANSPARENCY:
-                return findGemstonesTransparencyCommand;
-                default: return new Command() {
-                    @Override
-                    public void execute() {
-
-                    }
-                };
+                return new FindGemstonesTransparencyCommand(Necklace.necklace1, 80);
+                default: return null; //?
         }
     }
 }

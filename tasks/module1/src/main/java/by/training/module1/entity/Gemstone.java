@@ -7,6 +7,14 @@ public class Gemstone {
     private double weight;
     private int transparency;
 
+    Gemstone(String gemName, String gemType, double value, double weight, int transparency) {
+        this.gemName = gemName;
+        this.gemType = gemType;
+        this.value = value;
+        this.weight = weight;
+        this.transparency = transparency;
+    }
+
     public String getGemType() {
         return gemType;
     }
