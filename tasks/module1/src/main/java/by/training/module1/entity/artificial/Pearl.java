@@ -1,5 +1,7 @@
 package by.training.module1.entity.artificial;
 
+import java.util.Objects;
+
 public class Pearl extends ArtificalDecor {
     private double height;
 
@@ -13,6 +15,20 @@ public class Pearl extends ArtificalDecor {
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Pearl pearl = (Pearl) o;
+        return Double.compare(pearl.height, height) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), height);
     }
 
     @Override

@@ -3,6 +3,8 @@ package by.training.module1.entity.natural;
 import by.training.module1.entity.Decor;
 import by.training.module1.entity.DecorType;
 
+import java.util.Objects;
+
 public abstract class NaturalDecor extends Decor {
     private double age;
 
@@ -17,6 +19,20 @@ public abstract class NaturalDecor extends Decor {
 
     public void setAge(double age) {
         this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        NaturalDecor that = (NaturalDecor) o;
+        return Double.compare(that.age, age) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), age);
     }
 
     @Override

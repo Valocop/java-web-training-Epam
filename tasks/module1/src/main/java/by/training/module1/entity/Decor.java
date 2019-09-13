@@ -1,5 +1,7 @@
 package by.training.module1.entity;
 
+import java.util.Objects;
+
 public abstract class Decor {
     private double value;
     private double weight;
@@ -43,6 +45,22 @@ public abstract class Decor {
 
     public void setDecorType(DecorType decorType) {
         this.decorType = decorType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Decor decor = (Decor) o;
+        return Double.compare(decor.value, value) == 0 &&
+                Double.compare(decor.weight, weight) == 0 &&
+                transparency == decor.transparency &&
+                decorType == decor.decorType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, weight, transparency, decorType);
     }
 
     @Override
