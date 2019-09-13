@@ -18,4 +18,12 @@ public class ArtificalDecor extends Decor {
     public void setColor(int color) {
         this.color = color;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                " ArtificalDecor{" +
+                "color=" + color +
+                '}';
+    }
 }

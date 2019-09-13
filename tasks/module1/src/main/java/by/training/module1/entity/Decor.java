@@ -44,4 +44,14 @@ public abstract class Decor {
     public void setDecorType(DecorType decorType) {
         this.decorType = decorType;
     }
+
+    @Override
+    public String toString() {
+        return "Decor{" +
+                "value=" + value +
+                ", weight=" + weight +
+                ", transparency=" + transparency +
+                ", decorType=" + decorType +
+                '}';
+    }
 }

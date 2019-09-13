@@ -14,4 +14,12 @@ public class Pearl extends ArtificalDecor {
     public void setHeight(double height) {
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                " Pearl{" +
+                "height=" + height +
+                '}';
+    }
 }

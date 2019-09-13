@@ -18,4 +18,12 @@ public abstract class NaturalDecor extends Decor {
     public void setAge(double age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                " NaturalDecor{" +
+                "age=" + age +
+                '}';
+    }
 }
