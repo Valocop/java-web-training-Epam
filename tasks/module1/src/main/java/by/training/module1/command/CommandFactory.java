@@ -29,7 +29,7 @@ public final class CommandFactory {
             case SORT_BY_VALUE_AND_WEIGHT:
                 return new SortByValueAndWeightCommand(decorService);
             case FIND_DECOR_BY_TRANSPARENCY:
-                return new FindDecorByTransparency(decorService, 70);
+                return new FindDecorByTransparency(decorService, 40);
             case CALCULATE_TOTAL_VALUE:
                 return new CalculateTotalValueCommand(decorService);
             case CALCULATE_TOTAL_WEIGHT:

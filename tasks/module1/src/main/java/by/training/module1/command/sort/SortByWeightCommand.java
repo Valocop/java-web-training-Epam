@@ -16,7 +16,7 @@ public class SortByWeightCommand implements Command {
     }
 
     @Override
-    public Object execute() {
+    public List<Decor> execute() {
         List<Decor> decors = null;
         Comparator<Decor> decorComparator = new Comparator<Decor>() {
             @Override

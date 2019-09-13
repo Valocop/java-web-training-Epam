@@ -16,7 +16,7 @@ public class SortByValueAndWeightCommand implements Command {
     }
 
     @Override
-    public Object execute() {
+    public List<Decor> execute() {
         List<Decor> decors = null;
         Comparator<Decor> decorComparator = Comparator.comparing(Decor::getValue).thenComparing(Decor::getWeight);
         try {
