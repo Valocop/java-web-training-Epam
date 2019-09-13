@@ -10,12 +10,19 @@ import java.util.List;
 public class DecorServiceImpl implements DecorService {
     private List<Decor> decors = new ArrayList<>();
 
-    public void addDecor(Decor decor) {
-        decors.add(decor);
+    @Override
+    public boolean addDecor(Decor decor) {
+        return decors.add(decor);
     }
 
+    @Override
     public boolean removeDecor(Decor decor) {
         return decors.remove(decor);
+    }
+
+    @Override
+    public List<Decor> getAllDecor() {
+        return decors;
     }
 
     @Override
