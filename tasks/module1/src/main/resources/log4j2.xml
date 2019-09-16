@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <property name="file">%d{yyyy-MM-dd HH:mm:ss} %t %level %logger{5} Method:%M - %msg%n</property>
+        <property name="console">%d{yyyy-MM-dd HH:mm:ss} %level %logger{5} - %msg%n</property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="file" fileName="log.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${file}"/>
+            <Policies>
+
+            </Policies>
+        </RollingFile>
+        <Console name="Console">
+            <PatternLayout pattern="${console}"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="RollingFile" level="INFO"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Root>
+    </Loggers>
+</Configuration>
+
