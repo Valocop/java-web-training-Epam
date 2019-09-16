@@ -1,10 +1,15 @@
 package by.training.module1.service;
 
+import by.training.module1.entity.Amber;
 import by.training.module1.entity.Decor;
+import by.training.module1.entity.Pearl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 public class DecorServiceRepository implements DecorRepository<Decor> {
+    private static final Logger LOGGER = LogManager.getLogger();
     private List<Decor> decors = new ArrayList<>();
 
     @Override
@@ -27,6 +32,7 @@ public class DecorServiceRepository implements DecorRepository<Decor> {
     @Override
     public List<Decor> find(DecorMatchSpecification<Decor> spec) throws ServiceException {
         if (spec == null) {
+            LOGGER.error("NullPointerException");
             throw new ServiceException(new NullPointerException());
         }
 
@@ -37,6 +43,7 @@ public class DecorServiceRepository implements DecorRepository<Decor> {
                 decors.add(decor);
             }
         }
+        LOGGER.info("Find decors by specification");
         return decors;
     }
 
