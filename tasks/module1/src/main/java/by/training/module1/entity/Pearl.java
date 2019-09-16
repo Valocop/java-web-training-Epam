@@ -1,4 +1,4 @@
-package by.training.module1.entity.artificial;
+package by.training.module1.entity;
 
 import java.util.Objects;
 

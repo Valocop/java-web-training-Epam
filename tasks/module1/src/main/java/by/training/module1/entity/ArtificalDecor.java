@@ -1,7 +1,4 @@
-package by.training.module1.entity.artificial;
-
-import by.training.module1.entity.Decor;
-import by.training.module1.entity.DecorType;
+package by.training.module1.entity;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package by.training.module1.entity.natural;
+package by.training.module1.entity;
 
 import java.util.Objects;
 
@@ -34,7 +34,7 @@ public class Amber extends NaturalDecor {
     @Override
     public String toString() {
         return super.toString() +
-                "Amber{" +
+                " Amber{" +
                 "size=" + size +
                 '}';
     }
