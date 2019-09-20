@@ -7,6 +7,7 @@ public class Pearl extends ArtificalDecor {
 
     public Pearl(double value, double weight, int transparency, int color, double height) {
         super(value, weight, transparency, color);
+        this.height = height;
     }
 
     public double getHeight() {

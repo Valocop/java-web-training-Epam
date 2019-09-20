@@ -7,6 +7,7 @@ public class Amber extends NaturalDecor {
 
     public Amber(double value, double weight, int transparency, double age, double size) {
         super(value, weight, transparency, age);
+        this.size = size;
     }
 
     public double getSize() {
