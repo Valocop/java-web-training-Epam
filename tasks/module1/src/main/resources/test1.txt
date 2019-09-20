@@ -1,0 +1,5 @@
+type : Amber value : 150.432 weight : 10.1923 transparency : 80
+type : Amber , weight : 15.62 , transparency : 85 , size : 7   value : 12 age : 1500
+type : Pearl , value: 100.5 weight : 15.62 , transparency : 87 , color : 5, height : 15
+[type : Pearl] [value: 1000] [weight : 150.62] [transparency : 90] [color : 50] [height : 17]
+type : Pearl , value : 1 , weight : 10 transparency : 100

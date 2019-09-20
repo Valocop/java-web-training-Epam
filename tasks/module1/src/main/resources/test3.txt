@@ -1,0 +1,17 @@
+type : Amber value : 150.432 weight : 10.1923 transparency : 80 size : 5
+
+type : Amber , weight : 15.62 , transparency : 85 , size : 7
+ghfgfh
+type : Pearl , value: 100.5 weight : 15.62 , transparency : 87 , color : 5, height : 15
+...
+[typ : Pearl] fdgdfg [value: 1000] [weight : 15A0.62] [transparency : 90.1] [color : 5A0] [height : 17]
+
+12234234
+
+type : Amber1 , weight : 15.632 , transparency : 85 , size : 7
+
+type : PEARL , weight : 15.632 , transparency : 85 , size : 7
+
+type : ? , weight : 15.632 , transparency : 85 , size : 7
+
+type : Amber , weight : 15.632asd , transparency : 85.ad , size : 7
