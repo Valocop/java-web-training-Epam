@@ -28,12 +28,12 @@ public class DecorServiceRepositoryTest {
     @Before
     public void signUp() {
         serviceRepository = new DecorServiceRepository();
-        serviceRepository.addDecor(pearl1);
-        serviceRepository.addDecor(pearl2);
-        serviceRepository.addDecor(amber1);
-        serviceRepository.addDecor(amber2);
-        serviceRepository.addDecor(amber3);
-        serviceRepository.addDecor(amber4);
+        serviceRepository.add(pearl1);
+        serviceRepository.add(pearl2);
+        serviceRepository.add(amber1);
+        serviceRepository.add(amber2);
+        serviceRepository.add(amber3);
+        serviceRepository.add(amber4);
     }
 
     @Test(expected = ServiceException.class)
@@ -78,7 +78,7 @@ public class DecorServiceRepositoryTest {
     public void shouldSortByValueIncrease() throws ServiceException {
         DecorSortSpecification<Decor> decorSortSpecification = new DecorSortByValueSpec(SortType.INCREASE);
         List<Decor> actualDecors = serviceRepository.sort(decorSortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getDecors());
+        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getAll());
         expectDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
@@ -92,7 +92,7 @@ public class DecorServiceRepositoryTest {
     public void shouldSortByValueDecrease() throws ServiceException {
         DecorSortSpecification<Decor> decorSortSpecification = new DecorSortByValueSpec(SortType.DECREASE);
         List<Decor> actualDecors = serviceRepository.sort(decorSortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getDecors());
+        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getAll());
         expectDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
@@ -117,7 +117,7 @@ public class DecorServiceRepositoryTest {
     public void shouldSortByWeightIncrease() throws ServiceException {
         DecorSortSpecification<Decor> decorSortSpecification = new DecorSortByWeightSpec(SortType.INCREASE);
         List<Decor> actualDecors = serviceRepository.sort(decorSortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getDecors());
+        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getAll());
         expectDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
@@ -131,7 +131,7 @@ public class DecorServiceRepositoryTest {
     public void shouldSortByWeightDecrease() throws ServiceException {
         DecorSortSpecification<Decor> decorSortSpecification = new DecorSortByWeightSpec(SortType.DECREASE);
         List<Decor> actualDecors = serviceRepository.sort(decorSortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getDecors());
+        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getAll());
         expectDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
@@ -151,7 +151,7 @@ public class DecorServiceRepositoryTest {
     public void shouldSortByValueAndWeightIncrease() throws ServiceException {
         DecorSortSpecification<Decor> decorSortSpecification = new DecorSortByValueAndWeightSpec(SortType.INCREASE);
         List<Decor> actualDecors = serviceRepository.sort(decorSortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getDecors());
+        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getAll());
         expectDecors.sort(Comparator.comparing(Decor::getValue).thenComparing(Decor::getWeight));
         Assert.assertEquals(expectDecors, actualDecors);
     }
@@ -160,8 +160,35 @@ public class DecorServiceRepositoryTest {
     public void shouldSortByValueAndWeightDecrease() throws ServiceException {
         DecorSortSpecification<Decor> decorSortSpecification = new DecorSortByValueAndWeightSpec(SortType.DECREASE);
         List<Decor> actualDecors = serviceRepository.sort(decorSortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getDecors());
+        List<Decor> expectDecors = new ArrayList<>(serviceRepository.getAll());
         expectDecors.sort(Comparator.comparing(Decor::getValue).thenComparing(Decor::getWeight).reversed());
         Assert.assertEquals(expectDecors, actualDecors);
+    }
+
+    @Test(expected = ServiceException.class)
+    public void shouldExpectServiceExceptionCalculate() throws ServiceException {
+        Double actualResult = serviceRepository.calculate(null);
+    }
+
+    @Test
+    public void shouldCalculateTotalValueDecor() throws ServiceException {
+        DecorCalculateSpecification<Decor> calculateSpecification = new DecorCalculateValueSpec();
+        Double actualResult = serviceRepository.calculate(calculateSpecification);
+        Double expectResult = 0d;
+        for (Decor decor : serviceRepository.getAll()) {
+            expectResult += decor.getValue();
+        }
+        Assert.assertEquals(expectResult, actualResult, ERROR);
+    }
+
+    @Test
+    public void shouldCalculateTotalWeightDecor() throws ServiceException {
+        DecorCalculateSpecification<Decor> calculateSpecification = new DecorCalculateWeightSpec();
+        Double actualResult = serviceRepository.calculate(calculateSpecification);
+        Double expectResult = 0d;
+        for (Decor decor : serviceRepository.getAll()) {
+            expectResult += decor.getWeight();
+        }
+        Assert.assertEquals(expectResult, actualResult, ERROR);
     }
 }
