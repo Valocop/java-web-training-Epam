@@ -29,7 +29,7 @@ public class DecorController {
             try {
                 listOfLines = dataFileReader.readData();
             } catch (IOException e) {
-                LOGGER.info("IOException to read file [" + path + "]");
+                LOGGER.error("IOException to read file [" + path + "]");
                 return false;
             }
 
