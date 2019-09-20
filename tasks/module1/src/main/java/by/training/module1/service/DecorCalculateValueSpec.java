@@ -5,7 +5,7 @@ import by.training.module1.entity.Decor;
 public class DecorCalculateValueSpec implements DecorCalculateSpecification<Decor> {
 
     @Override
-    public Double calculate(Decor entity) {
+    public Double getValue(Decor entity) {
         return entity.getValue();
     }
 }

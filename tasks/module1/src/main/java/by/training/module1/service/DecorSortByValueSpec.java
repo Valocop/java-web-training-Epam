@@ -27,7 +27,7 @@ public class DecorSortByValueSpec implements DecorSortSpecification<Decor> {
             case DECREASE:
                 return decorComparator.reversed();
                 default:
-                    return null;
+                    return decorComparator;
         }
     }
 }

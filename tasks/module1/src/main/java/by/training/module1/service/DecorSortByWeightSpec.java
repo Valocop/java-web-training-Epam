@@ -26,7 +26,8 @@ public class DecorSortByWeightSpec implements DecorSortSpecification<Decor> {
                 return decorComparator;
             case DECREASE:
                 return decorComparator.reversed();
-                default: return null;
+                default:
+                    return decorComparator;
         }
     }
 }

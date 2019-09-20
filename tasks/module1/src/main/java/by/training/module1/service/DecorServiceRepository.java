@@ -1,8 +1,6 @@
 package by.training.module1.service;
 
-import by.training.module1.entity.Amber;
 import by.training.module1.entity.Decor;
-import by.training.module1.entity.Pearl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,20 +11,27 @@ public class DecorServiceRepository implements DecorRepository<Decor> {
     private List<Decor> decors = new ArrayList<>();
 
     @Override
-    public boolean addDecor(Decor decor) {
+    public boolean add(Decor decor) {
         return decors.add(decor);
     }
 
     @Override
-    public boolean removeDecor(Decor decor) {
+    public boolean remove(Decor decor) {
         return decors.remove(decor);
     }
 
     @Override
-    public Number calculate(DecorCalculateSpecification<Decor> spec) throws ServiceException {
-//        processing
+    public Double calculate(DecorCalculateSpecification<Decor> spec) throws ServiceException {
+        Double result = 0d;
+        if (spec == null) {
+            LOGGER.error("NullPointerException");
+            throw new ServiceException(new NullPointerException());
+        }
 
-        return null;
+        for (Decor decor : decors) {
+            result += spec.getValue(decor);
+        }
+        return result;
     }
 
     @Override
@@ -52,13 +57,12 @@ public class DecorServiceRepository implements DecorRepository<Decor> {
         if (spec == null) {
             throw new ServiceException(new NullPointerException());
         }
-
         decors.sort(spec.getSort());
         return decors;
     }
 
     @Override
-    public List<Decor> getDecors() {
+    public List<Decor> getAll() {
         return decors;
     }
 }
