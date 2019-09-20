@@ -24,20 +24,21 @@ public class DecorServiceRepository implements DecorRepository<Decor> {
     public Double calculate(DecorCalculateSpecification<Decor> spec) throws ServiceException {
         Double result = 0d;
         if (spec == null) {
-            LOGGER.error("NullPointerException");
+            LOGGER.error("NullPointerException - spec is null, calculate impossible.");
             throw new ServiceException(new NullPointerException());
         }
 
         for (Decor decor : decors) {
             result += spec.getValue(decor);
         }
+        LOGGER.info("Result of calculation by " + spec.getClass().getSimpleName() + " [" + result + "]");
         return result;
     }
 
     @Override
     public List<Decor> find(DecorMatchSpecification<Decor> spec) throws ServiceException {
         if (spec == null) {
-            LOGGER.error("NullPointerException");
+            LOGGER.error("NullPointerException - spec is null, find impossible");
             throw new ServiceException(new NullPointerException());
         }
 
@@ -48,16 +49,18 @@ public class DecorServiceRepository implements DecorRepository<Decor> {
                 decors.add(decor);
             }
         }
-        LOGGER.info("Find decors by specification");
+        LOGGER.info("Result of find by " + spec.getClass().getSimpleName() + " [" + decors.toString() + "]");
         return decors;
     }
 
     @Override
     public List<Decor> sort(DecorSortSpecification<Decor> spec) throws ServiceException {
         if (spec == null) {
+            LOGGER.error("NullPointerException - spec is null, sort impossible.");
             throw new ServiceException(new NullPointerException());
         }
         decors.sort(spec.getSort());
+        LOGGER.info("Result of sort by " + spec.getClass().getSimpleName() + " [" + decors.toString() + "]");
         return decors;
     }
 
