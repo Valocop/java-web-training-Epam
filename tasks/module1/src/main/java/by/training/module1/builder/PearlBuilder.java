@@ -1,5 +1,6 @@
-package by.training.module1.controller;
+package by.training.module1.builder;
 
+import by.training.module1.builder.Builder;
 import by.training.module1.entity.Decor;
 import by.training.module1.entity.Pearl;
 import org.apache.logging.log4j.LogManager;

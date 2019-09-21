@@ -1,4 +1,4 @@
-package by.training.module1.controller;
+package by.training.module1.builder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

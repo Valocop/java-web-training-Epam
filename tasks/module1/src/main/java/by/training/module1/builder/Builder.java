@@ -1,4 +1,4 @@
-package by.training.module1.controller;
+package by.training.module1.builder;
 
 import by.training.module1.entity.Decor;
 
