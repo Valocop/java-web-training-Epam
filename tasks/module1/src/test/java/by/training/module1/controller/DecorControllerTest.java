@@ -1,28 +1,35 @@
-package by.training.module1.service;
+package by.training.module1.controller;
 
-import by.training.module1.controller.DecorController;
 import by.training.module1.entity.Amber;
 import by.training.module1.entity.Decor;
 import by.training.module1.entity.Pearl;
+import by.training.module1.repo.DecorRepository;
+import by.training.module1.service.DecorService;
+import by.training.module1.service.Service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(JUnit4.class)
 
 public class DecorControllerTest {
+    private ClassLoader classLoader = getClass().getClassLoader();
 
     @Test
     public void shouldReadFileAndCreateDecors() {
-        DecorServiceRepository serviceRepository = new DecorServiceRepository();
-        String path = "src\\main\\resources\\test1.txt";
-        DecorController decorController = new DecorController(serviceRepository, path);
+        Service<Decor> decorService = new DecorService(new DecorRepository());
+        Path resourceDirectory = Paths.get("src","test","resources", "testValid.txt");
+        String path = resourceDirectory.toString();
+        DecorController decorController = new DecorController(decorService, path);
         boolean result = decorController.process();
-        List<Decor> actualList = serviceRepository.getAll();
+        List<Decor> actualList = decorService.getAll();
         List<Decor> expectList = new ArrayList<>();
         expectList.add(new Amber(150.432, 10.1923, 80, 0, 0));
         expectList.add(new Amber(12, 15.62, 85, 1500, 7));
@@ -35,8 +42,9 @@ public class DecorControllerTest {
 
     @Test
     public void shouldDoNotReadEmptyFile() {
-        DecorServiceRepository serviceRepository = new DecorServiceRepository();
-        String path = "src\\main\\resources\\test2.txt";
+        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        Path resourceDirectory = Paths.get("src","test","resources", "testEmpty.txt");
+        String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
         boolean result = decorController.process();
         List<Decor> actualList = serviceRepository.getAll();
@@ -47,8 +55,9 @@ public class DecorControllerTest {
 
     @Test
     public void shouldReadFileSkipInvalidLinesAndCreateDecors() {
-        DecorServiceRepository serviceRepository = new DecorServiceRepository();
-        String path = "src\\main\\resources\\test3.txt";
+        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        Path resourceDirectory = Paths.get("src","test","resources", "testHalfValid.txt");
+        String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
         boolean result = decorController.process();
         List<Decor> actualList = serviceRepository.getAll();
@@ -61,8 +70,9 @@ public class DecorControllerTest {
 
     @Test
     public void shouldDoNotReadNoExistFile() {
-        DecorServiceRepository serviceRepository = new DecorServiceRepository();
-        String path = "src\\main\\resources\\testTest.txt";
+        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        Path resourceDirectory = Paths.get("src","test","resources", "noExist.txt");
+        String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
         boolean result = decorController.process();
         List<Decor> actualList = serviceRepository.getAll();
@@ -73,8 +83,21 @@ public class DecorControllerTest {
 
     @Test
     public void shouldDoNotReadFileWhenPathNull() {
-        DecorServiceRepository serviceRepository = new DecorServiceRepository();
+        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
         String path = null;
+        DecorController decorController = new DecorController(serviceRepository, path);
+        boolean result = decorController.process();
+        List<Decor> actualList = serviceRepository.getAll();
+        List<Decor> expectList = new ArrayList<>();
+        Assert.assertFalse(result);
+        Assert.assertEquals(expectList, actualList);
+    }
+
+    @Test
+    public void shouldDoNotReadDirectory() {
+        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        Path resourceDirectory = Paths.get("src","test","resources");
+        String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
         boolean result = decorController.process();
         List<Decor> actualList = serviceRepository.getAll();
