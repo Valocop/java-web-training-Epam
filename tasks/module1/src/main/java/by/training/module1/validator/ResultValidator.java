@@ -1,4 +1,4 @@
-package by.training.module1.controller;
+package by.training.module1.validator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResultValidation {
+public class ResultValidator {
     private static final Logger LOGGER = LogManager.getLogger();
     private Map<String, List<String>> exceptionMap = new HashMap<>();
 

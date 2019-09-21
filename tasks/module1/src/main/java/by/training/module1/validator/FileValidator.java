@@ -1,4 +1,4 @@
-package by.training.module1.controller;
+package by.training.module1.validator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,13 +10,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class FileValidation {
+public class FileValidator {
     private static final Logger LOGGER = LogManager.getLogger();
     private String stringPath;
     private Path path;
-    private ResultValidation resultValidation = new ResultValidation();
+    private ResultValidator resultValidator = new ResultValidator();
 
-    public FileValidation(String path) {
+    public FileValidator(String path) {
         this.stringPath = path;
     }
 
@@ -26,7 +26,7 @@ public class FileValidation {
             try {
                 path = Paths.get(stringPath);
             } catch (InvalidPathException e) {
-                resultValidation.addException("InvalidPathException", Arrays.asList("[" + stringPath + "] is invalid path."));
+                resultValidator.addException("InvalidPathException", Arrays.asList("[" + stringPath + "] is invalid path."));
                 LOGGER.info("[" + stringPath + "] is invalid path.");
             }
             if (Files.exists(path)) {
@@ -44,32 +44,32 @@ public class FileValidation {
                                 LOGGER.info("[" + stringPath + "] file is not empty" + "[" + size + "].");
                                 LOGGER.info("[" + stringPath + "] file can be read.");
                             } else {
-                                resultValidation.addException("FileIsEmpty", Arrays.asList("[" + stringPath + "] file is empty."));
+                                resultValidator.addException("FileIsEmpty", Arrays.asList("[" + stringPath + "] file is empty."));
                                 LOGGER.info("[" + stringPath + "] file is empty.");
                             }
                         } catch (IOException e) {
-                            resultValidation.addException("FileReadSizeException", Arrays.asList("[" + stringPath + "] file size unknown."));
+                            resultValidator.addException("FileReadSizeException", Arrays.asList("[" + stringPath + "] file size unknown."));
                         }
                     } else {
-                        resultValidation.addException("FileIsNotReadable", Arrays.asList("[" + stringPath + "] file is not readable."));
+                        resultValidator.addException("FileIsNotReadable", Arrays.asList("[" + stringPath + "] file is not readable."));
                         LOGGER.info("[" + stringPath + "] file is not readable.");
                     }
                 } else {
-                    resultValidation.addException("IsNotFile", Arrays.asList("[" + stringPath + "] is not a file."));
+                    resultValidator.addException("IsNotFile", Arrays.asList("[" + stringPath + "] is not a file."));
                     LOGGER.info("[" + stringPath + "] is not a file.");
                 }
             } else {
-                resultValidation.addException("FileIsNotExists", Arrays.asList("[" + stringPath + "] is not exist."));
+                resultValidator.addException("FileIsNotExists", Arrays.asList("[" + stringPath + "] is not exist."));
                 LOGGER.info("[" + stringPath + "] is not exist.");
             }
         } else {
-            resultValidation.addException("PathIsNull", Arrays.asList("Path is null."));
+            resultValidator.addException("PathIsNull", Arrays.asList("Path is null."));
             LOGGER.info("Path is null.");
         }
     }
 
-    public ResultValidation validate() {
+    public ResultValidator validate() {
         checkPath();
-        return resultValidation;
+        return resultValidator;
     }
 }

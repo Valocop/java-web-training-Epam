@@ -1,16 +1,16 @@
-package by.training.module1.controller;
+package by.training.module1.validator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-public class DataValidation {
+public class DataValidator {
     private static final Logger LOGGER = LogManager.getLogger();
     private Map<String, String> param;
-    private ResultValidation resultValidation = new ResultValidation();
+    private ResultValidator resultValidator = new ResultValidator();
 
-    public DataValidation(Map<String, String> param) {
+    public DataValidator(Map<String, String> param) {
         this.param = param;
     }
 
@@ -23,7 +23,7 @@ public class DataValidation {
                 if (value.equals("amber") || value.equals("pearl")) {
                     LOGGER.info("[" + value + "] value of type correct.");
                 } else {
-                    resultValidation.addException("ValueOfTypeError", Arrays.asList("[" + value + "] value of type incorrect."));
+                    resultValidator.addException("ValueOfTypeError", Arrays.asList("[" + value + "] value of type incorrect."));
                     LOGGER.info("[" + value + "] value of type incorrect.");
                 }
             }
@@ -33,7 +33,7 @@ public class DataValidation {
                     double weight = Double.parseDouble(value);
                     LOGGER.info("[" + weight + "] value of weight correct");
                 } catch (NumberFormatException e) {
-                    resultValidation.addException("ValueOfWeightError", Arrays.asList("[" + value + "] value of weight incorrect."));
+                    resultValidator.addException("ValueOfWeightError", Arrays.asList("[" + value + "] value of weight incorrect."));
                     LOGGER.info("[" + value + "] value of weight incorrect.");
                 }
             }
@@ -43,7 +43,7 @@ public class DataValidation {
                     Integer transparency = Integer.parseInt(value);
                     LOGGER.info("[" + transparency + "] value of transparency correct.");
                 } catch (NumberFormatException e) {
-                    resultValidation.addException("ValueOfTransparencyError", Arrays.asList("[" + value + "] value of transparency incorrect."));
+                    resultValidator.addException("ValueOfTransparencyError", Arrays.asList("[" + value + "] value of transparency incorrect."));
                     LOGGER.info("[" + value + "] value of transparency incorrect.");
                 }
             }
@@ -53,7 +53,7 @@ public class DataValidation {
                     double transparency = Double.parseDouble(value);
                     LOGGER.info("[" + transparency + "] value of value correct.");
                 } catch (NumberFormatException e) {
-                    resultValidation.addException("ValueOfValueError", Arrays.asList("[" + value + "] value of value incorrect."));
+                    resultValidator.addException("ValueOfValueError", Arrays.asList("[" + value + "] value of value incorrect."));
                     LOGGER.info("[" + value + "] value of value incorrect.");
                 }
             }
@@ -73,26 +73,26 @@ public class DataValidation {
                     if (paramList.contains("value")) {
                         LOGGER.info("Parameters contain a value.");
                     } else {
-                        resultValidation.addException("ContainValueError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a value."));
+                        resultValidator.addException("ContainValueError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a value."));
                         LOGGER.info("[" + paramList.toString() +  "] parameters don't contain a value.");
                     }
                 } else {
-                    resultValidation.addException("ContainTransparencyError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a transparency."));
+                    resultValidator.addException("ContainTransparencyError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a transparency."));
                     LOGGER.info("[" + paramList.toString() +  "] parameters don't contain a transparency.");
                 }
             } else {
-                resultValidation.addException("ContainWeightError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a weight."));
+                resultValidator.addException("ContainWeightError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a weight."));
                 LOGGER.info("[" + paramList.toString() +  "] parameters don't contain a weight.");
             }
         } else {
-            resultValidation.addException("ContainTypeError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a type."));
+            resultValidator.addException("ContainTypeError", Arrays.asList("[" + paramList.toString() +  "] parameters don't contain a type."));
             LOGGER.info("[" + paramList.toString() +  "] parameters don't contain a type.");
         }
     }
 
-    public ResultValidation validation() {
+    public ResultValidator validation() {
         checkKey();
         checkValue();
-        return resultValidation;
+        return resultValidator;
     }
 }
