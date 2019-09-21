@@ -1,14 +1,13 @@
 package by.training.module1.service;
 
 import by.training.module1.entity.Decor;
-import com.sun.istack.internal.NotNull;
 
 import java.util.Comparator;
 
-public class DecorSortByValueSpec implements DecorSortSpecification<Decor> {
+public class SortByValueSpec implements SortSpecification<Decor> {
     private SortType sortType;
 
-    public DecorSortByValueSpec(@NotNull SortType sortType) {
+    public SortByValueSpec(SortType sortType) {
         this.sortType = sortType;
     }
 

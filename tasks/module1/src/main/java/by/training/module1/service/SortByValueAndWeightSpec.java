@@ -1,14 +1,12 @@
 package by.training.module1.service;
 
 import by.training.module1.entity.Decor;
-import com.sun.istack.internal.NotNull;
-
 import java.util.Comparator;
 
-public class DecorSortByValueAndWeightSpec implements DecorSortSpecification<Decor> {
+public class SortByValueAndWeightSpec implements SortSpecification<Decor> {
     private SortType sortType;
 
-    public DecorSortByValueAndWeightSpec(@NotNull SortType sortType) {
+    public SortByValueAndWeightSpec(SortType sortType) {
         this.sortType = sortType;
     }
 
@@ -21,7 +19,7 @@ public class DecorSortByValueAndWeightSpec implements DecorSortSpecification<Dec
             case DECREASE:
                 return decorComparator.reversed();
                 default:
-                    return null;
+                    return decorComparator;
         }
     }
 }
