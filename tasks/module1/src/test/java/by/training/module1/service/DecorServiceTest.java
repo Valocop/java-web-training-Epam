@@ -30,7 +30,8 @@ public class DecorServiceTest {
 
     @Before
     public void signUp() {
-        decorService = new DecorService(new DecorRepository());
+        DecorRepository decorRepository = new DecorRepository();
+        decorService = new DecorService(decorRepository);
         decorService.add(pearl1);
         decorService.add(pearl2);
         decorService.add(amber1);

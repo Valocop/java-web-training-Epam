@@ -23,7 +23,8 @@ public class DecorControllerTest {
 
     @Test
     public void shouldReadFileAndCreateDecors() {
-        Service<Decor> decorService = new DecorService(new DecorRepository());
+        DecorRepository decorRepository = new DecorRepository();
+        Service<Decor> decorService = new DecorService(decorRepository);
         Path resourceDirectory = Paths.get("src","test","resources", "testValid.txt");
         String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(decorService, path);
@@ -41,7 +42,8 @@ public class DecorControllerTest {
 
     @Test
     public void shouldDoNotReadEmptyFile() {
-        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        DecorRepository decorRepository = new DecorRepository();
+        Service<Decor> serviceRepository = new DecorService(decorRepository);
         Path resourceDirectory = Paths.get("src","test","resources", "testEmpty.txt");
         String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
@@ -54,7 +56,8 @@ public class DecorControllerTest {
 
     @Test
     public void shouldReadFileSkipInvalidLinesAndCreateDecors() {
-        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        DecorRepository decorRepository = new DecorRepository();
+        Service<Decor> serviceRepository = new DecorService(decorRepository);
         Path resourceDirectory = Paths.get("src","test","resources", "testHalfValid.txt");
         String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
@@ -69,7 +72,8 @@ public class DecorControllerTest {
 
     @Test
     public void shouldDoNotReadNoExistFile() {
-        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        DecorRepository decorRepository = new DecorRepository();
+        Service<Decor> serviceRepository = new DecorService(decorRepository);
         Path resourceDirectory = Paths.get("src","test","resources", "noExist.txt");
         String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
@@ -82,7 +86,8 @@ public class DecorControllerTest {
 
     @Test
     public void shouldDoNotReadFileWhenPathNull() {
-        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        DecorRepository decorRepository = new DecorRepository();
+        Service<Decor> serviceRepository = new DecorService(decorRepository);
         String path = null;
         DecorController decorController = new DecorController(serviceRepository, path);
         boolean result = decorController.process();
@@ -94,7 +99,8 @@ public class DecorControllerTest {
 
     @Test
     public void shouldDoNotReadDirectory() {
-        Service<Decor> serviceRepository = new DecorService(new DecorRepository());
+        DecorRepository decorRepository = new DecorRepository();
+        Service<Decor> serviceRepository = new DecorService(decorRepository);
         Path resourceDirectory = Paths.get("src","test","resources");
         String path = resourceDirectory.toString();
         DecorController decorController = new DecorController(serviceRepository, path);
