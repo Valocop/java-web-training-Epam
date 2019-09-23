@@ -28,7 +28,7 @@ public class LineParsing {
                 parameters.put(linePaths[0].toLowerCase().trim(), linePaths[1].trim());
                 LOGGER.info("[" + linePaths[0] + " : " + linePaths[1] + "]" + " add to parameters.");
             } else {
-                LOGGER.info("[" + linePath + "]" + " can't add to parameters.");
+                LOGGER.error("[" + linePath + "]" + " can't add to parameters.");
             }
         }
         return parameters;
