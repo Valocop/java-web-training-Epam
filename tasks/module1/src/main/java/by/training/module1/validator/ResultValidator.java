@@ -13,9 +13,9 @@ public class ResultValidator {
 
     public boolean isValid() {
         if (exceptionMap.isEmpty()) {
-            LOGGER.info("Result of validation is valid.");
+            LOGGER.info("Result of validate is valid.");
         } else {
-            LOGGER.info("[" + exceptionMap.toString() + "Result of validation is not valid.");
+            LOGGER.info("[" + exceptionMap.toString() + "Result of validate is not valid.");
         }
         return exceptionMap.isEmpty();
     }

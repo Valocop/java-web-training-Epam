@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LineValidator {
+public class LineValidator implements Validator {
     private static final Logger LOGGER = LogManager.getLogger();
     private String line;
     private ResultValidator resultValidator = new ResultValidator();
@@ -23,11 +23,13 @@ public class LineValidator {
         if (matcher.find()) {
             LOGGER.info("[" + line + "]" + " contain parameters.");
         } else {
-            resultValidator.addException("InvalidLine", Arrays.asList("[" + line + "]" + " do not contain parameters."));
+            resultValidator.addException("InvalidLine", Arrays.asList("["
+                    + line + "]" + " do not contain parameters."));
             LOGGER.info("[" + line + "]" + " do not contain parameters.");
         }
     }
 
+    @Override
     public ResultValidator validate() {
         checkLine();
         return resultValidator;

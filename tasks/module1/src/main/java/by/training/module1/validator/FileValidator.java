@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class FileValidator {
+public class FileValidator implements Validator {
     private static final Logger LOGGER = LogManager.getLogger();
     private String stringPath;
     private Path path;
@@ -26,7 +26,8 @@ public class FileValidator {
             try {
                 path = Paths.get(stringPath);
             } catch (InvalidPathException e) {
-                resultValidator.addException("InvalidPathException", Arrays.asList("[" + stringPath + "] is invalid path."));
+                resultValidator.addException("InvalidPathException", Arrays.asList("["
+                        + stringPath + "] is invalid path."));
                 LOGGER.info("[" + stringPath + "] is invalid path.");
             }
             if (Files.exists(path)) {
@@ -38,28 +39,21 @@ public class FileValidator {
                     if (Files.isReadable(path)) {
                         LOGGER.info("[" + stringPath + "] file is readable.");
 
-                        try {
-                            long size = 0;
-                            if ((size = Files.size(path)) != 0) {
-                                LOGGER.info("[" + stringPath + "] file is not empty" + "[" + size + "].");
-                                LOGGER.info("[" + stringPath + "] file can be read.");
-                            } else {
-                                resultValidator.addException("FileIsEmpty", Arrays.asList("[" + stringPath + "] file is empty."));
-                                LOGGER.info("[" + stringPath + "] file is empty.");
-                            }
-                        } catch (IOException e) {
-                            resultValidator.addException("FileReadSizeException", Arrays.asList("[" + stringPath + "] file size unknown."));
-                        }
+                        checkPathOfEmpty(path);
+
                     } else {
-                        resultValidator.addException("FileIsNotReadable", Arrays.asList("[" + stringPath + "] file is not readable."));
+                        resultValidator.addException("FileIsNotReadable", Arrays.asList("["
+                                + stringPath + "] file is not readable."));
                         LOGGER.info("[" + stringPath + "] file is not readable.");
                     }
                 } else {
-                    resultValidator.addException("IsNotFile", Arrays.asList("[" + stringPath + "] is not a file."));
+                    resultValidator.addException("IsNotFile", Arrays.asList("["
+                            + stringPath + "] is not a file."));
                     LOGGER.info("[" + stringPath + "] is not a file.");
                 }
             } else {
-                resultValidator.addException("FileIsNotExists", Arrays.asList("[" + stringPath + "] is not exist."));
+                resultValidator.addException("FileIsNotExists", Arrays.asList("["
+                        + stringPath + "] is not exist."));
                 LOGGER.info("[" + stringPath + "] is not exist.");
             }
         } else {
@@ -68,6 +62,25 @@ public class FileValidator {
         }
     }
 
+    private void checkPathOfEmpty(Path path) {
+        try {
+            if (Files.size(path) != 0) {
+                LOGGER.info("[" + stringPath + "] file is not empty.");
+                LOGGER.info("[" + stringPath + "] file can be read.");
+            } else {
+                resultValidator.addException("FileIsEmpty", Arrays.asList("["
+                        + stringPath + "] file is empty."));
+                LOGGER.error("[" + stringPath + "] file is empty.");
+            }
+        } catch (IOException e) {
+            resultValidator.addException("FileReadSizeException", Arrays.asList("["
+                    + stringPath + "] file size unknown."));
+            LOGGER.error("FileReadSizeException" + "["
+                    + stringPath + "] file size unknown.");
+        }
+    }
+
+    @Override
     public ResultValidator validate() {
         checkPath();
         return resultValidator;
