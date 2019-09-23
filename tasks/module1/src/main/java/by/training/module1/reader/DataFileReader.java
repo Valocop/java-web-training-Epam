@@ -20,7 +20,7 @@ public class DataFileReader {
     public List<String > readData() throws IOException {
         Path path = Paths.get(stringPath);
         List<String> list = Files.readAllLines(path);
-        LOGGER.info("File [" + stringPath + "] is read to List");
+        LOGGER.info("File [" + stringPath + "] was read to List");
         return list;
     }
 }
