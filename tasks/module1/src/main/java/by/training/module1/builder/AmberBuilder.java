@@ -7,14 +7,17 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-public class AmberBuilder implements Builder {
+public class AmberBuilder extends Builder {
     private static final Logger LOGGER = LogManager.getLogger();
+    private Map<String, String> param;
+
+    public AmberBuilder(Map<String, String> param) {
+        super(param);
+        this.param = param;
+    }
 
     @Override
-    public Decor build(Map<String, String> param) {
-        double value = Double.parseDouble(param.get("value"));
-        double weight = Double.parseDouble(param.get("weight"));
-        int transparency = Integer.parseInt(param.get("transparency"));
+    public Decor build() {
         double age = 0;
         double size = 0;
 
@@ -40,7 +43,7 @@ public class AmberBuilder implements Builder {
             LOGGER.info("Set size default value [" + size + "]");
         }
 
-        Amber amber = new Amber(value, weight, transparency, age, size);
+        Amber amber = new Amber(getValue(), getWeight(), getTransparency(), age, size);
         LOGGER.info("Build entity Amber [" + amber.toString() + "]");
         return amber;
     }

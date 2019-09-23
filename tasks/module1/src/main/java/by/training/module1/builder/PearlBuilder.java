@@ -8,14 +8,17 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-public class PearlBuilder implements Builder {
+public class PearlBuilder extends Builder {
     private static final Logger LOGGER = LogManager.getLogger();
+    private Map<String, String> param;
+
+    public PearlBuilder(Map<String, String> param) {
+        super(param);
+        this.param = param;
+    }
 
     @Override
-    public Decor build(Map<String, String> param) {
-        double value = Double.parseDouble(param.get("value"));
-        double weight = Double.parseDouble(param.get("weight"));
-        int transparency = Integer.parseInt(param.get("transparency"));
+    public Decor build() {
         int color = 0;
         double height = 0;
 
@@ -41,7 +44,7 @@ public class PearlBuilder implements Builder {
             LOGGER.info("Set height default value [" + height + "]");
         }
 
-        Pearl pearl = new Pearl(value, weight, transparency, color, height);
+        Pearl pearl = new Pearl(getValue(), getWeight(), getTransparency(), color, height);
         LOGGER.info("Build entity Pearl [" + pearl.toString() + "]");
         return pearl;
     }
