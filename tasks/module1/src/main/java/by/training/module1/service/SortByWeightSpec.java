@@ -4,11 +4,10 @@ import by.training.module1.entity.Decor;
 
 import java.util.Comparator;
 
-public class SortByWeightSpec implements SortSpecification<Decor> {
-    private SortType sortType;
+public class SortByWeightSpec extends SortSpecification<Decor> {
 
     public SortByWeightSpec(SortType sortType) {
-        this.sortType = sortType;
+        super(sortType);
     }
 
     @Override
@@ -20,13 +19,6 @@ public class SortByWeightSpec implements SortSpecification<Decor> {
             }
         };
 
-        switch (sortType) {
-            case INCREASE:
-                return decorComparator;
-            case DECREASE:
-                return decorComparator.reversed();
-                default:
-                    return decorComparator;
-        }
+        return orderComparator(decorComparator);
     }
 }
