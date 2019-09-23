@@ -1,5 +1,5 @@
 package by.training.module1.controller;
 
-public interface Controller {
+public interface Controller<T> {
     boolean process();
 }

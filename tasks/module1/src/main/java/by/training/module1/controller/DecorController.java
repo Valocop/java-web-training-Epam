@@ -2,10 +2,10 @@ package by.training.module1.controller;
 
 import by.training.module1.builder.Builder;
 import by.training.module1.builder.BuilderFactory;
+import by.training.module1.builder.DecorType;
 import by.training.module1.entity.Decor;
 import by.training.module1.parser.LineParsing;
 import by.training.module1.reader.DataFileReader;
-import by.training.module1.service.DecorService;
 import by.training.module1.service.Service;
 import by.training.module1.validator.DataValidator;
 import by.training.module1.validator.FileValidator;
@@ -17,8 +17,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-public class DecorController implements Controller {
+public class DecorController implements Controller<Decor> {
     private static final Logger LOGGER = LogManager.getLogger();
     private Service<Decor> decorService;
     private String path;
@@ -39,7 +40,7 @@ public class DecorController implements Controller {
             try {
                 listOfLines = dataFileReader.readData();
             } catch (IOException e) {
-                LOGGER.error("IOException to read file [" + path + "]");
+                LOGGER.error(e);
                 return false;
             }
 
@@ -51,29 +52,34 @@ public class DecorController implements Controller {
                     LineParsing lineParsing = new LineParsing(line);
                     Map<String, String> params = lineParsing.parseLine();
                     DataValidator dataValidator = new DataValidator(params);
-                    ResultValidator resultDataValidation = dataValidator.validation();
+                    ResultValidator resultDataValidation = dataValidator.validate();
 
                     if (resultDataValidation.isValid()) {
                         String type = params.get("type");
-                        Builder entityBuilder = BuilderFactory.getBuilder(type);
+                        Optional<DecorType> decorType = DecorType.fromString(type);
+                        Builder entityBuilder = null;
+
+                        if (decorType.isPresent()) {
+                            entityBuilder = BuilderFactory.getBuilder(decorType.get(), params);
+                        }
 
                         if (entityBuilder != null) {
-                            Decor decor = entityBuilder.build(params);
+                            Decor decor = entityBuilder.build();
                             decorService.add(decor);
                             LOGGER.info(decor.toString() + " created to service list.");
                         } else {
-                            LOGGER.info("Impossible to create Decor [" + line + "]");
+                            LOGGER.error("Impossible to create Decor [" + line + "]");
                         }
                     } else {
-                        LOGGER.info("Data validation error " + resultDataValidation.getExceptionMap());
+                        LOGGER.error("Data validate error " + resultDataValidation.getExceptionMap());
                     }
                 } else {
-                    LOGGER.info("Line validation error " + resultLineValidation.getExceptionMap());
+                    LOGGER.error("Line validate error " + resultLineValidation.getExceptionMap());
                 }
             }
             return true;
         } else {
-            LOGGER.info("File validation error " + resultFileValidation.getExceptionMap());
+            LOGGER.error("File validate error " + resultFileValidation.getExceptionMap());
             return false;
         }
     }
