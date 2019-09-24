@@ -21,7 +21,6 @@ public class FileValidator implements Validator {
     }
 
     private void checkPath() {
-
         if (stringPath != null) {
             try {
                 path = Paths.get(stringPath);
