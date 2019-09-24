@@ -7,10 +7,7 @@ import by.training.module1.entity.Decor;
 import by.training.module1.parser.LineParsing;
 import by.training.module1.reader.DataFileReader;
 import by.training.module1.service.Service;
-import by.training.module1.validator.DataValidator;
-import by.training.module1.validator.FileValidator;
-import by.training.module1.validator.LineValidator;
-import by.training.module1.validator.ResultValidator;
+import by.training.module1.validator.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +28,7 @@ public class DecorController implements Controller<Decor> {
 
     @Override
     public boolean process() {
-        FileValidator fileValidator = new FileValidator(path);
+        Validator fileValidator = new FileValidator(path);
         ResultValidator resultFileValidation = fileValidator.validate();
 
         if (resultFileValidation.isValid()) {
@@ -45,7 +42,7 @@ public class DecorController implements Controller<Decor> {
             }
 
             for (String line : listOfLines) {
-                LineValidator lineValidator = new LineValidator(line);
+                Validator lineValidator = new LineValidator(line);
                 ResultValidator resultLineValidation = lineValidator.validate();
 
                 if (resultLineValidation.isValid()) {
