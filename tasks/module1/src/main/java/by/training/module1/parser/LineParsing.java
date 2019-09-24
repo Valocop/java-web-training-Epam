@@ -24,6 +24,7 @@ public class LineParsing {
         while (matcher.find()) {
             String linePath = line.substring(matcher.start(), matcher.end()).trim();
             String[] linePaths = linePath.split(":");
+
             if (linePaths.length == 2) {
                 parameters.put(linePaths[0].toLowerCase().trim(), linePaths[1].trim());
                 LOGGER.info("[" + linePaths[0] + " : " + linePaths[1] + "]" + " add to parameters.");
