@@ -70,23 +70,29 @@ public class DataValidator implements Validator {
                         LOGGER.info("Parameters contain a transparency.");
                     } else {
                         resultValidator.addException("ContainTransparencyError", Arrays.asList("["
-                                + paramSet.toString() +  "] parameters don't contain a transparency."));
-                        LOGGER.error("[" + paramSet.toString() +  "] parameters don't contain a transparency.");
+                                + paramSet.toString()
+                                +  "] parameters don't contain a transparency."));
+                        LOGGER.error("[" + paramSet.toString()
+                                +  "] parameters don't contain a transparency.");
                     }
                 } else {
-                    resultValidator.addException("ContainValueError", Arrays.asList("[" +
-                            paramSet.toString() +  "] parameters don't contain a value."));
-                    LOGGER.error("[" + paramSet.toString() +  "] parameters don't contain a value.");
+                    resultValidator.addException("ContainValueError", Arrays.asList("["
+                            + paramSet.toString() +  "] parameters don't contain a value."));
+                    LOGGER.error("[" + paramSet.toString()
+                            +  "] parameters don't contain a value.");
                 }
             } else {
-                resultValidator.addException("ContainWeightError", Arrays.asList("[" + paramSet.toString() +
-                        "] parameters don't contain a weight."));
-                LOGGER.error("[" + paramSet.toString() +  "] parameters don't contain a weight.");
+                resultValidator.addException("ContainWeightError", Arrays.asList("["
+                        + paramSet.toString() + "] parameters don't contain a weight."));
+                LOGGER.error("[" + paramSet.toString()
+                        +  "] parameters don't contain a weight.");
             }
         } else {
-            resultValidator.addException("ContainTypeError", Arrays.asList("[" + paramSet.toString() +
-                    "] parameters don't contain a type."));
-            LOGGER.error("[" + paramSet.toString() +  "] parameters don't contain a type.");
+            resultValidator.addException("ContainTypeError", Arrays.asList("["
+                    + paramSet.toString()
+                    + "] parameters don't contain a type."));
+            LOGGER.error("[" + paramSet.toString()
+                    +  "] parameters don't contain a type.");
         }
     }
 
