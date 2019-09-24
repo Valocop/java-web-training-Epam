@@ -42,106 +42,123 @@ public class DecorServiceTest {
 
     @Test(expected = NullPointerException.class)
     public void shouldExpectNullPointerExceptionFindByNull() {
-        List<Decor> actualDecors = decorService.find(null);
+        List<Decor> expectDecors = decorService.find(null);
     }
 
     @Test
     public void shouldFindDecorByTransparencyThirty() {
         MatchSpecification<Decor> matchSpecification = new MatchTransparencySpec(30);
-        List<Decor> actualDecors = decorService.find(matchSpecification);
-        List<Decor> expectDecors = new ArrayList<>();
-        expectDecors.add(amber2);
+
+        List<Decor> expectDecors = decorService.find(matchSpecification);
+        List<Decor> actualDecors = new ArrayList<>();
+        actualDecors.add(amber2);
+
+        Assert.assertEquals(1, expectDecors.size());
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
     @Test
     public void shouldFindDecorByTransparencyForty() {
         MatchSpecification<Decor> matchSpecification = new MatchTransparencySpec(40);
-        List<Decor> actualDecors = decorService.find(matchSpecification);
-        List<Decor> expectDecors = new ArrayList<>();
-        expectDecors.add(amber1);
-        expectDecors.add(amber3);
+
+        List<Decor> expectDecors = decorService.find(matchSpecification);
+        List<Decor> actualDecors = new ArrayList<>();
+        actualDecors.add(amber1);
+        actualDecors.add(amber3);
+
+        Assert.assertEquals(2, expectDecors.size());
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
     @Test
     public void shouldReturnEmptyListByTransparencyFifty() {
         MatchSpecification<Decor> matchSpecification = new MatchTransparencySpec(50);
-        List<Decor> actualDecors = decorService.find(matchSpecification);
-        List<Decor> expectDecors = new ArrayList<>();
-        Assert.assertEquals(expectDecors, actualDecors);
+
+        List<Decor> expectDecors = decorService.find(matchSpecification);
+
+        Assert.assertTrue(expectDecors.isEmpty());
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldExpectNullPointerExceptionSortByValueSpec() {
         SortSpecification<Decor> sortSpecification = new SortByValueSpec(null);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
     }
 
     @Test
     public void shouldSortByValueIncrease() {
         SortSpecification<Decor> sortSpecification = new SortByValueSpec(SortType.INCREASE);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(decorService.getAll());
-        expectDecors.sort(new Comparator<Decor>() {
+
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
+        List<Decor> actualDecors = new ArrayList<>(decorService.getAll());
+        actualDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
                 return Double.compare(o1.getValue(), o2.getValue());
             }
         });
+
+        Assert.assertEquals(6, expectDecors.size());
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
     @Test
     public void shouldSortByValueDecrease() {
         SortSpecification<Decor> sortSpecification = new SortByValueSpec(SortType.DECREASE);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(decorService.getAll());
-        expectDecors.sort(new Comparator<Decor>() {
+
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
+        List<Decor> actualDecors = new ArrayList<>(decorService.getAll());
+        actualDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
                 return Double.compare(o2.getValue(), o1.getValue());
             }
         });
+
+        Assert.assertEquals(6, expectDecors.size());
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldExpectNullPointerExceptionSortByWeightSpec() {
         SortSpecification<Decor> sortSpecification = new SortByWeightSpec(null);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldExpectServiceExceptionSortByWeightSpec() {
-        List<Decor> actualDecors = decorService.sort(null);
+        List<Decor> expectDecors = decorService.sort(null);
     }
 
     @Test
     public void shouldSortByWeightIncrease() {
         SortSpecification<Decor> sortSpecification = new SortByWeightSpec(SortType.INCREASE);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(decorService.getAll());
-        expectDecors.sort(new Comparator<Decor>() {
+
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
+        List<Decor> actualDecors = new ArrayList<>(decorService.getAll());
+        actualDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
                 return Double.compare(o1.getWeight(), o2.getWeight());
             }
         });
+
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
     @Test
     public void shouldSortByWeightDecrease() {
         SortSpecification<Decor> sortSpecification = new SortByWeightSpec(SortType.DECREASE);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(decorService.getAll());
+
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
+        List<Decor> actualDecors = new ArrayList<>(decorService.getAll());
         expectDecors.sort(new Comparator<Decor>() {
             @Override
             public int compare(Decor o1, Decor o2) {
                 return Double.compare(o2.getWeight(), o1.getWeight());
             }
         });
+
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
@@ -154,18 +171,22 @@ public class DecorServiceTest {
     @Test
     public void shouldSortByValueAndWeightIncrease() {
         SortSpecification<Decor> sortSpecification = new SortByValueAndWeightSpec(SortType.INCREASE);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(decorService.getAll());
+
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
+        List<Decor> actualDecors = new ArrayList<>(decorService.getAll());
         expectDecors.sort(Comparator.comparing(Decor::getValue).thenComparing(Decor::getWeight));
+
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
     @Test
     public void shouldSortByValueAndWeightDecrease() {
         SortSpecification<Decor> sortSpecification = new SortByValueAndWeightSpec(SortType.DECREASE);
-        List<Decor> actualDecors = decorService.sort(sortSpecification);
-        List<Decor> expectDecors = new ArrayList<>(decorService.getAll());
+
+        List<Decor> expectDecors = decorService.sort(sortSpecification);
+        List<Decor> actualDecors = new ArrayList<>(decorService.getAll());
         expectDecors.sort(Comparator.comparing(Decor::getValue).thenComparing(Decor::getWeight).reversed());
+
         Assert.assertEquals(expectDecors, actualDecors);
     }
 
@@ -177,22 +198,26 @@ public class DecorServiceTest {
     @Test
     public void shouldCalculateTotalValueDecor() {
         CalculateDoubleSpecification<Decor> calculateDoubleSpecification = new CalculateValueSpec();
-        Double actualResult = decorService.calcDouble(calculateDoubleSpecification);
-        Double expectResult = 0d;
+
+        Double expectResult = decorService.calcDouble(calculateDoubleSpecification);
+        Double actualResult = 0D;
         for (Decor decor : decorService.getAll()) {
-            expectResult += decor.getValue();
+            actualResult += decor.getValue();
         }
+
         Assert.assertEquals(expectResult, actualResult, ERROR);
     }
 
     @Test
     public void shouldCalculateTotalWeightDecor() {
         CalculateDoubleSpecification<Decor> calculateDoubleSpecification = new CalculateWeightSpec();
-        Double actualResult = decorService.calcDouble(calculateDoubleSpecification);
-        Double expectResult = 0d;
+        Double expectResult = decorService.calcDouble(calculateDoubleSpecification);
+
+        Double actualResult = 0d;
         for (Decor decor : decorService.getAll()) {
-            expectResult += decor.getWeight();
+            actualResult += decor.getWeight();
         }
+
         Assert.assertEquals(expectResult, actualResult, ERROR);
     }
 }
