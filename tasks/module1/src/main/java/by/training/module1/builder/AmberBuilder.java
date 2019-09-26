@@ -7,43 +7,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-public class AmberBuilder extends Builder {
+public class AmberBuilder extends EntityBuilder {
     private static final Logger LOGGER = LogManager.getLogger();
-    private Map<String, String> param;
-
-    public AmberBuilder(Map<String, String> param) {
-        super(param);
-        this.param = param;
-    }
 
     @Override
-    public Decor build() {
-        double age = 0;
-        double size = 0;
-
-        try {
-            age = Double.parseDouble(param.get("age"));
-            LOGGER.info("Set value of age [" + age + "]");
-        } catch (NumberFormatException e) {
-            LOGGER.info("Value of age incorrect.");
-            LOGGER.info("Set age default value [" + age + "]");
-        } catch (NullPointerException e) {
-            LOGGER.info("[" + param.toString() + "] don't contain an age.");
-            LOGGER.info("Set age default value [" + age + "]");
-        }
-
-        try {
-            size = Double.parseDouble(param.get("size"));
-            LOGGER.info("Set value of size [" + size + "]");
-        } catch (NumberFormatException e) {
-            LOGGER.info("Value of size incorrect.");
-            LOGGER.info("Set size default value [" + size + "]");
-        } catch (NullPointerException e) {
-            LOGGER.info("[" + param.toString() + "] don't contain a size.");
-            LOGGER.info("Set size default value [" + size + "]");
-        }
-
-        Amber amber = new Amber(getValue(), getWeight(), getTransparency(), age, size);
+    protected Decor buildEntity(Map<String, String> params, double value, double weight, int transp) {
+        double age = Double.parseDouble(params.get("age"));
+        double size = Double.parseDouble(params.get("size"));
+        Amber amber = new Amber(value, weight, transp, age, size);
         LOGGER.info("Build entity Amber [" + amber.toString() + "]");
         return amber;
     }
