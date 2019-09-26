@@ -10,14 +10,9 @@ import java.util.regex.Pattern;
 
 public class LineParsing {
     private static final Logger LOGGER = LogManager.getLogger();
-    private String line;
-    private Map<String, String> parameters = new HashMap<>();
 
-    public LineParsing(String line) {
-        this.line = line;
-    }
-
-    public Map<String, String> parseLine() {
+    public Map<String, String> parseLine(String line) {
+        Map<String, String> parameters = new HashMap<>();
         Pattern pattern = Pattern.compile("( *[\\wа-яА-Я.]+ *: *[\\wа-яА-Я.]+ *)");
         Matcher matcher = pattern.matcher(line);
 
@@ -29,7 +24,7 @@ public class LineParsing {
                 parameters.put(linePaths[0].toLowerCase().trim(), linePaths[1].trim());
                 LOGGER.info("[" + linePaths[0] + " : " + linePaths[1] + "]" + " add to parameters.");
             } else {
-                LOGGER.error("[" + linePath + "]" + " can't add to parameters.");
+                LOGGER.warn("[" + linePath + "]" + " can't add to parameters.");
             }
         }
         return parameters;
