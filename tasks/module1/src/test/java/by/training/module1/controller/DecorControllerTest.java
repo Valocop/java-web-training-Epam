@@ -24,21 +24,19 @@ public class DecorControllerTest {
     public void shouldReadFileAndCreateDecors() {
         DecorRepository decorRepository = new DecorRepository();
         Service<Decor> decorService = new DecorService(decorRepository);
+        DecorController decorController = new DecorController(decorService);
         Path resourceDirectory = Paths.get("src","test", "resources", "testValid.txt");
         String path = resourceDirectory.toString();
-        DecorController decorController = new DecorController(decorService, path);
 
-        boolean result = decorController.process();
-        List<Decor> expectList = decorService.getAll();
-        List<Decor> actualList = new ArrayList<>();
-        actualList.add(new Amber(150.432, 10.1923, 80, 0, 0));
-        actualList.add(new Amber(12, 15.62, 85, 1500, 7));
-        actualList.add(new Pearl(100.5, 15.62, 87, 5, 15));
-        actualList.add(new Pearl(1000, 150.62, 90, 50, 17));
-        actualList.add(new Pearl(1, 10, 100, 0, 0));
+        boolean result = decorController.process(path);
+        List<Decor> actualList = decorService.getAll();
+        List<Decor> expectList = new ArrayList<>();
+        expectList.add(new Amber(12, 15.62, 85, 1500, 7));
+        expectList.add(new Pearl(100.5, 15.62, 87, 5, 15));
+        expectList.add(new Pearl(1000, 150.62, 90, 50, 17));
 
         Assert.assertTrue(result);
-        Assert.assertEquals(5, expectList.size());
+        Assert.assertEquals(3, actualList.size());
         Assert.assertEquals(expectList, actualList);
     }
 
@@ -46,33 +44,32 @@ public class DecorControllerTest {
     public void shouldNotReadEmptyFile() {
         DecorRepository decorRepository = new DecorRepository();
         Service<Decor> serviceRepository = new DecorService(decorRepository);
+        DecorController decorController = new DecorController(serviceRepository);
         Path resourceDirectory = Paths.get("src","test", "resources", "testEmpty.txt");
         String path = resourceDirectory.toString();
-        DecorController decorController = new DecorController(serviceRepository, path);
 
-        boolean expectResult = decorController.process();
-        List<Decor> expectList = serviceRepository.getAll();
+        boolean actualResult = decorController.process(path);
+        List<Decor> actualList = serviceRepository.getAll();
 
-        Assert.assertFalse(expectResult);
-        Assert.assertTrue(expectList.isEmpty());
+        Assert.assertFalse(actualResult);
+        Assert.assertTrue(actualList.isEmpty());
     }
 
     @Test
     public void shouldReadFileSkipInvalidLinesAndCreateDecors() {
         DecorRepository decorRepository = new DecorRepository();
         Service<Decor> serviceRepository = new DecorService(decorRepository);
+        DecorController decorController = new DecorController(serviceRepository);
         Path resourceDirectory = Paths.get("src","test", "resources", "testHalfValid.txt");
         String path = resourceDirectory.toString();
-        DecorController decorController = new DecorController(serviceRepository, path);
 
-        boolean result = decorController.process();
-        List<Decor> expectList = serviceRepository.getAll();
-        List<Decor> actualList = new ArrayList<>();
-        actualList.add(new Amber(150.432, 10.1923, 80, 0, 5));
-        actualList.add(new Pearl(100.5, 15.62, 87, 5, 15));
+        boolean result = decorController.process(path);
+        List<Decor> actualList = serviceRepository.getAll();
+        List<Decor> expectList = new ArrayList<>();
+        expectList.add(new Pearl(100.5, 15.62, 87, 5, 15));
 
         Assert.assertTrue(result);
-        Assert.assertEquals(2, expectList.size());
+        Assert.assertEquals(1, actualList.size());
         Assert.assertEquals(expectList, actualList);
     }
 
@@ -80,15 +77,15 @@ public class DecorControllerTest {
     public void shouldNotReadNoExistFile() {
         DecorRepository decorRepository = new DecorRepository();
         Service<Decor> serviceRepository = new DecorService(decorRepository);
+        DecorController decorController = new DecorController(serviceRepository);
         Path resourceDirectory = Paths.get("src","test", "resources", "noExist.txt");
         String path = resourceDirectory.toString();
-        DecorController decorController = new DecorController(serviceRepository, path);
 
-        boolean result = decorController.process();
-        List<Decor> expectList = serviceRepository.getAll();
+        boolean result = decorController.process(path);
+        List<Decor> actualList = serviceRepository.getAll();
 
         Assert.assertFalse(result);
-        Assert.assertTrue(expectList.isEmpty());
+        Assert.assertTrue(actualList.isEmpty());
     }
 
     @Test
@@ -96,9 +93,9 @@ public class DecorControllerTest {
         DecorRepository decorRepository = new DecorRepository();
         Service<Decor> serviceRepository = new DecorService(decorRepository);
         String path = null;
-        DecorController decorController = new DecorController(serviceRepository, path);
+        DecorController decorController = new DecorController(serviceRepository);
 
-        boolean result = decorController.process();
+        boolean result = decorController.process(path);
         List<Decor> expectList = serviceRepository.getAll();
 
         Assert.assertFalse(result);
@@ -111,9 +108,9 @@ public class DecorControllerTest {
         Service<Decor> serviceRepository = new DecorService(decorRepository);
         Path resourceDirectory = Paths.get("src","test", "resources");
         String path = resourceDirectory.toString();
-        DecorController decorController = new DecorController(serviceRepository, path);
+        DecorController decorController = new DecorController(serviceRepository);
 
-        boolean result = decorController.process();
+        boolean result = decorController.process(path);
         List<Decor> expectListList = serviceRepository.getAll();
 
         Assert.assertFalse(result);
@@ -126,9 +123,9 @@ public class DecorControllerTest {
         Service<Decor> serviceRepository = new DecorService(decorRepository);
         Path resourceDirectory = Paths.get("src","test", "resources", "testNotValid.txt");
         String path = resourceDirectory.toString();
-        DecorController decorController = new DecorController(serviceRepository, path);
+        DecorController decorController = new DecorController(serviceRepository);
 
-        boolean result = decorController.process();
+        boolean result = decorController.process(path);
         List<Decor> expectList = serviceRepository.getAll();
 
         Assert.assertTrue(result);
