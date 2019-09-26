@@ -16,59 +16,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class DecorController implements Controller<Decor> {
+public class DecorController {
     private static final Logger LOGGER = LogManager.getLogger();
     private Service<Decor> decorService;
-    private String path;
 
-    public DecorController(Service<Decor> decorService, String path) {
+    public DecorController(Service<Decor> decorService) {
         this.decorService = decorService;
-        this.path = path;
     }
 
-    @Override
-    public boolean process() {
-        Validator fileValidator = new FileValidator(path);
-        ResultValidator resultFileValidation = fileValidator.validate();
+    public boolean process(String path) {
+        FileValidator fileValidator = new FileValidator();
+        ResultValidator resultFileValidation = fileValidator.validateFile(path);
 
         if (resultFileValidation.isValid()) {
-            DataFileReader dataFileReader = new DataFileReader(path);
+            DataFileReader dataFileReader = new DataFileReader();
             List<String> listOfLines = null;
             try {
-                listOfLines = dataFileReader.readData();
+                listOfLines = dataFileReader.readData(path);
             } catch (IOException e) {
                 LOGGER.error(e);
                 return false;
             }
 
             for (String line : listOfLines) {
-                Validator lineValidator = new LineValidator(line);
-                ResultValidator resultLineValidation = lineValidator.validate();
+                LineValidator lineValidator = new LineValidator();
+                ResultValidator resultLineValidation = lineValidator.validateLine(line);
 
                 if (resultLineValidation.isValid()) {
-                    LineParsing lineParsing = new LineParsing(line);
-                    Map<String, String> params = lineParsing.parseLine();
-                    DataValidator dataValidator = new DataValidator(params);
-                    ResultValidator resultDataValidation = dataValidator.validate();
+                    LineParsing lineParsing = new LineParsing();
+                    Map<String, String> params = lineParsing.parseLine(line);
+                    String type = params.get("type");
+                    Validator entityValidator = new ValidatorFactory().getValidator(type);
 
-                    if (resultDataValidation.isValid()) {
-                        String type = params.get("type");
-                        Optional<DecorType> decorType = DecorType.fromString(type);
-                        Builder entityBuilder = null;
+                    if (entityValidator != null) {
+                        ResultValidator resultEntityValidator = entityValidator.validate(params);
 
-                        if (decorType.isPresent()) {
-                            entityBuilder = BuilderFactory.getBuilder(decorType.get(), params);
-                        }
-
-                        if (entityBuilder != null) {
-                            Decor decor = entityBuilder.build();
+                        if (resultEntityValidator.isValid()) {
+                            Builder builder = new BuilderFactory().getBuilder(type);
+                            Decor decor = builder.build(params);
                             decorService.add(decor);
-                            LOGGER.info(decor.toString() + " created to service list.");
                         } else {
-                            LOGGER.error("Impossible to create Decor [" + line + "]");
+                            LOGGER.error("Validator error " + resultEntityValidator.getExceptionMap());
                         }
                     } else {
-                        LOGGER.error("Data validate error " + resultDataValidation.getExceptionMap());
+                        LOGGER.error("Validator didn't created. Check param: type.");
                     }
                 } else {
                     LOGGER.error("Line validate error " + resultLineValidation.getExceptionMap());
