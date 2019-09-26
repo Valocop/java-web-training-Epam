@@ -11,13 +11,8 @@ import java.util.List;
 
 public class DataFileReader {
     private static final Logger LOGGER = LogManager.getLogger();
-    private String stringPath;
 
-    public DataFileReader(String path) {
-        this.stringPath = path;
-    }
-
-    public List<String > readData() throws IOException {
+    public List<String> readData(String stringPath) throws IOException {
         Path path = Paths.get(stringPath);
         List<String> list = Files.readAllLines(path);
         LOGGER.info("File [" + stringPath + "] was read to List");
