@@ -7,16 +7,10 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LineValidator implements Validator {
+public class LineValidator {
     private static final Logger LOGGER = LogManager.getLogger();
-    private String line;
-    private ResultValidator resultValidator = new ResultValidator();
 
-    public LineValidator(String line) {
-        this.line = line;
-    }
-
-    private void checkLine() {
+    private void checkLine(ResultValidator resultValidator, String line) {
         Pattern pattern = Pattern.compile("( *[\\wа-яА-Я.]+ *: *[\\wа-яА-Я.]+ *)");
         Matcher matcher = pattern.matcher(line);
 
@@ -29,9 +23,9 @@ public class LineValidator implements Validator {
         }
     }
 
-    @Override
-    public ResultValidator validate() {
-        checkLine();
+    public ResultValidator validateLine(String line) {
+        ResultValidator resultValidator = new ResultValidator();
+        checkLine(resultValidator, line);
         return resultValidator;
     }
 }

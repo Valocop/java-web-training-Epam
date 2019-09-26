@@ -14,10 +14,11 @@ public class ResultValidator {
     public boolean isValid() {
         if (exceptionMap.isEmpty()) {
             LOGGER.info("Result of validate is valid.");
+            return true;
         } else {
             LOGGER.info("[" + exceptionMap.toString() + "Result of validate is not valid.");
+            return false;
         }
-        return exceptionMap.isEmpty();
     }
 
     void addException(String key, List<String> exceptions) {

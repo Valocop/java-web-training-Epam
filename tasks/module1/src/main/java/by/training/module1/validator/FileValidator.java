@@ -10,17 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class FileValidator implements Validator {
+public class FileValidator {
     private static final Logger LOGGER = LogManager.getLogger();
-    private String stringPath;
-    private Path path;
-    private ResultValidator resultValidator = new ResultValidator();
 
-    public FileValidator(String path) {
-        this.stringPath = path;
-    }
-
-    private void checkPath() {
+    private void checkPath(String stringPath, ResultValidator resultValidator) {
+        Path path = null;
         if (stringPath != null) {
             try {
                 path = Paths.get(stringPath);
@@ -38,7 +32,7 @@ public class FileValidator implements Validator {
                     if (Files.isReadable(path)) {
                         LOGGER.info("[" + stringPath + "] file is readable.");
 
-                        checkPathOfEmpty(path);
+                        checkPathOfEmpty(path, stringPath, resultValidator);
 
                     } else {
                         resultValidator.addException("FileIsNotReadable", Arrays.asList("["
@@ -61,7 +55,7 @@ public class FileValidator implements Validator {
         }
     }
 
-    private void checkPathOfEmpty(Path path) {
+    private void checkPathOfEmpty(Path path, String stringPath, ResultValidator resultValidator) {
         try {
             if (Files.size(path) != 0) {
                 LOGGER.info("[" + stringPath + "] file is not empty.");
@@ -79,9 +73,9 @@ public class FileValidator implements Validator {
         }
     }
 
-    @Override
-    public ResultValidator validate() {
-        checkPath();
+    public ResultValidator validateFile(String path) {
+        ResultValidator resultValidator = new ResultValidator();
+        checkPath(path, resultValidator);
         return resultValidator;
     }
 }
