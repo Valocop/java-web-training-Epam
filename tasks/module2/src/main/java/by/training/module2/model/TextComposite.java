@@ -8,44 +8,44 @@ import org.apache.logging.log4j.Logger;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParagraphComposite implements ModelComposite {
+public class TextComposite implements ModelComposite {
     private static final Logger LOG = LogManager.getLogger();
-    private final List<ModelLeaf> sentences = new LinkedList<>();
+    private final List<ModelLeaf> paragraphs = new LinkedList<>();
 
     @Override
     public void addLeaf(ModelLeaf modelLeaf) {
-        sentences.add(modelLeaf);
+        paragraphs.add(modelLeaf);
     }
 
     @Override
     public List<ModelLeaf> getLeafes() {
-        return sentences;
+        return paragraphs;
     }
 
     @Override
     public void removeLeaf(ModelLeaf modelLeaf) {
-        sentences.remove(modelLeaf);
+        paragraphs.remove(modelLeaf);
     }
 
     @Override
     public int getCountOfLeaf() {
-        return sentences.size();
+        return paragraphs.size();
     }
 
-    public List<ModelLeaf> getSentences() {
-        return sentences;
+    public List<ModelLeaf> getParagraphs() {
+        return paragraphs;
     }
 
     @Override
     public String toString() {
-        StringBuilder paragraphBuilder = new StringBuilder("\t");
-        sentences.forEach(textLeaf -> paragraphBuilder.append(textLeaf.toString()));
-        LOG.info("Paragraph is build.");
-        return paragraphBuilder.toString();
+        StringBuilder builder = new StringBuilder();
+        paragraphs.forEach(modelLeaf -> builder.append(modelLeaf.toString()));
+        LOG.info("Text is build.");
+        return builder.toString();
     }
 
     @Override
     public ModelType getModelType() {
-        return ModelType.PARAGRAPH;
+        return ModelType.TEXT;
     }
 }
