@@ -1,11 +1,15 @@
 package by.training.module2.chain;
 
-import by.training.module2.composite.TextComposite;
+import by.training.module2.composite.ModelLeaf;
+import by.training.module2.model.WordLeaf;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class WordParser extends TextParser {
+public class WordParser extends ModelParser {
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
-    public TextComposite parseText(String text) {
-        return null;
+    public ModelLeaf parseText(String text) {
+        return new WordLeaf(text);
     }
 }
