@@ -1,20 +1,21 @@
 package by.training.module2.service;
 
-import by.training.module2.composite.TextComposite;
-import by.training.module2.composite.TextLeaf;
+import by.training.module2.composite.ModelComposite;
+import by.training.module2.composite.ModelLeaf;
+import by.training.module2.model.ModelType;
 
 import java.util.Comparator;
 
-public class ParagraphSortSpec implements SortSpecification<TextLeaf> {
+public class ParagraphSortSpec implements SortSpecification<ModelLeaf> {
+    private final ModelType TYPE = ModelType.PARAGRAPH;
 
     @Override
-    public Comparator<TextLeaf> getSort(SortType sortType) {
-        Comparator<TextLeaf> comparator = new Comparator<TextLeaf>() {
-            @Override
-            public int compare(TextLeaf o1, TextLeaf o2) {
+    public Comparator<ModelLeaf> getSort() {
+        return Comparator.comparingInt(o -> ((ModelComposite) o).getCountOfLeaf());
+    }
 
-            }
-        }
-        return null;
+    @Override
+    public ModelType getModelType() {
+        return TYPE;
     }
 }
