@@ -36,20 +36,4 @@ public class TextParser extends ModelParser {
         }
         return nextParse(text);
     }
-
-    public static void main(String[] args) throws IOException {
-        ParserChain<ModelLeaf> parserChain = new WordParser()
-                .linkWith(new SentenceParser())
-                .linkWith(new ParagraphParser())
-                .linkWith(new TextParser())
-                .linkWith(new InvalidTextParser());
-        byte[] bytes = Files.readAllBytes(Paths.get("src", "test", "resources", "testValid.txt"));
-//        byte[] bytes = Files.readAllBytes(Paths.get("src", "test", "resources", "testWithoutSentences.txt"));
-//        byte[] bytes = Files.readAllBytes(Paths.get("src", "test", "resources", "testWithoutWords.txt"));
-//        byte[] bytes = Files.readAllBytes(Paths.get("src", "test", "resources", "testWithoutParagraphs.txt"));
-
-        String text = new String(bytes);
-        ModelLeaf leaf = parserChain.parseText(text);
-        System.out.println(leaf.toString());
-    }
 }
