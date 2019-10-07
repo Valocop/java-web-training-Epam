@@ -2,6 +2,10 @@ package by.training.module2.model;
 
 import by.training.module2.composite.ModelComposite;
 import by.training.module2.composite.ModelLeaf;
+import by.training.module2.entity.Entity;
+import by.training.module2.entity.EntityType;
+import by.training.module2.entity.Paragraph;
+import by.training.module2.service.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +22,7 @@ public class ParagraphComposite implements ModelComposite {
     }
 
     @Override
-    public List<ModelLeaf> getLeafes() {
+    public List<ModelLeaf> getLeaves() {
         return sentences;
     }
 
@@ -28,7 +32,7 @@ public class ParagraphComposite implements ModelComposite {
     }
 
     @Override
-    public int getCountOfLeaf() {
+    public int getCountOfLeaves() {
         return sentences.size();
     }
 
@@ -45,7 +49,19 @@ public class ParagraphComposite implements ModelComposite {
     }
 
     @Override
-    public ModelType getModelType() {
-        return ModelType.PARAGRAPH;
+    public Entity save(Service<Entity> service, long parentId, int order) {
+        Entity paragraph = new Paragraph(parentId, order, sentences.size(), toString());
+        long paragraphId = service.add(paragraph);
+
+        for (int i = 0; i < sentences.size(); i ++) {
+            ModelLeaf sentenceLeaf = sentences.get(i);
+            sentenceLeaf.save(service, paragraphId, i);
+        }
+        return load(service, paragraphId);
+    }
+
+    @Override
+    public Entity load(Service<Entity> service, long id) {
+        return service.getById(id, EntityType.PARAGRAPH);
     }
 }
