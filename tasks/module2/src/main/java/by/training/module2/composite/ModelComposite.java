@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ModelComposite extends ModelLeaf {
     void addLeaf(ModelLeaf modelLeaf);
-    List<ModelLeaf> getLeafes();
+    List<ModelLeaf> getLeaves();
     void removeLeaf(ModelLeaf modelLeaf);
-    int getCountOfLeaf();
+    int getCountOfLeaves();
 }
