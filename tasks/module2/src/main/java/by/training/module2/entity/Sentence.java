@@ -1,5 +1,7 @@
 package by.training.module2.entity;
 
+import java.util.Objects;
+
 public class Sentence implements Entity {
     private long id;
     private long paragraphId;
@@ -32,6 +34,23 @@ public class Sentence implements Entity {
     @Override
     public int entrySize() {
         return wordsCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sentence sentence1 = (Sentence) o;
+        return id == sentence1.id &&
+                paragraphId == sentence1.paragraphId &&
+                order == sentence1.order &&
+                wordsCount == sentence1.wordsCount &&
+                sentence.equals(sentence1.sentence);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, paragraphId, order, wordsCount, sentence);
     }
 
     public long getParagraphId() {
