@@ -2,30 +2,38 @@ package by.training.module2.service;
 
 import by.training.module2.entity.Entity;
 import by.training.module2.entity.EntityType;
+import by.training.module2.repo.FindSpecification;
 import by.training.module2.repo.Repository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class ServiceManager implements Service<Entity> {
-    private Repository<Entity> repo;
+public class ServiceControl implements Service<Entity> {
+    private static final Logger LOG = LogManager.getLogger();
     private Service<Entity> textService;
     private Service<Entity> paragraphService;
     private Service<Entity> sentenceService;
     private Service<Entity> wordService;
 
-    public ServiceManager(Repository<Entity> repo) {
-        this.repo = repo;
-        textService = new TextService(this.repo);
-        paragraphService = new ParagraphService(this.repo);
-        sentenceService = new SentenceService(this.repo);
-        wordService = new WordService(this.repo);
+    public ServiceControl(Repository<Entity> repo) {
+        textService = new TextService(repo);
+        paragraphService = new ParagraphService(repo);
+        sentenceService = new SentenceService(repo);
+        wordService = new WordService(repo);
     }
 
     @Override
     public long add(Entity model) {
         Service<Entity> service = getService(model.getType());
         return service.add(model);
+    }
+
+    @Override
+    public void update(Entity model) {
+        Service<Entity> service = getService(model.getType());
+        service.update(model);
     }
 
     @Override
@@ -38,6 +46,12 @@ public class ServiceManager implements Service<Entity> {
     public List<Entity> sort(Comparator<Entity> comparator, EntityType type) {
         Service<Entity> service = getService(type);
         return service.sort(comparator, type);
+    }
+
+    @Override
+    public List<Entity> find(FindSpecification<Entity> spec, EntityType type) {
+        Service<Entity> service = getService(type);
+        return service.find(spec, type);
     }
 
     @Override
@@ -63,7 +77,10 @@ public class ServiceManager implements Service<Entity> {
             case WORD:
                 return wordService;
                 default:
-                    throw new IllegalArgumentException();
+                    IllegalArgumentException e =
+                            new IllegalArgumentException("Incorrect of Entity type for get Service.");
+                    LOG.error(e);
+                    throw e;
         }
     }
 }

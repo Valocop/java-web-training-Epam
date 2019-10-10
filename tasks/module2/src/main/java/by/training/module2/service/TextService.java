@@ -2,6 +2,7 @@ package by.training.module2.service;
 
 import by.training.module2.entity.Entity;
 import by.training.module2.entity.EntityType;
+import by.training.module2.repo.FindSpecification;
 import by.training.module2.repo.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,12 @@ public class TextService implements Service<Entity> {
 
     @Override
     public long add(Entity model) {
-        return repository.add(model);
+        return repository.create(model);
+    }
+
+    @Override
+    public void update(Entity model) {
+        repository.update(model);
     }
 
     @Override
@@ -41,6 +47,17 @@ public class TextService implements Service<Entity> {
     }
 
     @Override
+    public List<Entity> find(FindSpecification<Entity> spec, EntityType type) {
+        if (type != EntityType.TEXT) {
+            IllegalArgumentException e = new IllegalArgumentException("[" + type.name()
+                    + "] Entity type is not TEXT.");
+            LOG.error(e);
+            throw e;
+        }
+        return repository.find(spec, type);
+    }
+
+    @Override
     public Entity getById(long id, EntityType type) {
         if (type != EntityType.TEXT) {
             IllegalArgumentException e = new IllegalArgumentException("[" + type.name()
@@ -48,7 +65,7 @@ public class TextService implements Service<Entity> {
             LOG.error(e);
             throw e;
         }
-        return repository.getById(id, type);
+        return repository.read(id, type);
     }
 
     @Override
