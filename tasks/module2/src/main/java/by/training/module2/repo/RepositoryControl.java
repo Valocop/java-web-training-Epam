@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class RepositoryManager implements Repository<Entity> {
+public class RepositoryControl implements Repository<Entity> {
     public static final AtomicLong ID = new AtomicLong(1);
     private static final Logger LOG = LogManager.getLogger();
     private Repository<Entity> wordRepo = new WordRepository();
@@ -17,9 +17,15 @@ public class RepositoryManager implements Repository<Entity> {
     private Repository<Entity> textRepo = new TextRepository();
 
     @Override
-    public long add(Entity model) {
+    public long create(Entity model) {
         Repository<Entity> repo = getRepo(model.getType());
-        return repo.add(model);
+        return repo.create(model);
+    }
+
+    @Override
+    public void update(Entity model) {
+        Repository<Entity> repo = getRepo(model.getType());
+        repo.update(model);
     }
 
     @Override
@@ -35,9 +41,15 @@ public class RepositoryManager implements Repository<Entity> {
     }
 
     @Override
-    public Entity getById(long id, EntityType type) {
+    public Entity read(long id, EntityType type) {
         Repository<Entity> repo = getRepo(type);
-        return repo.getById(id, type);
+        return repo.read(id, type);
+    }
+
+    @Override
+    public List<Entity> find(FindSpecification<Entity> spec, EntityType type) {
+        Repository<Entity> repo = getRepo(type);
+        return repo.find(spec, type);
     }
 
     private Repository<Entity> getRepo(EntityType type) {
