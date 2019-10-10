@@ -10,6 +10,7 @@ public class WordParser extends ModelParser {
 
     @Override
     public ModelLeaf parseText(String text) {
+        LOG.info("Create word leaf.");
         return new WordLeaf(text);
     }
 }

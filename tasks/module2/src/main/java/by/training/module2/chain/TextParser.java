@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class TextParser extends ModelParser {
     private static final Logger LOG = LogManager.getLogger();
-    private final String REGEX = "^([ ]+|[\\t]+)(.|\\r|\\n|\\r\\n)+?([.?!] *)$";
+    private final String REGEX = "^[\\s]*(.|\\r|\\n|\\r\\n)+?([.?!] *)$";
 
     @Override
     public ModelLeaf parseText(String text) {
@@ -32,8 +32,10 @@ public class TextParser extends ModelParser {
                 ModelLeaf paragraphLeaf = nextParse(paragraph);
                 textComposite.addLeaf(paragraphLeaf);
             }
+            LOG.info("Paragraph was find.");
             return textComposite;
         }
+        LOG.info("Paragraph wasn't find.");
         return nextParse(text);
     }
 }

@@ -29,8 +29,10 @@ public class SentenceParser extends ModelParser {
                 ModelLeaf wordLeaf = nextParse(word);
                 sentenceComposite.addLeaf(wordLeaf);
             }
+            LOG.info("Word was find.");
             return sentenceComposite;
         }
+        LOG.info("Word wasn't find.");
         return nextParse(text);
     }
 }
