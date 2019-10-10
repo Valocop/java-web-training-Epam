@@ -3,6 +3,7 @@ package by.training.module2.controller;
 import by.training.module2.chain.ParserChain;
 import by.training.module2.composite.ModelLeaf;
 import by.training.module2.entity.Entity;
+import by.training.module2.entity.EntityType;
 import by.training.module2.reader.TextFileReader;
 import by.training.module2.service.Service;
 import by.training.module2.validator.FileValidator;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 public class TextController {
     private static final Logger LOG = LogManager.getLogger();
@@ -24,15 +26,24 @@ public class TextController {
         this.parserChain = parserChain;
     }
 
-    public void execute(String path) throws IOException {
+    public void execute(String path) {
         FileValidator fileValidator = new FileValidator();
         ResultValidator resultFileValidator = fileValidator.validateFile(path);
 
         if (resultFileValidator.isValid()) {
             TextFileReader textFileReader = new TextFileReader();
-            String text = textFileReader.readData(path);
+            String text = null;
+            try {
+                text = textFileReader.readData(path);
+            } catch (IOException e) {
+                LOG.error(e);
+                throw new IllegalStateException(e);
+            }
             ModelLeaf modelLeaf = parserChain.parseText(text);
             modelLeaf.save(service, DEFAULT_ID, DEFAULT_ORDER_);
+            Comparator<Entity> comparator = Comparator.comparingDouble(Entity::entrySize);
+            service.sort(comparator, EntityType.PARAGRAPH);
+            LOG.info("Controller complete operations.");
         } else {
             LOG.error("File validate error " + resultFileValidator.getExceptionMap());
             throw new IllegalArgumentException("Path is incorrect.");
