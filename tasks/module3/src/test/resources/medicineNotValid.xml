@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<medicines xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="medicine.xsd">
+
+    <medicine medID="123423435" medName="Analgin">
+        <medType>PAIN_MEDICATION</medType>
+        <medVersion>PILL</medVersion>
+        <analogs>
+            <analog>Andifen</analog>
+            <analog>Baralgetas</analog>
+        </analogs>
+        <pharms>
+            <pharm pharmID="21423423" pharmName="Avexima">
+                <certificate>
+                    <number>3245345342</number>
+                    <issueDate>2018-10-10</issueDate>
+                    <shelfDate>2020-10-10</shelfDate>
+                    <registrOrganization>Avexima</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>PLATE</packageType>
+                    <count>20</count>
+                    <value>7.5</value>
+                </package>
+                <dosage>
+                    <dosa>500</dosa>
+                    <frequency>2</frequency>
+                </dosage>
+            </pharm>
+            <pharm pharmID="054605465" pharmName="Belmed">
+                <certificate>
+                    <number>3245345342</number>
+                    <issueDate>2019-09-11</issueDate>
+                    <shelfDate>2021-11-20</shelfDate>
+                    <registrOrganization>Belmed</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>PLATE</packageType>
+                    <count>15</count>
+                    <value>6</value>
+                </package>
+                <dosage>
+                    <dosa>500</dosa>
+                    <frequency>3</frequency>
+                </dosage>
+            </pharm>
+        </pharms>
+    </medicine>
+
+    <medicine medID="345436456" medName="Festal">
+        <medType>PAIN_MEDICATION</medType>
+        <medVersion>CAPSULE</medVersion>
+        <analogs>
+            <analog>Pancreatin</analog>
+        </analogs>
+        <pharms>
+            <pharm pharmID="21423423" pharmName="Borismed">
+                <certificate>
+                    <number>3456789976</number>
+                    <issueDate>2017-06-25</issueDate>
+                    <shelfDate>2019-07-25</shelfDate>
+                    <registrOrganization>Borismed</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>BANK</packageType>
+                    <count>10</count>
+                    <value>13.3</value>
+                </package>
+                <dosage>
+                    <dosa>500</dosa>
+                    <frequency>3</frequency>
+                </dosage>
+            </pharm>
+        </pharms>
+    </medicine>
+
+    <medicine medID="0230492234" medName="Glicin">
+        <medType>SEDATIVE</medType>
+        <medVersion>PILL</medVersion>
+        <analogs>
+            <analog>Gromecin</analog>
+        </analogs>
+        <pharms>
+            <pharm pharmID="268678678" pharmName="Evalar">
+                <certificate>
+                    <number>098765432</number>
+                    <issueDate>2017-05-01</issueDate>
+                    <shelfDate>2019-05-03</shelfDate>
+                    <registrOrganization>Evalar</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>BOX</packageType>
+                    <count>20</count>
+                    <value>3.5</value>
+                </package>
+                <dosage>
+                    <dosa>50</dosa>
+                    <frequency>3</frequency>
+                </dosage>
+            </pharm>
+        </pharms>
+    </medicine>
+
+    <medicine medID="09876543" medName="Coldrex">
+        <medType>PAIN_MEDICATION</medType>
+        <medVersion>POWDER</medVersion>
+        <analogs>
+            <analog>Trialgin</analog>
+            <analog>Flupomix</analog>
+        </analogs>
+        <pharms>
+            <pharm pharmID="9875456" pharmName="Leckpharm">
+                <certificate>
+                    <number>456789045</number>
+                    <issueDate>2017-05-01</issueDate>
+                    <shelfDate>2019-05-03</shelfDate>
+                    <registrOrganization>Leckpharm</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>SACHET</packageType>
+                    <count>1</count>
+                    <value>2.1</value>
+                </package>
+                <dosage>
+                    <dosa>1000</dosa>
+                    <frequency>1</frequency>
+                </dosage>
+            </pharm>
+            <pharm pharmID="06543643" pharmName="Farmland">
+                <certificate>
+                    <number>97654465</number>
+                    <issueDate>2018-05-01</issueDate>
+                    <shelfDate>2020-05-03</shelfDate>
+                    <registrOrganization>Farmland</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>SACHET</packageType>
+                    <count>10</count>
+                    <value>15</value>
+                </package>
+                <dosage>
+                    <dosa>500</dosa>
+                    <frequency>2</frequency>
+                </dosage>
+            </pharm>
+        </pharms>
+    </medicine>
+
+    <medicine medID="2434234" medName="Vitamin С">
+        <medType>VITAMIN</medType>
+        <medVersion>PILL</medVersion>
+        <analogs>
+        </analogs>
+        <pharms>
+            <pharm pharmID="56787654" pharmName="Malkut">
+                <certificate>
+                    <number>7678976456</number>
+                    <issueDate>2017-07-07</issueDate>
+                    <shelfDate>2021-05-03</shelfDate>
+                    <registrOrganization>Malkut</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>BOX</packageType>
+                    <count>100</count>
+                    <value>10.6</value>
+                </package>
+                <dosage>
+                    <dosa>1200</dosa>
+                    <frequency>2</frequency>
+                </dosage>
+            </pharm>
+            <pharm pharmID="87654567" pharmName="Solgar Vitamin">
+                <certificate>
+                    <number>5672345678</number>
+                    <issueDate>2018-05-01</issueDate>
+                    <shelfDate>2020-05-03</shelfDate>
+                    <registrOrganization>Solgar Vitamin</registrOrganization>
+                </certificate>
+                <package>
+                    <packageType>BOX</packageType>
+                    <count>50</count>
+                    <value>15.5</value>
+                </package>
+                <dosage>
+                    <frequency>1</frequency>
+                </dosage>
+            </pharm>
+        </pharms>
+    </medicine>
+</medicines>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="medicines">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="medicine" type="Medicine" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Medicine">
+        <xs:sequence>
+            <xs:element name="medType" type="Type"/>
+            <xs:element name="medVersion" type="Version"/>
+            <xs:element name="analogs" type="Analogs"/>
+            <xs:element name="pharms" type="Pharms"/>
+        </xs:sequence>
+        <xs:attribute name="medID" type="xs:long" use="required"/>
+        <xs:attribute name="medName" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="Analogs">
+        <xs:sequence>
+            <xs:element name="analog" maxOccurs="unbounded" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Pharms">
+        <xs:sequence>
+            <xs:element name="pharm" type="Pharm" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Pharm">
+        <xs:sequence>
+            <xs:element name="certificate" type="Certificate"/>
+            <xs:element name="package" type="Package"/>
+            <xs:element name="dosage" type="Dosage"/>
+        </xs:sequence>
+        <xs:attribute name="pharmID" type="xs:long" use="required"/>
+        <xs:attribute name="pharmName" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="Dosage">
+        <xs:sequence>
+            <xs:element name="dosa">
+                <xs:simpleType>
+                    <xs:restriction base="xs:double"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="frequency">
+                <xs:simpleType>
+                    <xs:restriction base="xs:positiveInteger"/>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Package">
+        <xs:sequence>
+            <xs:element name="packageType" type="PackageType"/>
+            <xs:element name="count">
+                <xs:simpleType>
+                    <xs:restriction base="xs:positiveInteger"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="value">
+                <xs:simpleType>
+                    <xs:restriction base="xs:double"/>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Certificate">
+        <xs:sequence>
+            <xs:element name="number">
+                <xs:simpleType>
+                    <xs:restriction base="xs:long"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="issueDate">
+                <xs:simpleType>
+                    <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="shelfDate">
+                <xs:simpleType>
+                    <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="registrOrganization">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string"/>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PackageType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BOX"/>
+            <xs:enumeration value="BANK"/>
+            <xs:enumeration value="BOTTLE"/>
+            <xs:enumeration value="PLATE"/>
+            <xs:enumeration value="SACHET"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PAIN_MEDICATION"/>
+            <xs:enumeration value="ANTIBIOTIC"/>
+            <xs:enumeration value="VITAMIN"/>
+            <xs:enumeration value="SEDATIVE"/>
+            <xs:enumeration value="VACCINE"/>
+            <xs:enumeration value="PSYCHOTROPIC"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Version">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PILL"/>
+            <xs:enumeration value="CAPSULE"/>
+            <xs:enumeration value="POWDER"/>
+            <xs:enumeration value="DROPS"/>
+            <xs:enumeration value="SYRUP"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
