@@ -1,33 +1,19 @@
 package by.training.module3.builder;
 
-import by.training.module3.entity.Medicine;
-import by.training.module3.handler.Handler;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class MedicineSAXBuilder implements Builder<Medicine> {
-    private List<Medicine> medicines = new ArrayList<>();
-    private Handler<Medicine> handler;
-
-    public MedicineSAXBuilder(Handler<Medicine> handler) {
-        this.handler = handler;
-    }
+public class MedicineSAXBuilder extends Builder {
 
     @Override
-    public List<Medicine> getEntities() {
-        return new ArrayList<>(medicines);
-    }
-
-    @Override
-    public void buildEntities(String path) throws BuilderException {
-        if (path == null || handler == null) {
+    public void buildListMedicines(String fileNme) throws BuilderException {
+        if (fileNme == null) {
             throw new IllegalArgumentException();
         }
+        MedicineHandler handler = new MedicineHandler();
         XMLReader reader = null;
         try {
             reader = XMLReaderFactory.createXMLReader();
@@ -36,12 +22,10 @@ public class MedicineSAXBuilder implements Builder<Medicine> {
         }
         reader.setContentHandler(handler);
         try {
-            reader.parse(path);
-        } catch (IOException e) {
-            throw new BuilderException(e);
-        } catch (SAXException e) {
+            reader.parse(fileNme);
+        } catch (IOException | SAXException e) {
             throw new BuilderException(e);
         }
-        medicines = handler.getEntities();
+        medicines.addAll(handler.getMedicines());
     }
 }

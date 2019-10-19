@@ -23,43 +23,10 @@ import java.util.List;
 
 import static by.training.module3.command.MedicineEnum.*;
 
-public class MedicineDOMBuilder implements Builder<Medicine> {
+public class MedicineDOMBuilder extends Builder {
     private static final Logger LOG = LogManager.getLogger();
-    private List<Medicine> medicines = new ArrayList<>();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    @Override
-    public List<Medicine> getEntities() {
-        return new ArrayList<>(medicines);
-    }
-
-    @Override
-    public void buildEntities(String path) throws BuilderException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder;
-        try {
-            docBuilder = factory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new BuilderException(e);
-        }
-        Document doc = null;
-        try {
-            doc = docBuilder.parse(path);
-        } catch (SAXException e) {
-            throw new BuilderException(e);
-        } catch (IOException e) {
-            throw new BuilderException(e);
-        }
-        Element root = doc.getDocumentElement();
-        NodeList medicineList = root.getElementsByTagName(MEDICINE.getValue());
-
-        for (int i = 0; i < medicineList.getLength(); i++) {
-            Element medicineElement = (Element) medicineList.item(i);
-            checkNull(medicineElement, MEDICINE.getValue());
-            Medicine medicine = buildMedicine(medicineElement);
-            medicines.add(medicine);
-        }
-    }
 
     private Medicine buildMedicine(Element medicineElement) throws BuilderException {
         LOG.info("Build medicine component.");
@@ -266,6 +233,32 @@ public class MedicineDOMBuilder implements Builder<Medicine> {
     private void checkNull(Object s, String e) throws BuilderException {
         if (s == null) {
             throw new BuilderException(new NullPointerException(e + " is null."));
+        }
+    }
+
+    @Override
+    public void buildListMedicines(String fileNme) throws BuilderException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder;
+        try {
+            docBuilder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            throw new BuilderException(e);
+        }
+        Document doc = null;
+        try {
+            doc = docBuilder.parse(fileNme);
+        } catch (SAXException | IOException e) {
+            throw new BuilderException(e);
+        }
+        Element root = doc.getDocumentElement();
+        NodeList medicineList = root.getElementsByTagName(MEDICINE.getValue());
+
+        for (int i = 0; i < medicineList.getLength(); i++) {
+            Element medicineElement = (Element) medicineList.item(i);
+            checkNull(medicineElement, MEDICINE.getValue());
+            Medicine medicine = buildMedicine(medicineElement);
+            medicines.add(medicine);
         }
     }
 }

@@ -1,12 +1,16 @@
 package by.training.module3.builder;
 
-import org.xml.sax.SAXException;
+import by.training.module3.entity.Medicine;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Builder<T> {
-    List<T> getEntities();
-    void buildEntities(String path) throws BuilderException;
+public abstract class Builder {
+    protected List<Medicine> medicines = new ArrayList<>();
+
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public abstract void buildListMedicines(String fileNme) throws BuilderException;
 }

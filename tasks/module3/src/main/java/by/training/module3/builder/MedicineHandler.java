@@ -1,4 +1,4 @@
-package by.training.module3.handler;
+package by.training.module3.builder;
 
 import by.training.module3.entity.*;
 import by.training.module3.entity.Package;
@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MedicineHandler extends Handler<Medicine> {
+public class MedicineHandler extends DefaultHandler {
     private static final Logger LOG = LogManager.getLogger();
 
     private MedicineEnum medicineEnum;
@@ -228,8 +229,7 @@ public class MedicineHandler extends Handler<Medicine> {
         medicine.setType(type);
     }
 
-    @Override
-    public List<Medicine> getEntities() {
+    public List<Medicine> getMedicines() {
         return new ArrayList<>(medicines);
     }
 
