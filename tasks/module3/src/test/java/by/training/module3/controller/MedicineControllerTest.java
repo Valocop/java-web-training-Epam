@@ -79,4 +79,21 @@ public class MedicineControllerTest {
         Assert.assertEquals(expectMedicines.size(), 5);
         Assert.assertTrue(result);
     }
+
+    @Test
+    public void shouldParseXMLByDOM() {
+        String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
+        String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
+        boolean result = medicineController.execute(commandProvider,
+                CommandType.DOM_PARSE_COMMAND, XMLPath, XSDPath);
+        List<Medicine> expectMedicines = medicineService.getAll();
+        Medicine expectAnalgin = expectMedicines.get(0);
+        Assert.assertEquals(expectAnalgin.getId(), 123423435);
+        Assert.assertEquals(expectAnalgin.getType(), MedicineType.PAIN_MEDICATION);
+        Assert.assertEquals(expectAnalgin.getVersion(), MedicineVersion.PILL);
+        Assert.assertEquals(expectAnalgin.getAnalogs(), Arrays.asList("Andifen", "Baralgetas"));
+        Assert.assertEquals(expectAnalgin.getPharms().size(), 2);
+        Assert.assertEquals(expectMedicines.size(), 5);
+        Assert.assertTrue(result);
+    }
 }
