@@ -58,8 +58,7 @@ public class MedicineControllerTest {
     public void shouldExpectIllegalArgumentExceptionValidateXMLByXSD() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineNotValid.xml").toString();
         String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
-        boolean result = medicineController.execute(commandProvider,
-                CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
+        medicineController.execute(commandProvider, CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
         Assert.fail();
     }
 
