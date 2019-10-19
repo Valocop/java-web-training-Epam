@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static by.training.module3.parser.MedicineEnum.*;
+import static by.training.module3.command.MedicineEnum.*;
 
 public class MedicineDOMBuilder implements Builder<Medicine> {
     private static final Logger LOG = LogManager.getLogger();

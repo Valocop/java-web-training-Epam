@@ -2,7 +2,7 @@ package by.training.module3.handler;
 
 import by.training.module3.entity.*;
 import by.training.module3.entity.Package;
-import by.training.module3.parser.MedicineEnum;
+import by.training.module3.command.MedicineEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
