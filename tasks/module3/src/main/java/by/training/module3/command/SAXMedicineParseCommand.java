@@ -7,15 +7,15 @@ import by.training.module3.entity.Medicine;
 import java.util.List;
 
 public class SAXMedicineParseCommand implements Command<Medicine> {
-    private Builder<Medicine> builder;
+    private Builder builder;
 
-    public SAXMedicineParseCommand(Builder<Medicine> builder) {
+    public SAXMedicineParseCommand(Builder builder) {
         this.builder = builder;
     }
 
     @Override
     public List<Medicine> execute(String path) throws BuilderException {
-        builder.buildEntities(path);
-        return builder.getEntities();
+        builder.buildListMedicines(path);
+        return builder.getMedicines();
     }
 }
