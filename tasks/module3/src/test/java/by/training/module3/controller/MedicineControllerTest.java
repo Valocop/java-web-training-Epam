@@ -1,14 +1,10 @@
 package by.training.module3.controller;
 
-import by.training.module3.builder.Builder;
-import by.training.module3.builder.MedicineDOMBuilder;
-import by.training.module3.builder.MedicineSAXBuilder;
+import by.training.module3.builder.*;
 import by.training.module3.command.*;
 import by.training.module3.entity.Medicine;
 import by.training.module3.entity.MedicineType;
 import by.training.module3.entity.MedicineVersion;
-import by.training.module3.handler.Handler;
-import by.training.module3.handler.MedicineHandler;
 import by.training.module3.repo.MedicineRepository;
 import by.training.module3.repo.Repository;
 import by.training.module3.service.MedicineService;
@@ -36,10 +32,9 @@ public class MedicineControllerTest {
         medicineService = new MedicineService(medicineRepo);
         medicineController = new MedicineController(medicineService);
         commandProvider = new CommandProviderImpl();
-        Builder<Medicine> DOMBuilder = new MedicineDOMBuilder();
+        Builder DOMBuilder = MedicineBuilderFactory.getBuilder(ParserType.DOM);
         Command<Medicine> DOMParseCommand = new DOMMedicineParseCommand(DOMBuilder);
-        Handler<Medicine> SAXHandler = new MedicineHandler();
-        Builder<Medicine> SAXBuilder = new MedicineSAXBuilder(SAXHandler);
+        Builder SAXBuilder = MedicineBuilderFactory.getBuilder(ParserType.SAX);
         Command<Medicine> SAXParseCommand = new SAXMedicineParseCommand(SAXBuilder);
         commandProvider.addCommand(CommandType.DOM_PARSE_COMMAND, DOMParseCommand);
         commandProvider.addCommand(CommandType.SAX_PARSE_COMMAND, SAXParseCommand);
