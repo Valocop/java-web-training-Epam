@@ -2,23 +2,23 @@
 <medicines xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="medicine.xsd">
 
-    <medicine medID="123423435" medName="Analgin">
-        <medType>PAIN_MEDICATION</medType>
-        <medVersion>PILL</medVersion>
+    <medicine med-id="123423435" med-name="Analgin">
+        <med-type>PAIN_MEDICATION</med-type>
+        <med-version>PILL</med-version>
         <analogs>
             <analog>Andifen</analog>
             <analog>Baralgetas</analog>
         </analogs>
         <pharms>
-            <pharm pharmID="21423423" pharmName="Avexima">
+            <pharm pharm-id="21423423" pharm-name="Avexima">
                 <certificate>
                     <number>3245345342</number>
-                    <issueDate>2018-10-10</issueDate>
-                    <shelfDate>2020-10-10</shelfDate>
-                    <registrOrganization>Avexima</registrOrganization>
+                    <issue-date>2018-10-10</issue-date>
+                    <shelf-date>2020-10-10</shelf-date>
+                    <registr-organization>Avexima</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>PLATE</packageType>
+                    <package-type>PLATE</package-type>
                     <count>20</count>
                     <value>7.5</value>
                 </package>
@@ -27,15 +27,15 @@
                     <frequency>2</frequency>
                 </dosage>
             </pharm>
-            <pharm pharmID="054605465" pharmName="Belmed">
+            <pharm pharm-id="054605465" pharm-name="Belmed">
                 <certificate>
                     <number>3245345342</number>
-                    <issueDate>2019-09-11</issueDate>
-                    <shelfDate>2021-11-20</shelfDate>
-                    <registrOrganization>Belmed</registrOrganization>
+                    <issue-date>2019-09-11</issue-date>
+                    <shelf-date>2021-11-20</shelf-date>
+                    <registr-organization>Belmed</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>PLATE</packageType>
+                    <package-type>PLATE</package-type>
                     <count>15</count>
                     <value>6</value>
                 </package>
@@ -47,22 +47,22 @@
         </pharms>
     </medicine>
 
-    <medicine medID="345436456" medName="Festal">
-        <medType>PAIN_MEDICATION</medType>
-        <medVersion>CAPSULE</medVersion>
+    <medicine med-id="345436456" med-name="Festal">
+        <med-type>PAIN_MEDICATION</med-type>
+        <med-version>CAPSULE</med-version>
         <analogs>
             <analog>Pancreatin</analog>
         </analogs>
         <pharms>
-            <pharm pharmID="21423423" pharmName="Borismed">
+            <pharm pharm-id="21423423" pharm-name="Borismed">
                 <certificate>
                     <number>3456789976</number>
-                    <issueDate>2017-06-25</issueDate>
-                    <shelfDate>2019-07-25</shelfDate>
-                    <registrOrganization>Borismed</registrOrganization>
+                    <issue-date>2017-06-25</issue-date>
+                    <shelf-date>2019-07-25</shelf-date>
+                    <registr-organization>Borismed</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>BANK</packageType>
+                    <package-type>BANK</package-type>
                     <count>10</count>
                     <value>13.3</value>
                 </package>
@@ -74,22 +74,22 @@
         </pharms>
     </medicine>
 
-    <medicine medID="0230492234" medName="Glicin">
-        <medType>SEDATIVE</medType>
-        <medVersion>PILL</medVersion>
+    <medicine med-id="0230492234" med-name="Glicin">
+        <med-type>SEDATIVE</med-type>
+        <med-version>PILL</med-version>
         <analogs>
             <analog>Gromecin</analog>
         </analogs>
         <pharms>
-            <pharm pharmID="268678678" pharmName="Evalar">
+            <pharm pharm-id="268678678" pharm-name="Evalar">
                 <certificate>
                     <number>098765432</number>
-                    <issueDate>2017-05-01</issueDate>
-                    <shelfDate>2019-05-03</shelfDate>
-                    <registrOrganization>Evalar</registrOrganization>
+                    <issue-date>2017-05-01</issue-date>
+                    <shelf-date>2019-05-03</shelf-date>
+                    <registr-organization>Evalar</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>BOX</packageType>
+                    <package-type>BOX</package-type>
                     <count>20</count>
                     <value>3.5</value>
                 </package>
@@ -101,23 +101,23 @@
         </pharms>
     </medicine>
 
-    <medicine medID="09876543" medName="Coldrex">
-        <medType>PAIN_MEDICATION</medType>
-        <medVersion>POWDER</medVersion>
+    <medicine med-id="09876543" med-name="Coldrex">
+        <med-type>PAIN_MEDICATION</med-type>
+        <med-version>POWDER</med-version>
         <analogs>
             <analog>Trialgin</analog>
             <analog>Flupomix</analog>
         </analogs>
         <pharms>
-            <pharm pharmID="9875456" pharmName="Leckpharm">
+            <pharm pharm-id="9875456" pharm-name="Leckpharm">
                 <certificate>
                     <number>456789045</number>
-                    <issueDate>2017-05-01</issueDate>
-                    <shelfDate>2019-05-03</shelfDate>
-                    <registrOrganization>Leckpharm</registrOrganization>
+                    <issue-date>2017-05-01</issue-date>
+                    <shelf-date>2019-05-03</shelf-date>
+                    <registr-organization>Leckpharm</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>SACHET</packageType>
+                    <package-type>SACHET</package-type>
                     <count>1</count>
                     <value>2.1</value>
                 </package>
@@ -126,15 +126,15 @@
                     <frequency>1</frequency>
                 </dosage>
             </pharm>
-            <pharm pharmID="06543643" pharmName="Farmland">
+            <pharm pharm-id="06543643" pharm-name="Farmland">
                 <certificate>
                     <number>97654465</number>
-                    <issueDate>2018-05-01</issueDate>
-                    <shelfDate>2020-05-03</shelfDate>
-                    <registrOrganization>Farmland</registrOrganization>
+                    <issue-date>2018-05-01</issue-date>
+                    <shelf-date>2020-05-03</shelf-date>
+                    <registr-organization>Farmland</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>SACHET</packageType>
+                    <package-type>SACHET</package-type>
                     <count>10</count>
                     <value>15</value>
                 </package>
@@ -146,21 +146,21 @@
         </pharms>
     </medicine>
 
-    <medicine medID="2434234" medName="Vitamin С">
-        <medType>VITAMIN</medType>
-        <medVersion>PILL</medVersion>
+    <medicine med-id="2434234" med-name="Vitamin С">
+        <med-type>VITAMIN</med-type>
+        <med-version>PILL</med-version>
         <analogs>
         </analogs>
         <pharms>
-            <pharm pharmID="56787654" pharmName="Malkut">
+            <pharm pharm-id="56787654" pharm-name="Malkut">
                 <certificate>
                     <number>7678976456</number>
-                    <issueDate>2017-07-07</issueDate>
-                    <shelfDate>2021-05-03</shelfDate>
-                    <registrOrganization>Malkut</registrOrganization>
+                    <issue-date>2017-07-07</issue-date>
+                    <shelf-date>2021-05-03</shelf-date>
+                    <registr-organization>Malkut</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>BOX</packageType>
+                    <package-type>BOX</package-type>
                     <count>100</count>
                     <value>10.6</value>
                 </package>
@@ -169,15 +169,15 @@
                     <frequency>2</frequency>
                 </dosage>
             </pharm>
-            <pharm pharmID="87654567" pharmName="Solgar Vitamin">
+            <pharm pharm-id="87654567" pharm-name="Solgar Vitamin">
                 <certificate>
                     <number>5672345678</number>
-                    <issueDate>2018-05-01</issueDate>
-                    <shelfDate>2020-05-03</shelfDate>
-                    <registrOrganization>Solgar Vitamin</registrOrganization>
+                    <issue-date>2018-05-01</issue-date>
+                    <shelf-date>2020-05-03</shelf-date>
+                    <registr-organization>Solgar Vitamin</registr-organization>
                 </certificate>
                 <package>
-                    <packageType>BOX</packageType>
+                    <package-type>BOX</package-type>
                     <count>50</count>
                     <value>15.5</value>
                 </package>

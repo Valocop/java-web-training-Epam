@@ -6,23 +6,23 @@
     <xs:element name="medicines">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="medicine" type="Medicine" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="medicine" type="medicine" minOccurs="1" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="Medicine">
+    <xs:complexType name="medicine">
         <xs:sequence>
-            <xs:element name="medType" type="Type"/>
-            <xs:element name="medVersion" type="Version"/>
-            <xs:element name="analogs" type="Analogs"/>
-            <xs:element name="pharms" type="Pharms"/>
+            <xs:element name="med-type" type="type"/>
+            <xs:element name="med-version" type="version"/>
+            <xs:element name="analogs" type="analogs"/>
+            <xs:element name="pharms" type="pharms"/>
         </xs:sequence>
-        <xs:attribute name="medID" type="xs:long" use="required"/>
-        <xs:attribute name="medName" type="xs:string" use="required"/>
+        <xs:attribute name="med-id" type="xs:long" use="required"/>
+        <xs:attribute name="med-name" type="xs:string" use="required"/>
     </xs:complexType>
 
-    <xs:complexType name="Analogs">
+    <xs:complexType name="analogs">
         <xs:sequence>
             <xs:element name="analog" maxOccurs="unbounded" minOccurs="0">
                 <xs:simpleType>
@@ -33,23 +33,23 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="Pharms">
+    <xs:complexType name="pharms">
         <xs:sequence>
-            <xs:element name="pharm" type="Pharm" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="pharm" type="pharm" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="Pharm">
+    <xs:complexType name="pharm">
         <xs:sequence>
-            <xs:element name="certificate" type="Certificate"/>
-            <xs:element name="package" type="Package"/>
-            <xs:element name="dosage" type="Dosage"/>
+            <xs:element name="certificate" type="certificate"/>
+            <xs:element name="package" type="package"/>
+            <xs:element name="dosage" type="dosage"/>
         </xs:sequence>
-        <xs:attribute name="pharmID" type="xs:long" use="required"/>
-        <xs:attribute name="pharmName" type="xs:string" use="required"/>
+        <xs:attribute name="pharm-id" type="xs:long" use="required"/>
+        <xs:attribute name="pharm-name" type="xs:string" use="required"/>
     </xs:complexType>
 
-    <xs:complexType name="Dosage">
+    <xs:complexType name="dosage">
         <xs:sequence>
             <xs:element name="dosa">
                 <xs:simpleType>
@@ -64,9 +64,9 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="Package">
+    <xs:complexType name="package">
         <xs:sequence>
-            <xs:element name="packageType" type="PackageType"/>
+            <xs:element name="package-type" type="package-type"/>
             <xs:element name="count">
                 <xs:simpleType>
                     <xs:restriction base="xs:positiveInteger"/>
@@ -80,24 +80,24 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="Certificate">
+    <xs:complexType name="certificate">
         <xs:sequence>
             <xs:element name="number">
                 <xs:simpleType>
                     <xs:restriction base="xs:long"/>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="issueDate">
+            <xs:element name="issue-date">
                 <xs:simpleType>
                     <xs:restriction base="xs:date"/>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="shelfDate">
+            <xs:element name="shelf-date">
                 <xs:simpleType>
                     <xs:restriction base="xs:date"/>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="registrOrganization">
+            <xs:element name="registr-organization">
                 <xs:simpleType>
                     <xs:restriction base="xs:string"/>
                 </xs:simpleType>
@@ -105,34 +105,34 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:simpleType name="PackageType">
+    <xs:simpleType name="package-type">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="BOX"/>
-            <xs:enumeration value="BANK"/>
-            <xs:enumeration value="BOTTLE"/>
-            <xs:enumeration value="PLATE"/>
-            <xs:enumeration value="SACHET"/>
+            <xs:enumeration value="box"/>
+            <xs:enumeration value="bank"/>
+            <xs:enumeration value="bottle"/>
+            <xs:enumeration value="plate"/>
+            <xs:enumeration value="sachet"/>
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Type">
+    <xs:simpleType name="type">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="PAIN_MEDICATION"/>
-            <xs:enumeration value="ANTIBIOTIC"/>
-            <xs:enumeration value="VITAMIN"/>
-            <xs:enumeration value="SEDATIVE"/>
-            <xs:enumeration value="VACCINE"/>
-            <xs:enumeration value="PSYCHOTROPIC"/>
+            <xs:enumeration value="pain_medication"/>
+            <xs:enumeration value="antibiotic"/>
+            <xs:enumeration value="vitamin"/>
+            <xs:enumeration value="sedative"/>
+            <xs:enumeration value="vaccine"/>
+            <xs:enumeration value="psychotropic"/>
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="Version">
+    <xs:simpleType name="version">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="PILL"/>
-            <xs:enumeration value="CAPSULE"/>
-            <xs:enumeration value="POWDER"/>
-            <xs:enumeration value="DROPS"/>
-            <xs:enumeration value="SYRUP"/>
+            <xs:enumeration value="pill"/>
+            <xs:enumeration value="capsule"/>
+            <xs:enumeration value="powder"/>
+            <xs:enumeration value="drops"/>
+            <xs:enumeration value="syrup"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
