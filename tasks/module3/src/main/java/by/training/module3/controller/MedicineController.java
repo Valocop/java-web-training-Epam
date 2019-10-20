@@ -22,7 +22,7 @@ public class MedicineController {
         this.service = service;
     }
 
-    public boolean execute(CommandProvider<Medicine> provider, CommandType type, String xmlPath, String xsdPath) {
+    public void execute(CommandProvider<Medicine> provider, CommandType type, String xmlPath, String xsdPath) {
         FileValidator fileValidator = new FileValidator();
         ResultValidator resultFileXMLValidator = fileValidator.validateFile(xmlPath);
         ResultValidator resultFileXSDValidator = fileValidator.validateFile(xsdPath);
@@ -43,6 +43,5 @@ public class MedicineController {
         } else {
             throw new IllegalArgumentException("Files paths are't valid.");
         }
-        return true; //that ALL OK
     }
 }
