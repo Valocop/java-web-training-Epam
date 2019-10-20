@@ -44,9 +44,8 @@ public class MedicineControllerTest {
     public void shouldValidateXMLByXSD() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
         String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
-        boolean result = medicineController.execute(commandProvider,
-                CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
-        Assert.assertTrue(result);
+        medicineController.execute(commandProvider, CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
+        Assert.assertFalse(medicineService.getAll().isEmpty());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -61,8 +60,7 @@ public class MedicineControllerTest {
     public void shouldParseXMLBySAX() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
         String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
-        boolean result = medicineController.execute(commandProvider,
-                CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
+        medicineController.execute(commandProvider, CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
         List<Medicine> expectMedicines = medicineService.getAll();
         Medicine expectAnalgin = expectMedicines.get(0);
         Assert.assertEquals(expectAnalgin.getId(), 123423435);
@@ -71,15 +69,13 @@ public class MedicineControllerTest {
         Assert.assertEquals(expectAnalgin.getAnalogs(), Arrays.asList("Andifen", "Baralgetas"));
         Assert.assertEquals(expectAnalgin.getPharms().size(), 2);
         Assert.assertEquals(expectMedicines.size(), 5);
-        Assert.assertTrue(result);
     }
 
     @Test
     public void shouldParseXMLByDOM() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
         String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
-        boolean result = medicineController.execute(commandProvider,
-                CommandType.DOM_PARSE_COMMAND, XMLPath, XSDPath);
+        medicineController.execute(commandProvider, CommandType.DOM_PARSE_COMMAND, XMLPath, XSDPath);
         List<Medicine> expectMedicines = medicineService.getAll();
         Medicine expectAnalgin = expectMedicines.get(0);
         Assert.assertEquals(expectAnalgin.getId(), 123423435);
@@ -88,6 +84,5 @@ public class MedicineControllerTest {
         Assert.assertEquals(expectAnalgin.getAnalogs(), Arrays.asList("Andifen", "Baralgetas"));
         Assert.assertEquals(expectAnalgin.getPharms().size(), 2);
         Assert.assertEquals(expectMedicines.size(), 5);
-        Assert.assertTrue(result);
     }
 }
