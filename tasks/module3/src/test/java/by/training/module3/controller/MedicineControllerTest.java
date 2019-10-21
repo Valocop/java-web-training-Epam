@@ -43,7 +43,7 @@ public class MedicineControllerTest {
     @Test
     public void shouldValidateXMLByXSD() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
-        String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
+        String XSDPath = Paths.get("src", "main", "resources", "medicine.xsd").toString();
         medicineController.execute(commandProvider, CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
         Assert.assertFalse(medicineService.getAll().isEmpty());
     }
@@ -51,7 +51,7 @@ public class MedicineControllerTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldExpectIllegalArgumentExceptionValidateXMLByXSD() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineNotValid.xml").toString();
-        String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
+        String XSDPath = Paths.get("src", "main", "resources", "medicine.xsd").toString();
         medicineController.execute(commandProvider, CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
         Assert.fail();
     }
@@ -59,7 +59,7 @@ public class MedicineControllerTest {
     @Test
     public void shouldParseXMLBySAX() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
-        String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
+        String XSDPath = Paths.get("src", "main", "resources", "medicine.xsd").toString();
         medicineController.execute(commandProvider, CommandType.SAX_PARSE_COMMAND, XMLPath, XSDPath);
         List<Medicine> expectMedicines = medicineService.getAll();
         Medicine expectAnalgin = expectMedicines.get(0);
@@ -74,7 +74,7 @@ public class MedicineControllerTest {
     @Test
     public void shouldParseXMLByDOM() {
         String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
-        String XSDPath = Paths.get("src", "test", "resources", "medicine.xsd").toString();
+        String XSDPath = Paths.get("src", "main", "resources", "medicine.xsd").toString();
         medicineController.execute(commandProvider, CommandType.DOM_PARSE_COMMAND, XMLPath, XSDPath);
         List<Medicine> expectMedicines = medicineService.getAll();
         Medicine expectAnalgin = expectMedicines.get(0);
