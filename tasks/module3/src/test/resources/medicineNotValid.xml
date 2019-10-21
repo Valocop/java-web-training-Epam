@@ -3,8 +3,8 @@
            xsi:noNamespaceSchemaLocation="medicine.xsd">
 
     <medicine med-id="123423435" med-name="Analgin">
-        <med-type>PAIN_MEDICATION</med-type>
-        <med-version>PILL</med-version>
+        <med-type>pain_medication</med-type>
+        <med-version>pill</med-version>
         <analogs>
             <analog>Andifen</analog>
             <analog>Baralgetas</analog>
@@ -18,7 +18,7 @@
                     <registr-organization>Avexima</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>PLATE</package-type>
+                    <package-type>plate</package-type>
                     <count>20</count>
                     <value>7.5</value>
                 </package>
@@ -35,7 +35,7 @@
                     <registr-organization>Belmed</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>PLATE</package-type>
+                    <package-type>plate</package-type>
                     <count>15</count>
                     <value>6</value>
                 </package>
@@ -48,8 +48,8 @@
     </medicine>
 
     <medicine med-id="345436456" med-name="Festal">
-        <med-type>PAIN_MEDICATION</med-type>
-        <med-version>CAPSULE</med-version>
+        <med-type>pain_medication</med-type>
+        <med-version>capsule</med-version>
         <analogs>
             <analog>Pancreatin</analog>
         </analogs>
@@ -62,7 +62,7 @@
                     <registr-organization>Borismed</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>BANK</package-type>
+                    <package-type>bank</package-type>
                     <count>10</count>
                     <value>13.3</value>
                 </package>
@@ -75,8 +75,8 @@
     </medicine>
 
     <medicine med-id="0230492234" med-name="Glicin">
-        <med-type>SEDATIVE</med-type>
-        <med-version>PILL</med-version>
+        <med-type>sedative</med-type>
+        <med-version>pill</med-version>
         <analogs>
             <analog>Gromecin</analog>
         </analogs>
@@ -89,7 +89,7 @@
                     <registr-organization>Evalar</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>BOX</package-type>
+                    <package-type>box</package-type>
                     <count>20</count>
                     <value>3.5</value>
                 </package>
@@ -102,14 +102,14 @@
     </medicine>
 
     <medicine med-id="09876543" med-name="Coldrex">
-        <med-type>PAIN_MEDICATION</med-type>
-        <med-version>POWDER</med-version>
+        <med-type>pain_medication</med-type>
+        <med-version>powder</med-version>
         <analogs>
             <analog>Trialgin</analog>
             <analog>Flupomix</analog>
         </analogs>
         <pharms>
-            <pharm pharm-id="9875456" pharm-name="Leckpharm">
+            <pharm pharm-id="987445456" pharm-name="Leckpharm">
                 <certificate>
                     <number>456789045</number>
                     <issue-date>2017-05-01</issue-date>
@@ -117,7 +117,7 @@
                     <registr-organization>Leckpharm</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>SACHET</package-type>
+                    <package-type>sachet</package-type>
                     <count>1</count>
                     <value>2.1</value>
                 </package>
@@ -134,7 +134,7 @@
                     <registr-organization>Farmland</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>SACHET</package-type>
+                    <package-type>sachet</package-type>
                     <count>10</count>
                     <value>15</value>
                 </package>
@@ -146,9 +146,9 @@
         </pharms>
     </medicine>
 
-    <medicine med-id="2434234" med-name="Vitamin С">
-        <med-type>VITAMIN</med-type>
-        <med-version>PILL</med-version>
+    <medicine med-id="243455234" med-name="Vitamin С">
+        <med-type>vitamin</med-type>
+        <med-version>pill</med-version>
         <analogs>
         </analogs>
         <pharms>
@@ -160,7 +160,7 @@
                     <registr-organization>Malkut</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>BOX</package-type>
+                    <package-type>box</package-type>
                     <count>100</count>
                     <value>10.6</value>
                 </package>
@@ -177,7 +177,7 @@
                     <registr-organization>Solgar Vitamin</registr-organization>
                 </certificate>
                 <package>
-                    <package-type>BOX</package-type>
+                    <package-type>box</package-type>
                     <count>50</count>
                     <value>15.5</value>
                 </package>

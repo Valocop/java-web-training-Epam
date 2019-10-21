@@ -2,7 +2,7 @@
 <medicines xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="medicine.xsd">
 
-    <medicine med-id="123423435" med-name="Analgin">
+    <medicine med-id="12321342" med-name="Analgin">
         <med-type>pain_medication</med-type>
         <med-version>pill</med-version>
         <analogs>
@@ -109,7 +109,7 @@
             <analog>Flupomix</analog>
         </analogs>
         <pharms>
-            <pharm pharm-id="9875456" pharm-name="Leckpharm">
+            <pharm pharm-id="98754566" pharm-name="Leckpharm">
                 <certificate>
                     <number>456789045</number>
                     <issue-date>2017-05-01</issue-date>
@@ -146,7 +146,7 @@
         </pharms>
     </medicine>
 
-    <medicine med-id="2434234" med-name="Vitamin С">
+    <medicine med-id="24342346" med-name="Vitamin С">
         <med-type>vitamin</med-type>
         <med-version>pill</med-version>
         <analogs>
