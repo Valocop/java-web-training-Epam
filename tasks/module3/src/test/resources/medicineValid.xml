@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<medicines xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="medicine.xsd">
+<medicines>
     <medicine med-id="12321342" med-name="Analgin">
         <med-type>pain_medication</med-type>
         <med-version>pill</med-version>

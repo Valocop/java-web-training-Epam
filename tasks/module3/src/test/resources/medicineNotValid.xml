@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<medicines xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="medicine.xsd">
-
+<medicines>
     <medicine med-id="123423435" med-name="Analgin">
         <med-type>pain_medication</med-type>
         <med-version>pill</med-version>
@@ -46,7 +44,6 @@
             </pharm>
         </pharms>
     </medicine>
-
     <medicine med-id="345436456" med-name="Festal">
         <med-type>pain_medication</med-type>
         <med-version>capsule</med-version>
@@ -73,7 +70,6 @@
             </pharm>
         </pharms>
     </medicine>
-
     <medicine med-id="0230492234" med-name="Glicin">
         <med-type>sedative</med-type>
         <med-version>pill</med-version>
@@ -100,7 +96,6 @@
             </pharm>
         </pharms>
     </medicine>
-
     <medicine med-id="09876543" med-name="Coldrex">
         <med-type>pain_medication</med-type>
         <med-version>powder</med-version>
@@ -145,7 +140,6 @@
             </pharm>
         </pharms>
     </medicine>
-
     <medicine med-id="243455234" med-name="Vitamin С">
         <med-type>vitamin</med-type>
         <med-version>pill</med-version>
