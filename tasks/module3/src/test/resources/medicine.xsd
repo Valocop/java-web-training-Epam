@@ -2,7 +2,6 @@
 <xs:schema attributeFormDefault="unqualified"
            elementFormDefault="qualified"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
     <xs:element name="medicines">
         <xs:complexType>
             <xs:sequence>
@@ -10,7 +9,6 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
     <xs:complexType name="medicine">
         <xs:sequence>
             <xs:element name="med-type" type="type"/>
@@ -21,20 +19,17 @@
         <xs:attribute name="med-id" type="id" use="required"/>
         <xs:attribute name="med-name" type="xs:string" use="required"/>
     </xs:complexType>
-
     <xs:simpleType name="name">
         <xs:restriction base="xs:string">
             <xs:pattern value="\w{1,30}"/>
         </xs:restriction>
     </xs:simpleType>
-    
     <xs:simpleType name="id">
         <xs:restriction base="xs:long">
             <xs:pattern value="\d{8,20}"/>
             <xs:minInclusive value="1"/>
         </xs:restriction>
     </xs:simpleType>
-
     <xs:complexType name="analogs">
         <xs:sequence>
             <xs:element name="analog" maxOccurs="unbounded" minOccurs="0">
@@ -45,13 +40,11 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="pharms">
         <xs:sequence>
             <xs:element name="pharm" type="pharm" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="pharm">
         <xs:sequence>
             <xs:element name="certificate" type="certificate"/>
@@ -61,7 +54,6 @@
         <xs:attribute name="pharm-id" type="id" use="required"/>
         <xs:attribute name="pharm-name" type="xs:string" use="required"/>
     </xs:complexType>
-
     <xs:complexType name="dosage">
         <xs:sequence>
             <xs:element name="dosa">
@@ -76,7 +68,6 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="package">
         <xs:sequence>
             <xs:element name="package-type" type="package-type"/>
@@ -92,7 +83,6 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-
     <xs:complexType name="certificate">
         <xs:sequence>
             <xs:element name="number">
@@ -117,7 +107,6 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-
     <xs:simpleType name="package-type">
         <xs:restriction base="xs:string">
             <xs:enumeration value="box"/>
@@ -127,7 +116,6 @@
             <xs:enumeration value="sachet"/>
         </xs:restriction>
     </xs:simpleType>
-
     <xs:simpleType name="type">
         <xs:restriction base="xs:string">
             <xs:enumeration value="pain_medication"/>
@@ -138,7 +126,6 @@
             <xs:enumeration value="psychotropic"/>
         </xs:restriction>
     </xs:simpleType>
-
     <xs:simpleType name="version">
         <xs:restriction base="xs:string">
             <xs:enumeration value="pill"/>
