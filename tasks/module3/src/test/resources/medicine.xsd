@@ -18,9 +18,16 @@
             <xs:element name="analogs" type="analogs"/>
             <xs:element name="pharms" type="pharms"/>
         </xs:sequence>
-        <xs:attribute name="med-id" type="xs:long" use="required"/>
+        <xs:attribute name="med-id" type="id" use="required"/>
         <xs:attribute name="med-name" type="xs:string" use="required"/>
     </xs:complexType>
+    
+    <xs:simpleType name="id">
+        <xs:restriction base="xs:long">
+            <xs:pattern value="(\d){8,20}"/>
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="analogs">
         <xs:sequence>
@@ -45,7 +52,7 @@
             <xs:element name="package" type="package"/>
             <xs:element name="dosage" type="dosage"/>
         </xs:sequence>
-        <xs:attribute name="pharm-id" type="xs:long" use="required"/>
+        <xs:attribute name="pharm-id" type="id" use="required"/>
         <xs:attribute name="pharm-name" type="xs:string" use="required"/>
     </xs:complexType>
 
