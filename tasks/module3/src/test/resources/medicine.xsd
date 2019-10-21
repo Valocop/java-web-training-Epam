@@ -21,10 +21,16 @@
         <xs:attribute name="med-id" type="id" use="required"/>
         <xs:attribute name="med-name" type="xs:string" use="required"/>
     </xs:complexType>
+
+    <xs:simpleType name="name">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w{1,30}"/>
+        </xs:restriction>
+    </xs:simpleType>
     
     <xs:simpleType name="id">
         <xs:restriction base="xs:long">
-            <xs:pattern value="(\d){8,20}"/>
+            <xs:pattern value="\d{8,20}"/>
             <xs:minInclusive value="1"/>
         </xs:restriction>
     </xs:simpleType>
