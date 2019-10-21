@@ -13,7 +13,7 @@ public class MedicineSAXBuilder extends Builder {
         if (fileNme == null) {
             throw new IllegalArgumentException();
         }
-        MedicineHandler handler = new MedicineHandler();
+        MedicineSAXHandler handler = new MedicineSAXHandler();
         XMLReader reader = null;
         try {
             reader = XMLReaderFactory.createXMLReader();

@@ -2,7 +2,6 @@ package by.training.module3.builder;
 
 import by.training.module3.entity.*;
 import by.training.module3.entity.Package;
-import by.training.module3.command.MedicineEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MedicineHandler extends DefaultHandler {
+public class MedicineSAXHandler extends DefaultHandler {
     private static final Logger LOG = LogManager.getLogger();
 
     private MedicineEnum medicineEnum;
@@ -235,7 +234,7 @@ public class MedicineHandler extends DefaultHandler {
 
     private void createMedicine(Attributes attributes) throws SAXException {
         medicine = new Medicine();
-        String idMed = attributes.getValue(0);
+        String idMed = attributes.getValue(MedicineEnum.MED_ID.getValue());
         try {
             long id = Long.parseLong(idMed);
             medicine.setId(id);
@@ -243,7 +242,7 @@ public class MedicineHandler extends DefaultHandler {
         } catch (NumberFormatException e) {
             throw new SAXException(e);
         }
-        String name = attributes.getValue(1);
+        String name = attributes.getValue(MedicineEnum.MED_NAME.getValue());
         LOG.info("Medicine set name " + name);
         medicine.setName(name);
     }
