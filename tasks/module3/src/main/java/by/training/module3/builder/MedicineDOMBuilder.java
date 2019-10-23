@@ -23,7 +23,7 @@ import java.util.List;
 
 import static by.training.module3.builder.MedicineEnum.*;
 
-public class MedicineDOMBuilder extends Builder {
+public class MedicineDOMBuilder extends Builder<Medicine> {
     private static final Logger LOG = LogManager.getLogger();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -237,7 +237,7 @@ public class MedicineDOMBuilder extends Builder {
     }
 
     @Override
-    public void buildListMedicines(String fileNme) throws BuilderException {
+    public void buildList(String fileNme) throws BuilderException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
         try {

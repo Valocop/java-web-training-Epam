@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MedicineSAXBuilder extends Builder {
+public class MedicineSAXBuilder extends Builder<Medicine> {
 
     @Override
-    public void buildListMedicines(String fileNme) throws BuilderException {
+    public void buildList(String fileNme) throws BuilderException {
         if (fileNme == null) {
             throw new IllegalArgumentException();
         }
