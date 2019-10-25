@@ -7,15 +7,15 @@ import by.training.module3.entity.Medicine;
 import java.util.List;
 
 public class DOMMedicineParseCommand implements Command<Medicine> {
-    private Builder builder;
+    private Builder<Medicine> builder;
 
-    public DOMMedicineParseCommand(Builder builder) {
+    public DOMMedicineParseCommand(Builder<Medicine> builder) {
         this.builder = builder;
     }
 
     @Override
     public List<Medicine> execute(String path) throws BuilderException {
-        builder.buildListMedicines(path);
+        builder.buildList(path);
         return builder.getMedicines();
     }
 }
