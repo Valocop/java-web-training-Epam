@@ -1,10 +1,12 @@
 package by.training.module3.builder;
 
+import by.training.module3.entity.Medicine;
+
 public final class MedicineBuilderFactory {
 
     private MedicineBuilderFactory() {}
 
-    public static Builder getBuilder(ParserType parserType) {
+    public static Builder<Medicine> getBuilder(ParserType parserType) {
         switch (parserType) {
             case DOM:
                 return new MedicineDOMBuilder();
