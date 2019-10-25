@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Certificate {
-    private final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
     private long number;
     private Date issueDate;
     private Date shelfDate;
@@ -16,8 +16,8 @@ public class Certificate {
 
     public Certificate(long number, Date issueDate, Date shelfDate, String registrOrganization) {
         this.number = number;
-        this.issueDate = issueDate;
-        this.shelfDate = shelfDate;
+        this.issueDate = new Date(issueDate.getTime());
+        this.shelfDate = new Date(shelfDate.getTime());
         this.registrOrganization = registrOrganization;
     }
 
@@ -56,19 +56,19 @@ public class Certificate {
     }
 
     public Date getIssueDate() {
-        return issueDate;
+        return new Date(issueDate.getTime());
     }
 
     public void setIssueDate(Date issueDate) {
-        this.issueDate = issueDate;
+        this.issueDate = new Date(issueDate.getTime());
     }
 
     public Date getShelfDate() {
-        return shelfDate;
+        return new Date(shelfDate.getTime());
     }
 
     public void setShelfDate(Date shelfDate) {
-        this.shelfDate = shelfDate;
+        this.shelfDate = new Date(shelfDate.getTime());
     }
 
     public String getRegistrOrganization() {
