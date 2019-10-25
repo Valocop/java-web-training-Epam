@@ -32,9 +32,9 @@ public class MedicineControllerTest {
         medicineService = new MedicineService(medicineRepo);
         medicineController = new MedicineController(medicineService);
         commandProvider = new CommandProviderImpl();
-        Builder DOMBuilder = MedicineBuilderFactory.getBuilder(ParserType.DOM);
+        Builder<Medicine> DOMBuilder = MedicineBuilderFactory.getBuilder(ParserType.DOM);
         Command<Medicine> DOMParseCommand = new DOMMedicineParseCommand(DOMBuilder);
-        Builder SAXBuilder = MedicineBuilderFactory.getBuilder(ParserType.SAX);
+        Builder<Medicine> SAXBuilder = MedicineBuilderFactory.getBuilder(ParserType.SAX);
         Command<Medicine> SAXParseCommand = new SAXMedicineParseCommand(SAXBuilder);
         commandProvider.addCommand(CommandType.DOM_PARSE_COMMAND, DOMParseCommand);
         commandProvider.addCommand(CommandType.SAX_PARSE_COMMAND, SAXParseCommand);
