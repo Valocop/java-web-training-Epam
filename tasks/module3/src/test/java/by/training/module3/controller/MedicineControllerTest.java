@@ -36,8 +36,11 @@ public class MedicineControllerTest {
         Command<Medicine> DOMParseCommand = new DOMMedicineParseCommand(DOMBuilder);
         Builder<Medicine> SAXBuilder = MedicineBuilderFactory.getBuilder(ParserType.SAX);
         Command<Medicine> SAXParseCommand = new SAXMedicineParseCommand(SAXBuilder);
+        Builder<Medicine> StAXBuilder = MedicineBuilderFactory.getBuilder(ParserType.StAX);
+        Command<Medicine> StAXParseCommand = new StAXMedicineParseCommand(StAXBuilder);
         commandProvider.addCommand(CommandType.DOM_PARSE_COMMAND, DOMParseCommand);
         commandProvider.addCommand(CommandType.SAX_PARSE_COMMAND, SAXParseCommand);
+        commandProvider.addCommand(CommandType.StAX_PARSE_COMMAND, StAXParseCommand);
     }
 
     @Test
@@ -76,6 +79,21 @@ public class MedicineControllerTest {
         String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
         String XSDPath = Paths.get("src", "main", "resources", "medicine.xsd").toString();
         medicineController.execute(commandProvider, CommandType.DOM_PARSE_COMMAND, XMLPath, XSDPath);
+        List<Medicine> expectMedicines = medicineService.getAll();
+        Medicine expectAnalgin = expectMedicines.get(0);
+        Assert.assertEquals(expectAnalgin.getId(), 12321342);
+        Assert.assertEquals(expectAnalgin.getType(), MedicineType.PAIN_MEDICATION);
+        Assert.assertEquals(expectAnalgin.getVersion(), MedicineVersion.PILL);
+        Assert.assertEquals(expectAnalgin.getAnalogs(), Arrays.asList("Andifen", "Baralgetas"));
+        Assert.assertEquals(expectAnalgin.getPharms().size(), 2);
+        Assert.assertEquals(expectMedicines.size(), 5);
+    }
+
+    @Test
+    public void shouldParseXMLByStAX() {
+        String XMLPath = Paths.get("src", "test", "resources", "medicineValid.xml").toString();
+        String XSDPath = Paths.get("src", "main", "resources", "medicine.xsd").toString();
+        medicineController.execute(commandProvider, CommandType.StAX_PARSE_COMMAND, XMLPath, XSDPath);
         List<Medicine> expectMedicines = medicineService.getAll();
         Medicine expectAnalgin = expectMedicines.get(0);
         Assert.assertEquals(expectAnalgin.getId(), 12321342);
