@@ -12,6 +12,8 @@ public final class MedicineBuilderFactory {
                 return new MedicineDOMBuilder();
             case SAX:
                 return new MedicineSAXBuilder();
+            case StAX:
+                return new MedicineStAXBuilder();
             default:
                 throw new IllegalArgumentException("Builder not found.");
         }
