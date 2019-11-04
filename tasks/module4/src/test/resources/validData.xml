@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ships>
+    <ship ship-id="247429024" ship-name="Ship # 1">
+        <capacity>15</capacity>
+        <containers>
+            <container container-id="9837572" container-name="Container #1"/>
+            <container container-id="6789756" container-name="Container #2"/>
+            <container container-id="1765678" container-name="Container #3"/>
+            <container container-id="5894567" container-name="Container #4"/>
+            <container container-id="6789765" container-name="Container #5"/>
+            <container container-id="6788654" container-name="Container #6"/>
+        </containers>
+    </ship>
+    <ship ship-id="876556787" ship-name="Ship # 2">
+        <capacity>25</capacity>
+        <containers>
+            <container container-id="767894567" container-name="Container #7"/>
+            <container container-id="987456798" container-name="Container #8"/>
+            <container container-id="176567878" container-name="Container #9"/>
+            <container container-id="5895674567" container-name="Container #10"/>
+            <container container-id="678943765" container-name="Container #11"/>
+            <container container-id="678348654" container-name="Container #12"/>
+            <container container-id="1765657878" container-name="Container #13"/>
+            <container container-id="589521567" container-name="Container #14"/>
+            <container container-id="6654943765" container-name="Container #15"/>
+            <container container-id="67834455454" container-name="Container #16"/>
+        </containers>
+    </ship>
+    <ship ship-id="87658765787" ship-name="Ship # 3">
+        <capacity>20</capacity>
+        <containers>
+            <container container-id="7678998767" container-name="Container #17"/>
+            <container container-id="987465798" container-name="Container #18"/>
+            <container container-id="176567678" container-name="Container #19"/>
+            <container container-id="58987674567" container-name="Container #20"/>
+            <container container-id="678965765" container-name="Container #21"/>
+            <container container-id="678300654" container-name="Container #22"/>
+            <container container-id="176576878" container-name="Container #23"/>
+            <container container-id="589661567" container-name="Container #24"/>
+            <container container-id="6654987765" container-name="Container #25"/>
+            <container container-id="6783448354" container-name="Container #26"/>
+        </containers>
+    </ship>
+    <ship ship-id="877654787" ship-name="Ship # 4">
+        <capacity>30</capacity>
+        <containers>
+            <container container-id="764498767" container-name="Container #27"/>
+            <container container-id="987477798" container-name="Container #28"/>
+            <container container-id="1768765478" container-name="Container #29"/>
+            <container container-id="58767674567" container-name="Container #30"/>
+            <container container-id="67809765" container-name="Container #31"/>
+            <container container-id="6783765434" container-name="Container #32"/>
+            <container container-id="1987656878" container-name="Container #33"/>
+            <container container-id="576561567" container-name="Container #34"/>
+            <container container-id="66765765" container-name="Container #35"/>
+            <container container-id="67834487654" container-name="Container #36"/>
+            <container container-id="8765561567" container-name="Container #37"/>
+            <container container-id="6686765" container-name="Container #38"/>
+            <container container-id="6783245654" container-name="Container #39"/>
+        </containers>
+    </ship>
+    <ship ship-id="877654787" ship-name="Ship # 5">
+        <capacity>35</capacity>
+        <containers>
+            <container container-id="523474567" container-name="Container #40"/>
+            <container container-id="6985465" container-name="Container #41"/>
+            <container container-id="67838765434" container-name="Container #42"/>
+            <container container-id="1987568778" container-name="Container #43"/>
+            <container container-id="57876541567" container-name="Container #44"/>
+            <container container-id="68765765" container-name="Container #45"/>
+            <container container-id="6987487654" container-name="Container #46"/>
+            <container container-id="87687651567" container-name="Container #47"/>
+            <container container-id="676546765" container-name="Container #48"/>
+            <container container-id="6098245654" container-name="Container #49"/>
+            <container container-id="609824764" container-name="Container #50"/>
+        </containers>
+    </ship>
+</ships>
