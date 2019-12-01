@@ -53,8 +53,7 @@ public final class PoolConnection implements Cloneable, Serializable {
 
     public void init() throws DaoException {
         Properties properties = new Properties();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("db.properties");
-        try {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             properties.load(inputStream);
             DriverManager.registerDriver(new org.postgresql.Driver());
         } catch (SQLException | IOException e) {
@@ -75,6 +74,8 @@ public final class PoolConnection implements Cloneable, Serializable {
         try {
             connection = freeConnectionQueue.take();
             busyConnectionQueue.put(connection);
+            log.info("Connection getting from pool");
+            log.info("Size of free connections = " + freeConnectionQueue.size());
         } catch (InterruptedException e) {
             throw new DaoException(e);
         }
@@ -93,6 +94,8 @@ public final class PoolConnection implements Cloneable, Serializable {
         if (busyConnectionQueue.remove(connection)) {
             try {
                 freeConnectionQueue.put(connection);
+                log.info("Connection putting to pool");
+                log.info("Size of free connections = " + freeConnectionQueue.size());
             } catch (InterruptedException e) {
                 throw new DaoException(e);
             }
