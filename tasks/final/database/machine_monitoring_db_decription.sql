@@ -134,3 +134,84 @@ alter table characteristic
 
 create unique index characteristic_id_uindex
     on characteristic (id);
+
+-- Create table machine
+create table machine
+(
+    id                bigserial    not null
+        constraint machine_pk
+            primary key,
+    uniq_code         varchar(100) not null,
+    model_id          bigint       not null
+        constraint machine_machine_model_id_fk
+            references machine_model,
+    characteristic_id bigint       not null
+        constraint machine_characteristic_id_fk
+            references characteristic,
+    manufacture_id    bigint       not null
+        constraint machine_manufacture_id_fk
+            references manufacture
+);
+
+alter table machine
+    owner to valocop;
+
+create unique index machine_id_uindex
+    on machine (id);
+
+create unique index machine_uniq_code_uindex
+    on machine (uniq_code);
+
+-- Create table machine_log
+create table machine_monitoring_schema.machine_log
+(
+	id BIGSERIAL not null,
+	date date not null,
+	fuel_level decimal not null,
+	oil_pressure decimal not null,
+	oil_level decimal not null,
+	coolant_temp decimal not null,
+	machine_id bigint not null
+		constraint machine_log_machine_id_fk
+			references machine_monitoring_schema.machine
+);
+
+create unique index machine_log_id_uindex
+	on machine_monitoring_schema.machine_log (id);
+
+alter table machine_monitoring_schema.machine_log
+	add constraint machine_log_pk
+		primary key (id);
+
+-- Create table machine_error
+create table machine_monitoring_schema.machine_error
+(
+    id         bigserial    not null
+        constraint machine_error_pk
+            primary key,
+    date       date         not null,
+    error_code varchar(200) not null,
+    machine_id bigint       not null
+        constraint machine_error_machine_id_fk
+            references machine_monitoring_schema.machine
+);
+
+alter table machine_monitoring_schema.machine_error
+    owner to valocop;
+
+create unique index machine_error_id_uindex
+    on machine_monitoring_schema.machine_error (id);
+
+-- Create table user_machine
+create table machine_monitoring_schema.user_machine
+(
+	user_id BIGINT not null
+		constraint user_machine_user_account_id_fk
+			references machine_monitoring_schema.user_account,
+	machine_id BIGINT not null
+		constraint user_machine_machine_id_fk
+			references machine_monitoring_schema.machine
+);
+
+
+
