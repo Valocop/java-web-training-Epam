@@ -31,18 +31,25 @@ and ApplicationConstant.SECURITY_SERVICE.containRole(pageContext.request.session
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
             <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons"
                                                        role="presentation">home</i><fmt:message key="home.msg"/></a>
-            <a class="mdl-navigation__link" onclick="document.getElementById('submit-viewUserList').click()">
+            <a class="mdl-navigation__link" onclick="document.getElementById('submit-showListCars').click()">
                 <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">airport_shuttle</i>
                 <fmt:message key="auto.list.msg"/>
             </a>
             <form method="get" action="${pageContext.request.contextPath}/app">
-                <input type="text" name="commandName" value="viewUserList" hidden="hidden">
-                <input id="submit-viewUserList" type="submit" hidden="hidden">
+                <input type="text" name="commandName" value="showListCars" hidden="hidden">
+                <input id="submit-showListCars" type="submit" hidden="hidden">
             </form>
             <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-                                                       role="presentation">build</i><fmt:message key="services.list.msg"/></a>
-            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-                                                       role="presentation">add_circle_outline</i><fmt:message key="add.car.msg"/></a>
+                                                       role="presentation">build</i><fmt:message
+                    key="services.list.msg"/></a>
+            <a class="mdl-navigation__link" onclick="document.getElementById('submit-addcar').click()">
+                <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add_circle_outline</i>
+                <fmt:message key="add.car.msg"/>
+                <form method="get" action="${pageContext.request.contextPath}/app">
+                    <input type="text" name="commandName" value="showAddMachine" hidden="hidden">
+                    <input id="submit-addcar" type="submit" hidden="hidden">
+                </form>
+            </a>
             <div class="mdl-layout-spacer"></div>
             <a id="user-logout" class="mdl-navigation__link" onclick="document.getElementById('submit-logout').click()">
                 <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">power_settings_new</i>
