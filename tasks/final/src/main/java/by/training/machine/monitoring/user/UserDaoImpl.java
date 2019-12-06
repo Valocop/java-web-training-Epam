@@ -18,9 +18,11 @@ public class UserDaoImpl implements UserDao {
     private static final String SELECT_BY_ID_QUERY = "select id, login, password, email, name, address, tel, picture from machine_monitoring_schema.user_account where id = ?";
     private static final String SELECT_BY_LOGIN_QUERY = "select id, login, password, email, name, address, tel, picture from machine_monitoring_schema.user_account where login = ?";
     private static final String INSERT_QUERY = "insert into machine_monitoring_schema.user_account (login, password, email, name, address, tel, picture) values (?,?,?,?,?,?,?)";
-//    private static final String UPDATE_QUERY = "update machine_monitoring_schema.user_account set login=?, password=?, email=?, name=?, address=?, tel=?, picture=? where id = ?";
     private static final String UPDATE_QUERY = "update machine_monitoring_schema.user_account set login=?, email=?, name=?, address=?, tel=? where id = ?";
     private static final String DELETE_QUERY = "delete from machine_monitoring_schema.user_account where id = ?";
+    //language=PostgreSQL
+    private static final String SELECT_USERS_BY_MACHINE_ID = "SELECT id, login, password, email, name, address, tel, picture FROM machine_monitoring.machine_monitoring_schema.user_account " +
+            "INNER JOIN machine_monitoring.machine_monitoring_schema.user_machine ON user_account.id = user_machine.user_id WHERE machine_id = ?";
 
     private ConnectionManager connectionManager;
 
@@ -43,6 +45,23 @@ public class UserDaoImpl implements UserDao {
             throw new DaoSqlException(e);
         }
         return result.stream().map(this::fromEntity).findFirst();
+    }
+
+    @Override
+    public List<UserDto> getUsersByMachineId(Long machineId) throws DaoException {
+        List<UserEntity> result = new ArrayList<>();
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement selectStmt = connection.prepareStatement(SELECT_USERS_BY_MACHINE_ID)) {
+            selectStmt.setLong(1, machineId);
+            ResultSet resultSet = selectStmt.executeQuery();
+            while (resultSet.next()) {
+                UserEntity entity = parseResultSet(resultSet);
+                result.add(entity);
+            }
+        } catch (SQLException e) {
+            throw new DaoSqlException(e);
+        }
+        return result.stream().map(this::fromEntity).collect(Collectors.toList());
     }
 
     @Override
@@ -76,12 +95,12 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement updateStmt = connection.prepareStatement(UPDATE_QUERY)) {
             int i = 0;
             updateStmt.setString(++i, entity.getLogin());
-//            updateStmt.setString(++i, entity.getPassword());
+            updateStmt.setString(++i, entity.getPassword());
             updateStmt.setString(++i, entity.getEmail());
             updateStmt.setString(++i, entity.getName());
             updateStmt.setString(++i, entity.getAddress());
             updateStmt.setString(++i, entity.getTel());
-//            updateStmt.setBytes(++i, entity.getPicture());
+            updateStmt.setBytes(++i, entity.getPicture());
             updateStmt.setLong(++i, entity.getId());
             return updateStmt.executeUpdate() > 0;
         } catch (SQLException e) {

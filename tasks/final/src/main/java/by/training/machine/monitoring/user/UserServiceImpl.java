@@ -121,4 +121,13 @@ public class UserServiceImpl implements UserService {
     public boolean updateUser(UserDto userDto, String roleName) throws DaoException {
         return userDao.update(userDto) && roleService.updateAssignUserRole(userDto.getId(), roleName);
     }
+
+    @Override
+    public List<UserDto> getUsersByMachineId(Long machineId) {
+        try {
+            return userDao.getUsersByMachineId(machineId);
+        } catch (DaoException e) {
+            return new ArrayList<>();
+        }
+    }
 }

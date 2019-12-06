@@ -14,4 +14,5 @@ public interface UserService {
     List<UserRoleDto> getAllUsersWithRoles();
     boolean updateUser(UserDto userDto);
     boolean updateUser(UserDto userDto, String roleName) throws DaoException;
+    List<UserDto> getUsersByMachineId(Long machineId);
 }
