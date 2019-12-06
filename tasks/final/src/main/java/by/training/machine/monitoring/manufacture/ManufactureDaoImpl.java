@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Bean
 @AllArgsConstructor
@@ -19,7 +20,9 @@ public class ManufactureDaoImpl implements ManufactureDao {
     //language=PostgreSQL
     private static final String UPDATE_MANUFACTURE = "UPDATE machine_monitoring.machine_monitoring_schema.manufacture SET name = ?, user_id = ? WHERE id = ?";
     //language=PostgreSQL
-    private static final String SELECT_MANUFACTURE_BY_ID = "SELECT id, name, user_id FROM machine_monitoring.machine_monitoring_schema.manufacture WHERE user_id = ?";
+    private static final String SELECT_MANUFACTURE_BY_USER_ID = "SELECT id, name, user_id FROM machine_monitoring.machine_monitoring_schema.manufacture WHERE user_id = ?";
+    //language=PostgreSQL
+    private static final String SELECT_MANUFACTURE_BY_ID = "SELECT id, name, user_id FROM machine_monitoring.machine_monitoring_schema.manufacture WHERE id = ?";
     //language=PostgreSQL
     private static final String DELETE_MANUFACTURE_BY_ID = "DELETE FROM machine_monitoring.machine_monitoring_schema.manufacture WHERE id = ?";
     private ConnectionManager connectionManager;
@@ -86,7 +89,25 @@ public class ManufactureDaoImpl implements ManufactureDao {
         return manufactureEntities.stream()
                 .map(this::fromEntity)
                 .findFirst()
-                .orElseThrow(() -> new DaoException("Failed to get by id manufacture"));
+                .orElseThrow(() -> new DaoException("Failed to get manufacture by id"));
+    }
+
+    @Override
+    public Optional<ManufactureDto> getByUserId(Long userId) throws DaoException {
+        List<ManufactureEntity> manufactureEntities = new ArrayList<>();
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(SELECT_MANUFACTURE_BY_USER_ID)) {
+            stmt.setLong(1, userId);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                manufactureEntities.add(parseResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to get manufacture by user id", e);
+        }
+        return manufactureEntities.stream()
+                .map(this::fromEntity)
+                .findFirst();
     }
 
     @Override

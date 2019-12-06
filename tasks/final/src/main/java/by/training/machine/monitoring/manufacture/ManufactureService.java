@@ -1,6 +1,9 @@
 package by.training.machine.monitoring.manufacture;
 
+import java.util.Optional;
+
 public interface ManufactureService {
     boolean saveManufacture(ManufactureDto modelDto);
-    ManufactureDto getManufacture(Long userId);
+    Optional<ManufactureDto> getManufacture(Long Id);
+    Optional<ManufactureDto> getManufactureByUserId(Long userId);
 }

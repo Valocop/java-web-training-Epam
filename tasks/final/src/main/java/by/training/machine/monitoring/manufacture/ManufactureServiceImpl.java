@@ -6,6 +6,8 @@ import by.training.machine.monitoring.dao.TransactionSupport;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+import java.util.Optional;
+
 @Bean
 @Log4j
 @TransactionSupport
@@ -24,12 +26,22 @@ public class ManufactureServiceImpl implements ManufactureService {
     }
 
     @Override
-    public ManufactureDto getManufacture(Long userId) {
+    public Optional<ManufactureDto> getManufacture(Long Id) {
         try {
-            return manufactureDao.getById(userId);
+            return Optional.ofNullable(manufactureDao.getById(Id));
         } catch (DaoException e) {
-            log.error("Fail to get manufacture by user id", e);
-            return null;
+            log.error("Fail to get manufacture by id", e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<ManufactureDto> getManufactureByUserId(Long userId) {
+        try {
+            return manufactureDao.getByUserId(userId);
+        } catch (DaoException e) {
+            log.error("Failed to get manufacture by user id");
+            return Optional.empty();
         }
     }
 
