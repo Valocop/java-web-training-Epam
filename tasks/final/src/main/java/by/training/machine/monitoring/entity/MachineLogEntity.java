@@ -5,14 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MachineEntity {
+public class MachineLogEntity {
     private Long id;
-    private String uniqCode;
-    private Long modelId;
-    private Long characteristicId;
-    private Long manufactureId;
+    private Date date;
+    private Double fuelLevel;
+    private Double oilPressure;
+    private Double oilLevel;
+    private Double coolantTemp;
+    private Long machineId;
 }
