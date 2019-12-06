@@ -10,5 +10,7 @@ public class ApplicationConstant {
     public static final List<String> ROLES = Arrays.asList(DEFAULT_ROLE, ADMIN_ROLE, MANUFACTURER_ROLE);
     public static final SecurityService SECURITY_SERVICE = SecurityService.getInstance();
     public static final String VIEW_ALL_USERS_CMD = "viewUserList";
+    public static final String SHOW_ADD_MACHINE_CMD = "showAddMachine";
+    public static final String SHOW_LIST_MACHINES_CMD = "showListCars";
     public static String LANGUAGE = "EN";
 }

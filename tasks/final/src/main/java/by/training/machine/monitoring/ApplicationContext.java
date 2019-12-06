@@ -6,6 +6,7 @@ import by.training.machine.monitoring.characteristic.CharacteristicServiceImpl;
 import by.training.machine.monitoring.core.BeanProvider;
 import by.training.machine.monitoring.core.BeanProviderImpl;
 import by.training.machine.monitoring.dao.*;
+import by.training.machine.monitoring.machine.*;
 import by.training.machine.monitoring.manufacture.ManufactureDaoImpl;
 import by.training.machine.monitoring.manufacture.ManufactureServiceImpl;
 import by.training.machine.monitoring.message.MessageManager;
@@ -108,6 +109,13 @@ public class ApplicationContext implements BeanProvider {
         registerBean(AddCharacteristicCommand.class);
         registerBean(CharacteristicDaoImpl.class);
         registerBean(CharacteristicServiceImpl.class);
+        registerBean(ShowAddMachineCommand.class);
+        registerBean(MachineServiceImpl.class);
+        registerBean(SaveMachineCommand.class);
+        registerBean(MachineDaoImpl.class);
+        registerBean(ShowListCarsCommand.class);
+        registerBean(MachineErrorDaoImpl.class);
+        registerBean(MachineLogDaoImpl.class);
     }
 
     @Override
