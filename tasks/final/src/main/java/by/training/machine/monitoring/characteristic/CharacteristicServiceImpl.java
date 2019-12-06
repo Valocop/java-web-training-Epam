@@ -3,6 +3,7 @@ package by.training.machine.monitoring.characteristic;
 import by.training.machine.monitoring.core.Bean;
 import by.training.machine.monitoring.dao.DaoException;
 import by.training.machine.monitoring.dao.TransactionSupport;
+import by.training.machine.monitoring.dao.Transactional;
 import by.training.machine.monitoring.entity.UserEntity;
 import by.training.machine.monitoring.model.ModelService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     private ModelService modelService;
 
     @Override
+    @Transactional
     public boolean saveCharacteristic(CharacteristicDto characteristicDto) {
         try {
             return characteristicDao.save(characteristicDto) > 0;

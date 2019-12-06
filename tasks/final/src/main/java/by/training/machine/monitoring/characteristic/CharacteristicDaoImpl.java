@@ -128,6 +128,7 @@ public class CharacteristicDaoImpl implements CharacteristicDao {
         List<CharacteristicEntity> characteristicEntities = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_CHARACTERISTIC_BY_MANUFACTURE_ID)) {
+            stmt.setLong(1, manufactureId);
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
                 CharacteristicEntity characteristicEntity = parseResultSet(resultSet);
@@ -170,7 +171,7 @@ public class CharacteristicDaoImpl implements CharacteristicDao {
         String fuelType = resultSet.getString("fuel_type");
         String engineVolume = resultSet.getString("engine_volume");
         String transmission = resultSet.getString("transmission");
-        Long manufactureId = resultSet.getLong("manufacture_id");
+        Long manufactureId = resultSet.getLong("manufacturer_id");
         return CharacteristicEntity.builder()
                 .id(id)
                 .price(price)
