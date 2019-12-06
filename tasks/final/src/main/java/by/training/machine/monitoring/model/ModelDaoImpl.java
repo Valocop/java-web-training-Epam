@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Bean
@@ -23,6 +24,8 @@ public class ModelDaoImpl implements ModelDao {
     private static final String UPDATE_MODEL = "UPDATE machine_monitoring.machine_monitoring_schema.machine_model SET name = ?, release_date = ?, picture = ?, description = ?, manufacture_id = ? WHERE id = ?";
     //language=PostgreSQL
     private static final String SELECT_MODEL_BY_ID = "SELECT id, name, release_date, picture, description, manufacture_id FROM machine_monitoring.machine_monitoring_schema.machine_model WHERE id = ?";
+    //language=PostgreSQL
+    private static final String SELECT_MODEL_BY_MANUFACTURE_ID = "SELECT id, name, release_date, picture, description, manufacture_id FROM machine_monitoring.machine_monitoring_schema.machine_model WHERE manufacture_id = ?";
     //language=PostgreSQL
     private static final String SELECT_ALL_MODELS = "SELECT id, name, release_date, picture, description, manufacture_id FROM machine_monitoring.machine_monitoring_schema.machine_model";
     private ConnectionManager connectionManager;
@@ -79,6 +82,25 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
+    public List<ModelDto> getModelByManufactureId(Long manufactureId) throws DaoException {
+        List<ModelEntity> modelEntities = new ArrayList<>();
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(SELECT_MODEL_BY_MANUFACTURE_ID)) {
+            stmt.setLong(1, manufactureId);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                ModelEntity modelEntity = parseResultSet(resultSet);
+                modelEntities.add(modelEntity);
+            }
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to get model by manufacture id", e);
+        }
+        return modelEntities.stream()
+                .map(ModelUtil::fromModelEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public ModelDto getById(Long id) throws DaoException {
         List<ModelEntity> modelEntities = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection();
@@ -95,7 +117,7 @@ public class ModelDaoImpl implements ModelDao {
         return modelEntities.stream()
                 .map(ModelUtil::fromModelEntity)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Failed to get model by id"));
+                .orElseThrow(() -> new DaoException("Failed to get model by id"));
     }
 
     @Override
@@ -103,11 +125,11 @@ public class ModelDaoImpl implements ModelDao {
         List<ModelEntity> modelEntities = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_ALL_MODELS)) {
-                ResultSet resultSet = stmt.executeQuery();
-                while (resultSet.next()) {
-                    ModelEntity modelEntity = parseResultSet(resultSet);
-                    modelEntities.add(modelEntity);
-                }
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                ModelEntity modelEntity = parseResultSet(resultSet);
+                modelEntities.add(modelEntity);
+            }
         } catch (SQLException e) {
             throw new DaoSqlException("Failed to find all models", e);
         }
@@ -119,8 +141,8 @@ public class ModelDaoImpl implements ModelDao {
         String name = resultSet.getString("name");
         java.util.Date date = new java.util.Date(resultSet.getDate("release_date").getTime());
         byte[] picture = resultSet.getBytes("picture");
-        Long userId = resultSet.getLong("user_id");
         String description = resultSet.getString("description");
+        Long userId = resultSet.getLong("manufacture_id");
         return ModelEntity.builder()
                 .id(id)
                 .name(name)

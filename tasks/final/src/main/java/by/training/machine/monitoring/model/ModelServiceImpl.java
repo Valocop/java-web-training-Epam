@@ -9,6 +9,10 @@ import by.training.machine.monitoring.manufacture.ManufactureService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Bean
 @Log4j
 @TransactionSupport
@@ -18,6 +22,7 @@ public class ModelServiceImpl implements ModelService {
     private ManufactureService manufactureService;
 
     @Override
+    @Transactional
     public boolean saveModel(ModelDto modelDto) {
         try {
             return modelDao.save(modelDto) > 0;
@@ -28,14 +33,31 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelDto getModel(Long userId) throws DaoException {
-        return modelDao.getById(userId);
+    public ModelDto getModel(Long modelId) throws DaoException {
+        return modelDao.getById(modelId);
+    }
+
+    @Override
+    @Transactional
+    public List<ModelDto> getModelByUserId(Long userId) {
+        Optional<ManufactureDto> manufactureByUserId = manufactureService.getManufactureByUserId(userId);
+        if (manufactureByUserId.isPresent()) {
+            Long manufactureId = manufactureByUserId.get().getId();
+            try {
+                return modelDao.getModelByManufactureId(manufactureId);
+            } catch (DaoException e) {
+                log.error("Failed to get model by user id");
+                return new ArrayList<>();
+            }
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     @Override
     @Transactional
     public boolean assignModelManufacture(Long userId, String nameUser) {
-        if (manufactureService.getManufacture(userId) != null) {
+        if (manufactureService.getManufactureByUserId(userId).isPresent()) {
             return true;
         }
         else {
@@ -48,9 +70,11 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ManufactureDto getManufactureByUserId(Long userId) {
-        return manufactureService.getManufacture(userId);
+    public List<ModelDto> getModelByManufacture(Long manufactureId) {
+        try {
+            return modelDao.getModelByManufactureId(manufactureId);
+        } catch (DaoException e) {
+            return new ArrayList<>();
+        }
     }
-
-
 }
