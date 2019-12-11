@@ -67,6 +67,7 @@
             </c:if>>
         <div class="mdl-layout__header-row">
             <%@include file="views/signInUpView.jsp" %>
+            <%@include file="views/deleteMachineView.jsp" %>
             <span class="mdl-layout-title">Home</span>
             <div class="mdl-layout-spacer"></div>
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">

@@ -79,4 +79,17 @@ public class MachineServiceImpl implements MachineService {
         }
     }
 
+    @Override
+    @Transactional
+    public boolean delMachineByManufacture(Long machineId, Long manufactureId) {
+        try {
+            machineDao.delAssignUserMachine(machineId);
+            machineLogDao.delByMachineId(machineId);
+            machineErrorDao.delByMachineId(machineId);
+            return machineDao.delByManufactureAndMachine(manufactureId, machineId);
+        } catch (DaoException e) {
+            log.error("Failed ti delete machine", e);
+            return false;
+        }
+    }
 }

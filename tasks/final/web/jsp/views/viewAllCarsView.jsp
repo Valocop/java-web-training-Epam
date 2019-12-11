@@ -57,91 +57,103 @@ and pageContext.findAttribute('commandName').equalsIgnoreCase('showListCars')}">
                                  style="width:100%;max-width: 120px;max-height: 120px;">
                         </div>
                         <div class="mdl-cell--top mdl-cell--3-col" style="padding: 5px;">
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="model.name.msg"/>:
-                                </span>
-                                ${machine.modelDto.name}
-                            </span>
-                            </li>
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="model.release.date"/>:
-                                </span>
-                                <fmt:formatDate value="${machine.modelDto.releaseDate}" type="DATE"/>
-                            </span>
-                            </li>
-
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="characteristic.fuel.type"/>:
-                                </span>
-                                ${machine.characteristicDto.fuelType}
-                            </span>
-                            </li>
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="characteristic.engine.volume.msg"/>:
-                                </span>
-                               ${machine.characteristicDto.engineVolume}
-                            </span>
-                            </li>
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="characteristic.transmission.msg"/>:
-                                </span>
-                                ${machine.characteristicDto.transmission}
-                            </span>
-                            </li>
-
-
+                            <div class="mdl-grid" style="padding: 2px;">
+                                <div class="mdl-cell--top mdl-cell--2-col" style="width: max-content;">
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="model.name.msg"/>:
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="model.release.date"/>:
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="characteristic.fuel.type"/>:
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="characteristic.engine.volume.msg"/>:
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="characteristic.transmission.msg"/>:
+                                    </span>
+                                </div>
+                                <div class="mdl-cell--top mdl-cell--1-col" style="width: max-content;">
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                            ${machine.modelDto.name}
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                        <fmt:formatDate value="${machine.modelDto.releaseDate}" type="DATE"/>
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                            ${machine.characteristicDto.fuelType}
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                            ${machine.characteristicDto.engineVolume}
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                            ${machine.characteristicDto.transmission}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="mdl-cell--top mdl-cell--4-col">
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="log.fuel.level.msg"/>:
-                                </span>
-                                <c:if test="${not empty machine.machineLogsList}">
-                                    ${machine.machineLogsList.get(0).fuelLevel}
-                                </c:if>
-                            </span>
-                            </li>
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="log.oil.pressure.msg"/>:
-                                </span>
-                                <c:if test="${not empty machine.machineLogsList}">
-                                    ${machine.machineLogsList.get(0).oilPressure}
-                                </c:if>
-                            </span>
-                            </li>
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="log.oil.level"/>:
-                                </span>
-                                <c:if test="${not empty machine.machineLogsList}">
-                                    ${machine.machineLogsList.get(0).oilLevel}
-                                </c:if>
-                            </span>
-                            </li>
-                            <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
-                            <span class="mdl-list__item-primary-content">
-                                <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;color: #a2a4a2;">
-                                    <fmt:message key="log.coolant.tempr.msg"/>:
-                                </span>
-                                <c:if test="${not empty machine.machineLogsList}">
-                                    ${machine.machineLogsList.get(0).coolantTemp}
-                                </c:if>
-                            </span>
-                            </li>
+
+
+                            <div class="mdl-grid" style="padding: 2px;">
+                                <div class="mdl-cell--top mdl-cell--2-col" style="width: max-content;">
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="log.fuel.level.msg"/>:
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="log.oil.pressure.msg"/>:
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="log.oil.level"/>:
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;color: #a2a4a2;margin-bottom: 10px;">
+                                        <fmt:message key="log.coolant.tempr.msg"/>:
+                                    </span>
+                                </div>
+                                <div class="mdl-cell--top mdl-cell--2-col" style="width: max-content;">
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                        <c:if test="${not empty machine.machineLogsList}">
+                                            ${machine.machineLogsList.get(0).fuelLevel}
+                                        </c:if>
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                        <c:if test="${not empty machine.machineLogsList}">
+                                            ${machine.machineLogsList.get(0).oilPressure}
+                                        </c:if>
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                        <c:if test="${not empty machine.machineLogsList}">
+                                            ${machine.machineLogsList.get(0).oilLevel}
+                                        </c:if>
+                                    </span>
+                                    <span class="mdl-layout-title"
+                                          style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                        <c:if test="${not empty machine.machineLogsList}">
+                                            ${machine.machineLogsList.get(0).coolantTemp}
+                                        </c:if>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="mdl-cell--top mdl-cell--3-col" style="padding: 2px;">
                             <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
@@ -149,22 +161,35 @@ and pageContext.findAttribute('commandName').equalsIgnoreCase('showListCars')}">
                                 <i class="material-icons mdl-list__item-icon" style="margin-right: 10px;">
                                     person
                                 </i>
-                                <c:forEach items="${machine.usersList}" var="user">
-                                    ${user.name} ${user.email}
-                                </c:forEach>
+                                <span class="mdl-layout-title"
+                                      style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
+                                        <c:forEach items="${machine.usersList}" var="user">
+                                            ${user.name} ${user.email}
+                                        </c:forEach>
+                                </span>
                             </span>
                             </li>
                         </div>
+                        <form id="deleteForm" method="post" action="${pageContext.request.contextPath}/app">
+                            <input type="text" name="commandName" value="deleteMachine" hidden="hidden">
+                            <input id="inputId" type="text" name="machine.id" value="" hidden="hidden">
+                        </form>
                         <div class="mdl-cell--top mdl-cell--1-col" style="padding: 2px;">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
                                     style="background: rgba(38, 50, 56, 0.81);width: 100%;padding: 0px;margin: 3px;"
-                                    data-upgraded=",MaterialButton">
+                                    onclick="{
+                                        document.getElementById('inputId').value = ${machine.machineDto.id}
+                                        document.getElementById('modal-delete').style.display='block'
+                                    }">
                                 Delete
                             </button>
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                                    style="background: rgba(55, 71, 79, 0.68);width: 100%;padding: 0;margin: 3px;"
-                                    data-upgraded=",MaterialButton">
-                                Edit
+                                    style="background: rgba(181, 54, 54, 0.68);width: 100%;padding: 0;margin: 3px;">
+                                Errors
+                            </button>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                                    style="background: rgba(23, 86, 117, 0.68);width: 100%;padding: 0;margin: 3px;">
+                                Status
                             </button>
                         </div>
                     </div>

@@ -5,4 +5,5 @@ import java.util.List;
 public interface MachineService {
     boolean saveMachine(MachineDto machineDto);
     List<MachineInfoDto> getMachineInfo(Long manufactureId);
+    boolean delMachineByManufacture(Long machineId, Long manufactureId);
 }

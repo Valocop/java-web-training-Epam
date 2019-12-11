@@ -21,6 +21,10 @@ public class MachineDaoImpl implements MachineDao {
     //language=PostgreSQL
     private static final String DELETE_MACHINE = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine WHERE id = ?";
     //language=PostgreSQL
+    private static final String DELETE_MACHINE_BY_MANUFACTURE_AND_MACHINE = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine WHERE id = ? AND manufacture_id = ?";
+    //language=PostgreSQL
+    private static final String DELETE_MACHINE_AND_USER_ASSIGN = "DELETE FROM machine_monitoring.machine_monitoring_schema.user_machine WHERE machine_id = ?";
+    //language=PostgreSQL
     private static final String UPDATE_MACHINE = "UPDATE machine_monitoring.machine_monitoring_schema.machine SET uniq_code = ?, model_id = ?, characteristic_id = ?, manufacture_id = ? WHERE id = ?";
     //language=PostgreSQL
     private static final String SELECT_MACHINE_BY_ID = "SELECT id, uniq_code, model_id, characteristic_id, manufacture_id FROM machine_monitoring.machine_monitoring_schema.machine WHERE id = ?";
@@ -85,6 +89,8 @@ public class MachineDaoImpl implements MachineDao {
 
     @Override
     public MachineDto getById(Long id) throws DaoException {
+        List<Object> list = new ArrayList<>();
+        list.add(1);
         List<MachineEntity> machineEntities = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_MACHINE_BY_ID)) {
@@ -118,6 +124,29 @@ public class MachineDaoImpl implements MachineDao {
         return machineEntities.stream()
                 .map(this::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean delByManufactureAndMachine(Long manufactureId, Long machineId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(DELETE_MACHINE_BY_MANUFACTURE_AND_MACHINE)) {
+            stmt.setLong(1, machineId);
+            stmt.setLong(2, manufactureId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to delete machine", e);
+        }
+    }
+
+    @Override
+    public boolean delAssignUserMachine(Long machineId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(DELETE_MACHINE_AND_USER_ASSIGN)) {
+            stmt.setLong(1, machineId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to delete machine and user assign", e);
+        }
     }
 
     @Override

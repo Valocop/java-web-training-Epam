@@ -21,6 +21,8 @@ public class MachineErrorDaoImpl implements MachineErrorDao {
     //language=PostgreSQL
     private static final String DELETE_MACHINE_ERROR = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine_error WHERE id = ?";
     //language=PostgreSQL
+    private static final String DELETE_MACHINE_ERROR_BY_MACHINE_ID = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine_error WHERE machine_id = ?";
+    //language=PostgreSQL
     private static final String UPDATE_MACHINE_ERROR = "UPDATE machine_monitoring.machine_monitoring_schema.machine_error SET date = ?, error_code = ?, machine_id = ? WHERE id = ?";
     //language=PostgreSQL
     private static final String SELECT_MACHINE_ERROR_BY_ID = "SELECT id, date, error_code, machine_id FROM machine_monitoring.machine_monitoring_schema.machine_error WHERE id = ?";
@@ -46,6 +48,17 @@ public class MachineErrorDaoImpl implements MachineErrorDao {
         return machineErrorEntities.stream()
                 .map(this::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean delByMachineId(Long machineId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(DELETE_MACHINE_ERROR_BY_MACHINE_ID)) {
+            stmt.setLong(1, machineId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to delete machine error by machine Id", e);
+        }
     }
 
     @Override

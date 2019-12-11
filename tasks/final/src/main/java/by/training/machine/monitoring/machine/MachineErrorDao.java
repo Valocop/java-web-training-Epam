@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MachineErrorDao extends CRUDDao<MachineErrorDto, Long> {
     List<MachineErrorDto> getErrorsByMachineId(Long machineId) throws DaoException;
+    boolean delByMachineId(Long machineId) throws DaoException;
 }

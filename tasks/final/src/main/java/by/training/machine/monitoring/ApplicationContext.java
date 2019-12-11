@@ -116,6 +116,7 @@ public class ApplicationContext implements BeanProvider {
         registerBean(ShowListCarsCommand.class);
         registerBean(MachineErrorDaoImpl.class);
         registerBean(MachineLogDaoImpl.class);
+        registerBean(DeleteMachineCommand.class);
     }
 
     @Override

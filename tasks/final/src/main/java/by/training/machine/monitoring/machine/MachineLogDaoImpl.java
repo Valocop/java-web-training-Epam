@@ -21,6 +21,8 @@ public class MachineLogDaoImpl implements MachineLogDao {
     //language=PostgreSQL
     private static final String DELETE_MACHINE_LOG = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine_log WHERE id = ?";
     //language=PostgreSQL
+    private static final String DELETE_MACHINE_LOG_BY_MACHINE_ID = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine_log WHERE machine_id = ?";
+    //language=PostgreSQL
     private static final String UPDATE_MACHINE_LOG = "UPDATE machine_monitoring.machine_monitoring_schema.machine_log SET date = ?, fuel_level = ?, oil_pressure = ?, oil_level = ?, coolant_temp = ?, machine_id = ? WHERE id = ?";
     //language=PostgreSQL
     private static final String SELECT_MACHINE_LOG_BY_ID = "SELECT id, date, fuel_level, oil_pressure, oil_level, coolant_temp, machine_id FROM machine_monitoring.machine_monitoring_schema.machine_log WHERE id = ?";
@@ -46,6 +48,17 @@ public class MachineLogDaoImpl implements MachineLogDao {
         return machineLogEntities.stream()
                 .map(this::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean delByMachineId(Long machineId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(DELETE_MACHINE_LOG_BY_MACHINE_ID)) {
+            stmt.setLong(1, machineId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to delete machine log by machine id", e);
+        }
     }
 
     @Override
