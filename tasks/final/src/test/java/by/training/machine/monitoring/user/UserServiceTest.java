@@ -1,9 +1,7 @@
-package by.training.machine.monitoring.dao;
+package by.training.machine.monitoring.user;
 
-import by.training.machine.monitoring.ApplicationContext;
-import by.training.machine.monitoring.user.UserDao;
-import by.training.machine.monitoring.user.UserDto;
-import by.training.machine.monitoring.user.UserService;
+import by.training.machine.monitoring.app.ApplicationContext;
+import by.training.machine.monitoring.dao.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,56 +10,43 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 
 @RunWith(JUnit4.class)
-public class UserDaoTest {
-    //language=PostgreSQL
-    private static String CREATE_TABLE = "CREATE TABLE machine_monitoring_schema.user_test (" +
-            " id BIGSERIAL UNIQUE NOT NULL PRIMARY KEY , " +
-            " login VARCHAR(40) NOT NULL UNIQUE, " +
-            " password VARCHAR NOT NULL, " +
-            " email VARCHAR(60) NOT NULL, " +
-            " name VARCHAR(100) NOT NULL, " +
-            " address VARCHAR(150) NOT NULL, " +
-            " tel VARCHAR(50) NOT NULL, " +
-            " picture bytea NOT NULL " +
-            " )";
-    //language=PostgreSQL
-    private static String DROP_TABLE = "DROP TABLE machine_monitoring_schema.user_test";
+public class UserServiceTest {
 
     @Before
     public void init() throws SQLException, DaoException {
         ApplicationContext.initialize();
-        executeSql(CREATE_TABLE);
     }
 
     @Test
-    public void shouldRegisterUserInTransaction() throws DaoException, SQLException {
+    public void shouldRegisterUserAndDelete() throws DaoException, SQLException {
         TransactionManager spyTransactionManager = spyFromBean();
         UserService userService = ApplicationContext.getInstance().getBean(UserService.class);
         Assert.assertNotNull(userService);
 
-        UserDto dto = UserDto.builder()
-                .login("Test")
-                .password("Test")
-                .email("Test@gmail.com")
-                .address("Minsk")
-                .name("Test")
-                .tel("+375333718398")
-                .picture(new byte[]{1, 2, 3})
-                .build();
-        boolean registred = userService.registerUser(dto);
-        Assert.assertTrue(registred);
-
-        List<UserDto> allUsers = userService.getAllUsers();
-        Assert.assertEquals(1, allUsers.size());
+        UserDto userDto = getTestUser();
+        boolean isUserRegister = userService.registerUser(userDto);
+        Assert.assertTrue(isUserRegister);
+        UserDto userDtoSave = userService.getByLogin("Test");
+        Assert.assertEquals(userDto.getName(), userDtoSave.getName());
         Mockito.verify(spyTransactionManager, Mockito.times(1)).beginTransaction();
         Mockito.verify(spyTransactionManager, Mockito.times(1)).commitTransaction();
-        Assert.assertEquals(PoolConnection.getInstance().getPoolSize(), PoolConnection.getInstance().getFreeConnections());
+        boolean isUserDeleted = userService.deleteUser(userDtoSave);
+        Assert.assertTrue(isUserDeleted);
+    }
+
+    private UserDto getTestUser() {
+        return UserDto.builder()
+                .login("Test")
+                .password("Test")
+                .email("Test")
+                .name("Test")
+                .address("Test")
+                .tel("Test")
+                .picture(new byte[]{1, 2, 3})
+                .build();
     }
 
     private TransactionManager spyFromBean() {
@@ -89,15 +74,6 @@ public class UserDaoTest {
 
     @After
     public void destroy() throws SQLException, DaoException {
-        executeSql(DROP_TABLE);
         ApplicationContext.getInstance().destroy();
-    }
-
-    private void executeSql(String sql) throws DaoException, SQLException {
-        DataSource dataSource = new DataSourceImpl();
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.executeUpdate();
-        }
     }
 }

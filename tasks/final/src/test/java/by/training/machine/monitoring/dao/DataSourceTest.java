@@ -1,6 +1,7 @@
 package by.training.machine.monitoring.dao;
 
 import lombok.extern.log4j.Log4j;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +22,13 @@ import java.util.concurrent.TimeUnit;
 @Log4j
 @RunWith(JUnit4.class)
 public class DataSourceTest {
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE machine_monitoring_schema.users (" +
-            "  id BIGSERIAL UNIQUE PRIMARY KEY ," +
-            "  name VARCHAR(30)," +
-            "  email  VARCHAR(50))";
-    private static final String INSERT_USER = "INSERT INTO machine_monitoring_schema.users (name, email) VALUES (?, ?)";
-    private static final String SELECT_USER = "SELECT * FROM machine_monitoring_schema.users WHERE name = (?) AND email = (?)";
-    private static final String DROP_TABLE = "DROP TABLE machine_monitoring_schema.users";
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE users (" +
+            "  id integer primary key," +
+            "  name varchar(30)," +
+            "  email  varchar(50))";
+    private static final String INSERT_USER = "INSERT INTO users (name, email) VALUES (?, ?)";
+    private static final String SELECT_USER = "SELECT * FROM users WHERE name = (?) AND email = (?)";
+    private static final String DROP_TABLE = "DROP TABLE users";
     private static final String USER_NAME = "Alex";
     private static final String EMAIL = "Alex@gmail.com";
 
@@ -61,7 +62,6 @@ public class DataSourceTest {
         } finally {
             connection.close();
         }
-
 
         connection = dataSource.getConnection();
         Assert.assertNotNull(connection);
@@ -107,7 +107,7 @@ public class DataSourceTest {
             try {
                 connection.close();
             } catch (SQLException e) {
-                log.warn("Can't close connection");
+                log.error("Can't close connection");
             }
         });
     }
