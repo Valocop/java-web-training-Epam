@@ -16,15 +16,15 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ManufactureDaoImpl implements ManufactureDao {
     //language=PostgreSQL
-    private static final String INSERT_MANUFACTURE = "INSERT INTO machine_monitoring.machine_monitoring_schema.manufacture (name, user_id) VALUES (?, ?)";
+    private static final String INSERT_MANUFACTURE = "INSERT INTO machine_monitoring_schema.manufacture (name, user_id) VALUES (?, ?)";
     //language=PostgreSQL
-    private static final String UPDATE_MANUFACTURE = "UPDATE machine_monitoring.machine_monitoring_schema.manufacture SET name = ?, user_id = ? WHERE id = ?";
+    private static final String UPDATE_MANUFACTURE = "UPDATE machine_monitoring_schema.manufacture SET name = ?, user_id = ? WHERE id = ?";
     //language=PostgreSQL
-    private static final String SELECT_MANUFACTURE_BY_USER_ID = "SELECT id, name, user_id FROM machine_monitoring.machine_monitoring_schema.manufacture WHERE user_id = ?";
+    private static final String SELECT_MANUFACTURE_BY_USER_ID = "SELECT id, name, user_id FROM machine_monitoring_schema.manufacture WHERE user_id = ?";
     //language=PostgreSQL
-    private static final String SELECT_MANUFACTURE_BY_ID = "SELECT id, name, user_id FROM machine_monitoring.machine_monitoring_schema.manufacture WHERE id = ?";
+    private static final String SELECT_MANUFACTURE_BY_ID = "SELECT id, name, user_id FROM machine_monitoring_schema.manufacture WHERE id = ?";
     //language=PostgreSQL
-    private static final String DELETE_MANUFACTURE_BY_ID = "DELETE FROM machine_monitoring.machine_monitoring_schema.manufacture WHERE id = ?";
+    private static final String DELETE_MANUFACTURE_BY_ID = "DELETE FROM machine_monitoring_schema.manufacture WHERE id = ?";
     private ConnectionManager connectionManager;
 
     @Override
