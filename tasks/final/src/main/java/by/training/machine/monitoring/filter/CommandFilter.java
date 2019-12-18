@@ -1,6 +1,7 @@
 package by.training.machine.monitoring.filter;
 
-import by.training.machine.monitoring.SecurityService;
+import by.training.machine.monitoring.app.ApplicationConstant;
+import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.entity.UserEntity;
 import by.training.machine.monitoring.entity.UserRole;
 import by.training.machine.monitoring.message.MessageManager;
@@ -66,7 +67,7 @@ public class CommandFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 log.info("Command " + command + " wasn't completed");
-                servletRequest.setAttribute("toast", messageManager.getMessage("command.not.complete"));
+                servletRequest.setAttribute(ApplicationConstant.TOAST, messageManager.getMessage("command.not.complete"));
                 servletRequest.getServletContext().getRequestDispatcher("/jsp/main.jsp")
                         .forward(servletRequest, servletResponse);
             }
