@@ -6,63 +6,25 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<c:if test="${not ApplicationConstant.SECURITY_SERVICE.isLogIn(pageContext.request.session)}">
-    <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
-        <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph">
-            <use xlink:href="#chart"/>
-        </svg>
-        <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph">
-            <use xlink:href="#chart"/>
-        </svg>
-    </div>
-    <div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
-        <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
-                <h2 class="mdl-card__title-text">Updates</h2>
+<c:if test="${empty commandName}">
+    <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid" style="margin: 2px;">
+        <div class="demo-charts mdl-color--white mdl-cell mdl-cell--12-col mdl-grid" style="margin: 2px;padding-bottom: 0px;">
+            <div class="mdl-cell mdl-cell--12-col" style="position: relative;padding: 2px;">
+                <h2 class="mdl-card__title-text" style="text-align: center;font-weight: 400;color: #51859e;padding-bottom: 5px;border-bottom: 1px solid #eee;display: block;">
+                    <span>
+                        <fmt:message key="title.description.msg"/>
+                    </span>
+                </h2>
             </div>
-            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                Non dolore elit adipisicing ea reprehenderit consectetur culpa.
+            <div class="mdl-cell mdl-cell--12-col" style="position: relative;padding: 2px;">
+                <img id="myImg" src="${pageContext.request.contextPath}/static/images/description.png" alt="Snow" style="width:100%;border-bottom: 1px solid #eee;">
             </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
-            </div>
-        </div>
-        <div class="demo-separator mdl-cell--1-col"></div>
-        <div class="demo-options mdl-card mdl-color--deep-purple-500 mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-            <div class="mdl-card__supporting-text mdl-color-text--blue-grey-50">
-                <h3>View options</h3>
-                <ul>
-                    <li>
-                        <label for="chkbox1" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-                            <input type="checkbox" id="chkbox1" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__label">Click per object</span>
-                        </label>
-                    </li>
-                    <li>
-                        <label for="chkbox2" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-                            <input type="checkbox" id="chkbox2" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__label">Views per object</span>
-                        </label>
-                    </li>
-                    <li>
-                        <label for="chkbox3" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-                            <input type="checkbox" id="chkbox3" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__label">Objects selected</span>
-                        </label>
-                    </li>
-                    <li>
-                        <label for="chkbox4" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-                            <input type="checkbox" id="chkbox4" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__label">Objects viewed</span>
-                        </label>
-                    </li>
-                </ul>
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--blue-grey-50">Change
-                    location</a>
-                <div class="mdl-layout-spacer"></div>
-                <i class="material-icons">location_on</i>
+            <div class="mdl-cell mdl-cell--12-col" style="width: 100%;position: relative;padding: 2px;">
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600" style="width: 100%;text-align: center;">
+                    <span>
+                        <fmt:message key="service.description.msg"/>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

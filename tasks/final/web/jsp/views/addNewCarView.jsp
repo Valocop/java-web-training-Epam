@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="by.training.machine.monitoring.ApplicationConstant" language="java" %>
+<%@ page import="by.training.machine.monitoring.app.ApplicationConstant" language="java" %>
 <c:if test="${ApplicationConstant.SECURITY_SERVICE.isLogIn(pageContext.request.session)
 and ApplicationConstant.SECURITY_SERVICE.containRole(pageContext.request.session, ApplicationConstant.MANUFACTURER_ROLE)
 and pageContext.findAttribute('commandName').equalsIgnoreCase('showAddMachine')}">

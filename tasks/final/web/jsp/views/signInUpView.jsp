@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="by.training.machine.monitoring.ApplicationConstant" language="java" %>
+<%@ page import="by.training.machine.monitoring.app.ApplicationConstant" language="java" %>
 <c:if test="${not ApplicationConstant.SECURITY_SERVICE.isLogIn(pageContext.request.session)}">
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background: rgb(152, 152, 152);"
             onclick="document.getElementById('modal-wrapper').style.display='block'">
         <fmt:message key="sign.in"/>
     </button>

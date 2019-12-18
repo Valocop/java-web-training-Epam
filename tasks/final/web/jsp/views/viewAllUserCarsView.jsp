@@ -1,20 +1,21 @@
 <%--
   Created by IntelliJ IDEA.
   User: Admin
-  Date: 02.12.2019
-  Time: 0:34
+  Date: 15.12.2019
+  Time: 0:47
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="by.training.machine.monitoring.app.ApplicationConstant" language="java" %>
 <c:if test="${ApplicationConstant.SECURITY_SERVICE.isLogIn(pageContext.request.session)
-and ApplicationConstant.SECURITY_SERVICE.containRole(pageContext.request.session, ApplicationConstant.MANUFACTURER_ROLE)
-and pageContext.findAttribute('commandName').equalsIgnoreCase('showListCars')}">
+and ApplicationConstant.SECURITY_SERVICE.containRole(pageContext.request.session, ApplicationConstant.DEFAULT_ROLE)
+and pageContext.findAttribute('commandName').equalsIgnoreCase('showUserListCars')}">
     <c:choose>
-        <c:when test="${not empty machineInfo}">
-            <c:forEach items="${pageContext.findAttribute('machineInfo')}" var="machine">
+        <c:when test="${not empty userMachines}">
+            <c:forEach items="${pageContext.findAttribute('userMachines')}" var="machine">
                 <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid" style="margin: 2px;">
-                    <div class="demo-charts mdl-color--white mdl-cell mdl-cell--12-col mdl-grid" style="margin: 2px;border-bottom: 1px solid #eee;">
+                    <div class="demo-charts mdl-color--white mdl-cell mdl-cell--12-col mdl-grid"
+                         style="margin: 2px;border-bottom: 1px solid #eee;">
                         <div class="mdl-cell mdl-cell--1-col" style="padding: 2px;"></div>
                         <div class="mdl-cell mdl-cell--3-col" style="padding: 2px;">
                             <span class="mdl-layout-title" style="font-size: 16px;font-weight: 500;color: #a2a4a2;">
@@ -24,7 +25,6 @@ and pageContext.findAttribute('commandName').equalsIgnoreCase('showListCars')}">
                         <div class="mdl-cell mdl-cell--4-col" style="padding: 2px;">
                             <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
                             <span class="mdl-list__item-primary-content" style="font-size: 16px;font-weight: 500;color: #a2a4a2;">
-                                <i class="material-icons mdl-list__item-icon" style="margin-right: 10px;">build</i>
                                 <fmt:message key="status.msg"/>
                             </span>
                             </li>
@@ -33,7 +33,7 @@ and pageContext.findAttribute('commandName').equalsIgnoreCase('showListCars')}">
                             <li class="mdl-list__item" style="padding: 1px;font-size: 14px;min-height: 30px;">
                             <span class="mdl-list__item-primary-content" style="font-size: 16px;font-weight: 500;color: #a2a4a2;">
                                 <i class="material-icons mdl-list__item-icon" style="margin-right: 10px;">supervisor_account</i>
-                                <fmt:message key="owner.msg"/>
+                                <fmt:message key="manufacturer.msg"/>
                             </span>
                             </li>
                         </div>
@@ -41,7 +41,7 @@ and pageContext.findAttribute('commandName').equalsIgnoreCase('showListCars')}">
                     </div>
                     <div class="demo-charts mdl-color--white mdl-cell mdl-cell--12-col mdl-grid" style="margin: 2px;">
                         <div class="mdl-cell mdl-cell--1-col" style="padding: 2px;">
-                            <img id="myImg" src="${pageContext.request.contextPath}/static/images/machine.png" alt="Snow" style="width:100%;max-width: 120px;max-height: 120px;">
+                            <img id="myImg" src="${pageContext.request.contextPath}/static/images/car.png" alt="Snow" style="width:100%;max-width: 120px;max-height: 120px;">
                         </div>
                         <div class="mdl-cell--top mdl-cell--3-col" style="padding: 5px;">
                             <div class="mdl-grid" style="padding: 2px;">
@@ -126,23 +126,21 @@ and pageContext.findAttribute('commandName').equalsIgnoreCase('showListCars')}">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon" style="margin-right: 10px;">person</i>
                                 <span class="mdl-layout-title" style="font-size: 14px;font-weight: 500;margin-bottom: 10px;">
-                                        <c:forEach items="${machine.usersList}" var="user">
-                                            ${user.name} ${user.email}
-                                        </c:forEach>
+                                        ${machine.manufactureDto.name}
                                 </span>
                             </span>
                             </li>
                         </div>
-                        <form id="deleteForm" method="post" action="${pageContext.request.contextPath}/app">
-                            <input type="text" name="commandName" value="deleteMachine" hidden="hidden">
-                            <input id="inputId" type="text" name="machine.id" value="" hidden="hidden">
+                        <form id="deleteAssignMachineForm" method="post" action="${pageContext.request.contextPath}/app">
+                            <input type="text" name="commandName" value="deleteUserMachine" hidden="hidden">
+                            <input id="inputMachineId" type="text" name="machine.id" value="" hidden="hidden">
                         </form>
                         <div class="mdl-cell--top mdl-cell--1-col" style="padding: 2px;">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" style="background: rgba(38, 50, 56, 0.81);width: 100%;padding: 0px;margin: 3px;"
                                     onclick="{
-                                        document.getElementById('inputId').value = ${machine.machineDto.id}
-                                        document.getElementById('modal-delete').style.display='block'
-                                    }">
+                                            document.getElementById('inputMachineId').value = ${machine.machineDto.id}
+                                            document.getElementById('modal-delete').style.display='block'
+                                            }">
                                 <fmt:message key="delete.msg"/>
                             </button>
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" style="background: rgba(181, 54, 54, 0.68);width: 100%;padding: 0;margin: 3px;">
