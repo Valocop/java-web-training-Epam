@@ -1,7 +1,7 @@
 package by.training.machine.monitoring.machine;
 
-import by.training.machine.monitoring.ApplicationConstant;
-import by.training.machine.monitoring.SecurityService;
+import by.training.machine.monitoring.app.ApplicationConstant;
+import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.characteristic.CharacteristicDto;
 import by.training.machine.monitoring.characteristic.CharacteristicService;
 import by.training.machine.monitoring.command.CommandException;
@@ -15,6 +15,7 @@ import by.training.machine.monitoring.model.ModelDto;
 import by.training.machine.monitoring.model.ModelService;
 import by.training.machine.monitoring.validator.ResultValidator;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-@Bean(name = "saveMachine")
+@Bean(name = ApplicationConstant.SAVE_MACHINE_CMD)
+@Log4j
 @AllArgsConstructor
 public class SaveMachineCommand implements ServletCommand {
     private MachineService machineService;
@@ -39,11 +42,11 @@ public class SaveMachineCommand implements ServletCommand {
         String modelIdStr = req.getParameter("model");
         String characteristicIdStr = req.getParameter("characteristic");
         String uniqStr = req.getParameter("machine.uniq.number");
-        ResultValidator rv = new MachineValidator().validate(new HashMap<String, String>() {{
-            put("model", modelIdStr);
-            put("characteristic", characteristicIdStr);
-            put("machine.uniq.number", uniqStr);
-        }}, messageManager);
+        Map<String, String> data = new HashMap<>();
+        data.put("model", modelIdStr);
+        data.put("characteristic", characteristicIdStr);
+        data.put("machine.uniq.number", uniqStr);
+        ResultValidator rv = new MachineValidator().validate(data, messageManager);
         Optional<ManufactureDto> manufactureByUserId = manufactureService.getManufactureByUserId(currentUser.getId());
         if (rv.isValid() && manufactureByUserId.isPresent()) {
             MachineDto machineDto = MachineDto.builder()
@@ -68,8 +71,8 @@ public class SaveMachineCommand implements ServletCommand {
             req.setAttribute("models", models);
             req.setAttribute("characteristics", characteristics);
         }
-        req.setAttribute("toast", "Fail to save machine");
-        req.setAttribute("commandName", "showAddMachine");
+        req.setAttribute(ApplicationConstant.TOAST, "Fail to save machine");
+        req.setAttribute(ApplicationConstant.COMMAND_NAME, ApplicationConstant.SHOW_ADD_MACHINE_CMD);
         try {
             req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
         } catch (ServletException | IOException e) {

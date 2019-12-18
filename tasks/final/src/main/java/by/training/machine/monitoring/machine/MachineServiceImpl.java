@@ -1,40 +1,46 @@
 package by.training.machine.monitoring.machine;
 
+import by.training.machine.monitoring.characteristic.CharacteristicDao;
 import by.training.machine.monitoring.characteristic.CharacteristicDto;
-import by.training.machine.monitoring.characteristic.CharacteristicService;
 import by.training.machine.monitoring.core.Bean;
 import by.training.machine.monitoring.dao.DaoException;
 import by.training.machine.monitoring.dao.TransactionSupport;
 import by.training.machine.monitoring.dao.Transactional;
+import by.training.machine.monitoring.manufacture.ManufactureDao;
+import by.training.machine.monitoring.manufacture.ManufactureDto;
+import by.training.machine.monitoring.model.ModelDao;
 import by.training.machine.monitoring.model.ModelDto;
-import by.training.machine.monitoring.model.ModelService;
+import by.training.machine.monitoring.user.UserDao;
 import by.training.machine.monitoring.user.UserDto;
-import by.training.machine.monitoring.user.UserService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Bean
 @Log4j
 @AllArgsConstructor
 @TransactionSupport
 public class MachineServiceImpl implements MachineService {
-    private UserService userService;
-    private ModelService modelService;
-    private CharacteristicService characteristicService;
+    private UserDao userDao;
+    private ModelDao modelDao;
+    private CharacteristicDao characteristicDao;
     private MachineDao machineDao;
     private MachineLogDao machineLogDao;
     private MachineErrorDao machineErrorDao;
+    private ManufactureDao manufactureDao;
 
     @Override
     @Transactional
     public boolean saveMachine(MachineDto machineDto) {
         try {
-            ModelDto model = modelService.getModel(machineDto.getModelId());
-            CharacteristicDto characteristic = characteristicService.getCharacteristic(machineDto.getCharacteristicId());
+            ModelDto model = modelDao.getById(machineDto.getModelId());
+            CharacteristicDto characteristic = characteristicDao.getById(machineDto.getCharacteristicId());
             if (model != null && characteristic != null) {
                 return machineDao.save(machineDto) > 0;
             }
@@ -52,13 +58,15 @@ public class MachineServiceImpl implements MachineService {
             List<MachineDto> machinesList = machineDao.getByManufacture(manufactureId);
             if (machinesList != null) {
                 for (MachineDto machineDto : machinesList) {
-                    ModelDto model = modelService.getModel(machineDto.getModelId());
-                    CharacteristicDto characteristic = characteristicService.getCharacteristic(machineDto.getCharacteristicId());
+                    ManufactureDto manufacture = manufactureDao.getById(machineDto.getManufactureId());
+                    ModelDto model = modelDao.getById(machineDto.getModelId());
+                    CharacteristicDto characteristic = characteristicDao.getById(machineDto.getCharacteristicId());
                     List<MachineLogDto> machineLogsList = machineLogDao.getMachineLogByMachineId(machineDto.getId());
                     List<MachineErrorDto> machineErrors = machineErrorDao.getErrorsByMachineId(machineDto.getId());
-                    List<UserDto> userList = userService.getUsersByMachineId(machineDto.getId());
+                    List<UserDto> userList = userDao.getUsersByMachineId(machineDto.getId());
                     if (model != null && characteristic != null) {
                         machineInfoList.add(MachineInfoDto.builder()
+                                .manufactureDto(manufacture)
                                 .machineDto(machineDto)
                                 .modelDto(model)
                                 .characteristicDto(characteristic)
@@ -90,6 +98,33 @@ public class MachineServiceImpl implements MachineService {
         } catch (DaoException e) {
             log.error("Failed ti delete machine", e);
             return false;
+        }
+    }
+
+    @Override
+    public Optional<MachineInfoDto> getMachineInfoByMachineId(Long machineId) {
+        try {
+            MachineDto machineDto = machineDao.getById(machineId);
+            if (machineDto != null) {
+                ManufactureDto manufacture = manufactureDao.getById(machineDto.getManufactureId());
+                ModelDto model = modelDao.getById(machineDto.getModelId());
+                CharacteristicDto characteristic = characteristicDao.getById(machineDto.getCharacteristicId());
+                List<MachineLogDto> machineLogsList = machineLogDao.getMachineLogByMachineId(machineDto.getId());
+                List<MachineErrorDto> machineErrors = machineErrorDao.getErrorsByMachineId(machineDto.getId());
+                return Optional.of(MachineInfoDto.builder()
+                        .manufactureDto(manufacture)
+                        .machineDto(machineDto)
+                        .modelDto(model)
+                        .characteristicDto(characteristic)
+                        .machineLogsList(machineLogsList)
+                        .machineErrorsList(machineErrors)
+                        .build());
+            } else {
+                return Optional.empty();
+            }
+        } catch (DaoException e) {
+            log.error("Failed to get machine info by machine id", e);
+            return Optional.empty();
         }
     }
 }

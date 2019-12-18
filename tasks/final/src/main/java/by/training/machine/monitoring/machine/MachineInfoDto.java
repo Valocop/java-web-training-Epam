@@ -1,6 +1,7 @@
 package by.training.machine.monitoring.machine;
 
 import by.training.machine.monitoring.characteristic.CharacteristicDto;
+import by.training.machine.monitoring.manufacture.ManufactureDto;
 import by.training.machine.monitoring.model.ModelDto;
 import by.training.machine.monitoring.user.UserDto;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MachineInfoDto {
+    private ManufactureDto manufactureDto;
     private MachineDto machineDto;
     private ModelDto modelDto;
     private CharacteristicDto characteristicDto;
