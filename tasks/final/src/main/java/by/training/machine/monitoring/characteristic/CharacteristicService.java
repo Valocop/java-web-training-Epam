@@ -10,4 +10,5 @@ public interface CharacteristicService {
     boolean assignManufactureCharacteristic(UserEntity userEntity);
     CharacteristicDto getCharacteristic(Long id) throws DaoException;
     List<CharacteristicDto> getCharacteristicByManufacture(Long manufactureId);
+    boolean deleteCharacteristicByManufactureId(Long manufactureId);
 }

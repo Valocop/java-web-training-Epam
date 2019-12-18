@@ -37,8 +37,13 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     }
 
     @Override
-    public CharacteristicDto getCharacteristic(Long id) throws DaoException {
-        return characteristicDao.getById(id);
+    public CharacteristicDto getCharacteristic(Long id) {
+        try {
+            return characteristicDao.getById(id);
+        } catch (DaoException e) {
+            log.error("Failed to get characteristic by id");
+            return null;
+        }
     }
 
     @Override
@@ -47,6 +52,17 @@ public class CharacteristicServiceImpl implements CharacteristicService {
             return characteristicDao.getByManufactureId(manufactureId);
         } catch (DaoException e) {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteCharacteristicByManufactureId(Long manufactureId) {
+        try {
+            return characteristicDao.deleteByManufactureId(manufactureId);
+        } catch (DaoException e) {
+            log.error("Failed to delete characteristic by manufacture id", e);
+            return false;
         }
     }
 }

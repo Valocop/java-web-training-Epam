@@ -21,6 +21,8 @@ public class CharacteristicDaoImpl implements CharacteristicDao {
     //language=PostgreSQL
     private static final String DELETE_CHARACTERISTIC = "DELETE FROM machine_monitoring.machine_monitoring_schema.characteristic WHERE  id = ?";
     //language=PostgreSQL
+    private static final String DELETE_CHARACTERISTIC_BY_MANUFACTURE_ID = "DELETE FROM machine_monitoring.machine_monitoring_schema.characteristic WHERE  manufacturer_id = ?";
+    //language=PostgreSQL
     private static final String UPDATE_CHARACTERISTIC = "UPDATE machine_monitoring.machine_monitoring_schema.characteristic " +
             "SET price = ?, power = ?, fuel_type = ?, engine_volume = ?, transmission = ?, manufacturer_id = ? WHERE id = ?";
     //language=PostgreSQL
@@ -138,6 +140,17 @@ public class CharacteristicDaoImpl implements CharacteristicDao {
             throw new DaoException("Failed to get characteristics by manufacture id", e);
         }
         return characteristicEntities.stream().map(CharacteristicDaoImpl::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean deleteByManufactureId(Long manufactureId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(DELETE_CHARACTERISTIC_BY_MANUFACTURE_ID)) {
+            stmt.setLong(1, manufactureId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to delete characteristic by manufacture id", e);
+        }
     }
 
     private CharacteristicEntity fromDto(CharacteristicDto characteristicDto) {

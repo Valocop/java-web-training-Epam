@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CharacteristicDao extends CRUDDao<CharacteristicDto, Long> {
     List<CharacteristicDto> getByManufactureId(Long manufactureId) throws DaoException;
+    boolean deleteByManufactureId(Long manufactureId) throws DaoException;
 }

@@ -1,7 +1,7 @@
 package by.training.machine.monitoring.characteristic;
 
-import by.training.machine.monitoring.ApplicationConstant;
-import by.training.machine.monitoring.SecurityService;
+import by.training.machine.monitoring.app.ApplicationConstant;
+import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
 import by.training.machine.monitoring.core.Bean;
@@ -13,6 +13,7 @@ import by.training.machine.monitoring.model.ModelDto;
 import by.training.machine.monitoring.model.ModelService;
 import by.training.machine.monitoring.validator.ResultValidator;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-@Bean(name = "addCharacteristic")
+@Bean(name = ApplicationConstant.ADD_CHARACTERISTIC_CMD)
+@Log4j
 @AllArgsConstructor
 public class AddCharacteristicCommand implements ServletCommand {
     private CharacteristicService characteristicService;
@@ -38,16 +41,15 @@ public class AddCharacteristicCommand implements ServletCommand {
         String engineVolume = req.getParameter("characteristic.engine.volume");
         String transmission = req.getParameter("characteristic.transmission");
         UserEntity currentUser = SecurityService.getInstance().getCurrentUser(req.getSession(false));
-        ResultValidator rv = new AddCharacteristicValidator().validate(new HashMap<String, String>() {{
-            put("characteristic.price", priceStr);
-            put("characteristic.power", power);
-            put("characteristic.fuel.type", fuelType);
-            put("characteristic.engine.volume", engineVolume);
-            put("characteristic.transmission", transmission);
-        }}, messageManager);
+        Map<String, String> data = new HashMap<>();
+        data.put("characteristic.price", priceStr);
+        data.put("characteristic.power", power);
+        data.put("characteristic.fuel.type", fuelType);
+        data.put("characteristic.engine.volume", engineVolume);
+        data.put("characteristic.transmission", transmission);
+        ResultValidator rv = new AddCharacteristicValidator().validate(data, messageManager);
         if (rv.isValid()) {
-            if (characteristicService.assignManufactureCharacteristic(currentUser)
-                    && manufactureService.getManufactureByUserId(currentUser.getId()).isPresent()) {
+            if (manufactureService.getManufactureByUserId(currentUser.getId()).isPresent()) {
                 CharacteristicDto characteristicDto = CharacteristicDto.builder()
                         .price(Double.valueOf(priceStr))
                         .power(power)
@@ -59,22 +61,18 @@ public class AddCharacteristicCommand implements ServletCommand {
                 if (characteristicService.saveCharacteristic(characteristicDto)) {
                     try {
                         resp.sendRedirect(req.getContextPath() + "/app?commandName=" + ApplicationConstant.SHOW_ADD_MACHINE_CMD);
+                        return;
                     } catch (IOException e) {
-                        throw new CommandException("Failed to execute addCharacteristic command", e);
+                        log.error("Failed to execute addCharacteristic command", e);
+                        throw new CommandException(e);
                     }
-                } else {
-                    failVersion(req, resp, rv);
                 }
-            } else {
-                failVersion(req, resp, rv);
             }
-        } else {
-            failVersion(req, resp, rv);
         }
+        failForward(req, resp, currentUser, rv);
     }
 
-    private void failVersion(HttpServletRequest req, HttpServletResponse resp, ResultValidator rv) throws CommandException {
-        UserEntity currentUser = SecurityService.getInstance().getCurrentUser(req.getSession(false));
+    private void failForward(HttpServletRequest req, HttpServletResponse resp, UserEntity currentUser, ResultValidator rv) throws CommandException {
         Optional<ManufactureDto> manufactureByUserId = manufactureService.getManufactureByUserId(currentUser.getId());
         if (manufactureByUserId.isPresent()) {
             List<CharacteristicDto> characteristics = characteristicService.getCharacteristicByManufacture(manufactureByUserId.get().getId());
@@ -83,12 +81,13 @@ public class AddCharacteristicCommand implements ServletCommand {
             req.setAttribute("characteristics", characteristics);
         }
         rv.getExceptionMap().forEach(req::setAttribute);
-        req.setAttribute("toast", "Fail to add characteristic. Try again");
+        req.setAttribute(ApplicationConstant.TOAST, "Fail to add characteristic. Try again");
         try {
-            req.setAttribute("commandName", "showAddMachine");
+            req.setAttribute(ApplicationConstant.COMMAND_NAME, ApplicationConstant.SHOW_ADD_MACHINE_CMD);
             req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
         } catch (ServletException | IOException e) {
-            throw new CommandException("Failed to execute AddCharacteristicCommand", e);
+            log.error("Failed to execute AddCharacteristicCommand", e);
+            throw new CommandException(e);
         }
     }
 }
