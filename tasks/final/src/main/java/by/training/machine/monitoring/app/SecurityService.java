@@ -1,4 +1,4 @@
-package by.training.machine.monitoring;
+package by.training.machine.monitoring.app;
 
 import by.training.machine.monitoring.dao.DaoException;
 import by.training.machine.monitoring.entity.UserEntity;
@@ -8,13 +8,10 @@ import by.training.machine.monitoring.role.RoleServiceImpl;
 import by.training.machine.monitoring.role.RoleUtil;
 import by.training.machine.monitoring.user.UserDto;
 import by.training.machine.monitoring.user.UserUtil;
-import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Log4j
 public final class SecurityService {

@@ -1,4 +1,4 @@
-package by.training.machine.monitoring;
+package by.training.machine.monitoring.app;
 
 import by.training.machine.monitoring.characteristic.AddCharacteristicCommand;
 import by.training.machine.monitoring.characteristic.CharacteristicDaoImpl;
@@ -9,7 +9,6 @@ import by.training.machine.monitoring.dao.*;
 import by.training.machine.monitoring.machine.*;
 import by.training.machine.monitoring.manufacture.ManufactureDaoImpl;
 import by.training.machine.monitoring.manufacture.ManufactureServiceImpl;
-import by.training.machine.monitoring.message.MessageManager;
 import by.training.machine.monitoring.model.AddModelCommand;
 import by.training.machine.monitoring.model.ModelDaoImpl;
 import by.training.machine.monitoring.model.ModelServiceImpl;
@@ -78,11 +77,9 @@ public class ApplicationContext implements BeanProvider {
             throw new IllegalStateException("Trouble with initialization database", e);
         }
         DataSource dataSource = new DataSourceImpl();
-        TransactionManager transactionManager = new TransactionManagerQueue(dataSource);
+        TransactionManager transactionManager = new TransactionManagerImpl(dataSource);
         ConnectionManager connectionManager = new ConnectionManagerImpl(transactionManager, dataSource);
         TransactionInterceptor transactionInterceptor = new TransactionInterceptor(transactionManager);
-        MessageManager messageManager = MessageManager.EN;
-        registerBean(messageManager);
         registerBean(poolConnection);
         registerBean(dataSource);
         registerBean(transactionManager);
@@ -117,6 +114,12 @@ public class ApplicationContext implements BeanProvider {
         registerBean(MachineErrorDaoImpl.class);
         registerBean(MachineLogDaoImpl.class);
         registerBean(DeleteMachineCommand.class);
+        registerBean(RegisterNewCarCommand.class);
+        registerBean(ShowUserListCarsCommand.class);
+        registerBean(ShowRegisterCarCommand.class);
+        registerBean(MachineActionServiceImpl.class);
+        registerBean(DeleteUserMachineCommand.class);
+        registerBean(ShowMachineStatusCommand.class);
     }
 
     @Override
