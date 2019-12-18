@@ -12,4 +12,5 @@ public interface ModelService {
     List<ModelDto> getModelByUserId(Long userId);
     boolean assignModelManufacture(Long userId, String nameUser);
     List<ModelDto> getModelByManufacture(Long manufactureId);
+    boolean deleteModelByManufactureId(Long manufactureId);
 }

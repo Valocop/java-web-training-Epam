@@ -33,8 +33,13 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelDto getModel(Long modelId) throws DaoException {
-        return modelDao.getById(modelId);
+    public ModelDto getModel(Long modelId) {
+        try {
+            return modelDao.getById(modelId);
+        } catch (DaoException e) {
+            log.error("Failed to get model by id", e);
+            return null;
+        }
     }
 
     @Override
@@ -75,6 +80,16 @@ public class ModelServiceImpl implements ModelService {
             return modelDao.getModelByManufactureId(manufactureId);
         } catch (DaoException e) {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public boolean deleteModelByManufactureId(Long manufactureId) {
+        try {
+            return modelDao.deleteModelByManufactureId(manufactureId);
+        } catch (DaoException e) {
+            log.error("Failed to delete model by manufacture id");
+            return false;
         }
     }
 }

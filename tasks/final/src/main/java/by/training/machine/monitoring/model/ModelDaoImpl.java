@@ -21,6 +21,8 @@ public class ModelDaoImpl implements ModelDao {
     //language=PostgreSQL
     private static final String DELETE_MODEL = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine_model WHERE id = ?";
     //language=PostgreSQL
+    private static final String DELETE_MODEL_BY_MANUFACTURE_ID = "DELETE FROM machine_monitoring.machine_monitoring_schema.machine_model WHERE manufacture_id = ?";
+    //language=PostgreSQL
     private static final String UPDATE_MODEL = "UPDATE machine_monitoring.machine_monitoring_schema.machine_model SET name = ?, release_date = ?, picture = ?, description = ?, manufacture_id = ? WHERE id = ?";
     //language=PostgreSQL
     private static final String SELECT_MODEL_BY_ID = "SELECT id, name, release_date, picture, description, manufacture_id FROM machine_monitoring.machine_monitoring_schema.machine_model WHERE id = ?";
@@ -98,6 +100,17 @@ public class ModelDaoImpl implements ModelDao {
         return modelEntities.stream()
                 .map(ModelUtil::fromModelEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean deleteModelByManufactureId(Long manufactureId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(DELETE_MODEL_BY_MANUFACTURE_ID)) {
+            stmt.setLong(1, manufactureId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException("Failed to delete model by manufacture id", e);
+        }
     }
 
     @Override

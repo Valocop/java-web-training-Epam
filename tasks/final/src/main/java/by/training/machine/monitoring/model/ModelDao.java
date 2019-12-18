@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ModelDao extends CRUDDao<ModelDto, Long> {
     List<ModelDto> getModelByManufactureId(Long manufactureId) throws DaoException;
+    boolean deleteModelByManufactureId(Long manufactureId) throws DaoException;
 }

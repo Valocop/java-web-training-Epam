@@ -1,7 +1,7 @@
 package by.training.machine.monitoring.model;
 
-import by.training.machine.monitoring.ApplicationConstant;
-import by.training.machine.monitoring.SecurityService;
+import by.training.machine.monitoring.app.ApplicationConstant;
+import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.characteristic.CharacteristicDto;
 import by.training.machine.monitoring.characteristic.CharacteristicService;
 import by.training.machine.monitoring.command.CommandException;
@@ -20,12 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-@Bean(name = "addModel")
+@Bean(name = ApplicationConstant.ADD_MODEL_CMD)
 @AllArgsConstructor
 public class AddModelCommand implements ServletCommand {
     private final String DATE_FORMAT = "yyyy-MM-dd";
@@ -40,14 +40,13 @@ public class AddModelCommand implements ServletCommand {
         String releaseDateStr = req.getParameter("release.date");
         String description = req.getParameter("model.description");
         UserEntity currentUser = SecurityService.getInstance().getCurrentUser(req.getSession(false));
-        ResultValidator rv = new AddModelValidator().validate(new HashMap<String, String>() {{
-            put("model.name", modelName);
-            put("release.date", releaseDateStr);
-            put("model.description", description);
-        }}, messageManager);
+        Map<String, String> data = new HashMap<>();
+        data.put("model.name", modelName);
+        data.put("release.date", releaseDateStr);
+        data.put("model.description", description);
+        ResultValidator rv = new AddModelValidator().validate(data, messageManager);
         if (rv.isValid()) {
-            if (modelService.assignModelManufacture(currentUser.getId(), currentUser.getName())
-                    && manufactureService.getManufactureByUserId(currentUser.getId()).isPresent()) {
+            if (manufactureService.getManufactureByUserId(currentUser.getId()).isPresent()) {
                 try {
                     ManufactureDto manufactureDto = manufactureService.getManufactureByUserId(currentUser.getId()).get();
                     ModelDto modelDto = ModelDto.builder()
@@ -58,18 +57,14 @@ public class AddModelCommand implements ServletCommand {
                             .build();
                     if (modelService.saveModel(modelDto)) {
                         resp.sendRedirect(req.getContextPath() + "/app?commandName=" + ApplicationConstant.SHOW_ADD_MACHINE_CMD);
-                    } else {
-                        failVersion(req, resp, rv);
+                        return;
                     }
                 } catch (ParseException | IOException e) {
                     throw new CommandException("Failed to add model", e);
                 }
-            } else {
-                failVersion(req, resp, rv);
             }
-        } else {
-            failVersion(req, resp, rv);
         }
+        failVersion(req, resp, rv);
     }
 
     private void failVersion(HttpServletRequest req, HttpServletResponse resp, ResultValidator rv) throws CommandException {
@@ -82,9 +77,9 @@ public class AddModelCommand implements ServletCommand {
             req.setAttribute("characteristics", characteristics);
         }
         rv.getExceptionMap().forEach(req::setAttribute);
-        req.setAttribute("toast", "Fail to add model");
+        req.setAttribute(ApplicationConstant.TOAST, "Fail to add model");
         try {
-            req.setAttribute("commandName", "showAddMachine");
+            req.setAttribute(ApplicationConstant.COMMAND_NAME, ApplicationConstant.SHOW_ADD_MACHINE_CMD);
             req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
         } catch (ServletException | IOException e) {
             throw new CommandException("Fail to add model", e);
