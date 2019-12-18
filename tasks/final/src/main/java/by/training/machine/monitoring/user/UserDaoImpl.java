@@ -5,6 +5,7 @@ import by.training.machine.monitoring.dao.ConnectionManager;
 import by.training.machine.monitoring.dao.DaoException;
 import by.training.machine.monitoring.dao.DaoSqlException;
 import by.training.machine.monitoring.entity.UserEntity;
+import lombok.AllArgsConstructor;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,22 +14,25 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Bean
+@AllArgsConstructor
 public class UserDaoImpl implements UserDao {
     private static final String SELECT_ALL_QUERY = "select id, login, password, email, name, address, tel, picture from machine_monitoring_schema.user_account";
     private static final String SELECT_BY_ID_QUERY = "select id, login, password, email, name, address, tel, picture from machine_monitoring_schema.user_account where id = ?";
     private static final String SELECT_BY_LOGIN_QUERY = "select id, login, password, email, name, address, tel, picture from machine_monitoring_schema.user_account where login = ?";
     private static final String INSERT_QUERY = "insert into machine_monitoring_schema.user_account (login, password, email, name, address, tel, picture) values (?,?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "update machine_monitoring_schema.user_account set login=?, email=?, name=?, address=?, tel=? where id = ?";
+    private static final String UPDATE_QUERY = "update machine_monitoring_schema.user_account set email=?, name=?, address=?, tel=?, picture=? where id = ?";
     private static final String DELETE_QUERY = "delete from machine_monitoring_schema.user_account where id = ?";
+    private static final String SELECT_USERS_BY_MACHINE_ID = "SELECT id, login, password, email, name, address, tel, picture FROM machine_monitoring_schema.user_account " +
+            "INNER JOIN machine_monitoring_schema.user_machine ON user_account.id = user_machine.user_id WHERE machine_id = ?";
     //language=PostgreSQL
-    private static final String SELECT_USERS_BY_MACHINE_ID = "SELECT id, login, password, email, name, address, tel, picture FROM machine_monitoring.machine_monitoring_schema.user_account " +
-            "INNER JOIN machine_monitoring.machine_monitoring_schema.user_machine ON user_account.id = user_machine.user_id WHERE machine_id = ?";
-
+    private static final String ASSIGN_USER_MACHINE = "INSERT INTO machine_monitoring_schema.user_machine (user_id, machine_id) VALUES (?,?)";
+    //language=PostgreSQL
+    private static final String DELETE_ASSIGN_USER_MACHINE = "delete from machine_monitoring_schema.user_machine where user_id = ?";
+    //language=PostgreSQL
+    private static final String DELETE_ASSIGN_USER_MACHINE_BY_ID = "delete from machine_monitoring_schema.user_machine where user_id = ? AND machine_id = ?";
+    //language=PostgreSQL
+    private static final String SELECT_ASSIGN_USER_MACHINE = "SELECT user_id, machine_id FROM machine_monitoring_schema.user_machine where user_id = ? AND machine_id = ?";
     private ConnectionManager connectionManager;
-
-    public UserDaoImpl(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
 
     @Override
     public Optional<UserDto> findByLogin(String login) throws DaoException {
@@ -65,6 +69,61 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public boolean assignUserMachine(Long userId, Long machineId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement insertStmt = connection.prepareStatement(ASSIGN_USER_MACHINE)) {
+            int i = 0;
+            insertStmt.setLong(++i, userId);
+            insertStmt.setLong(++i, machineId);
+            return insertStmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteAssignUserMachine(Long userId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement updateStmt = connection.prepareStatement(DELETE_ASSIGN_USER_MACHINE)) {
+            updateStmt.setLong(1, userId);
+            return updateStmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteAssignUserMachine(Long userId, Long machineId) throws DaoException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement updateStmt = connection.prepareStatement(DELETE_ASSIGN_USER_MACHINE_BY_ID)) {
+            updateStmt.setLong(1, userId);
+            updateStmt.setLong(2, machineId);
+            return updateStmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DaoSqlException(e);
+        }
+    }
+
+    @Override
+    public boolean assignUserMachineIsPresent(Long userId, Long machineId) throws DaoException {
+        List<Long> result = new ArrayList<>();
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(SELECT_ASSIGN_USER_MACHINE)) {
+            int i = 0;
+            stmt.setLong(++i, userId);
+            stmt.setLong(++i, machineId);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                long user_id = resultSet.getLong("user_id");
+                result.add(user_id);
+            }
+            return !result.isEmpty();
+        } catch (SQLException e) {
+            throw new DaoSqlException(e);
+        }
+    }
+
+    @Override
     public Long save(UserDto userDto) throws DaoException {
         UserEntity entity = fromDto(userDto);
         try (Connection connection = connectionManager.getConnection();
@@ -94,8 +153,6 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement updateStmt = connection.prepareStatement(UPDATE_QUERY)) {
             int i = 0;
-            updateStmt.setString(++i, entity.getLogin());
-            updateStmt.setString(++i, entity.getPassword());
             updateStmt.setString(++i, entity.getEmail());
             updateStmt.setString(++i, entity.getName());
             updateStmt.setString(++i, entity.getAddress());

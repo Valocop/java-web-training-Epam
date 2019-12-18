@@ -1,6 +1,6 @@
 package by.training.machine.monitoring.user;
 
-import by.training.machine.monitoring.ApplicationConstant;
+import by.training.machine.monitoring.app.ApplicationConstant;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
 import by.training.machine.monitoring.core.Bean;
@@ -28,27 +28,21 @@ public class UpdateUserCommand implements ServletCommand {
         String tel = req.getParameter("user.tel");
         String role = req.getParameter("selected.role");
 
-        if (role != null && !role.equalsIgnoreCase("CURRENT")) {
-            UserDto userDto = UserDto.builder()
-                    .id(Long.parseLong(strId))
-                    .login(login)
-                    .name(name)
-                    .email(email)
-                    .address(address)
-                    .tel(tel)
-                    .build();
-            try {
+        try {
+            if (role != null && !role.equalsIgnoreCase("CURRENT")) {
+                UserDto userDto = UserDto.builder()
+                        .id(Long.parseLong(strId))
+                        .login(login)
+                        .name(name)
+                        .email(email)
+                        .address(address)
+                        .tel(tel)
+                        .build();
                 userService.updateUser(userDto, role);
-                resp.sendRedirect(req.getContextPath() + "/app?commandName=" + ApplicationConstant.VIEW_ALL_USERS_CMD);
-            } catch (DaoException | IOException e) {
-                throw new CommandException("Failed to update user", e);
             }
-        } else {
-            try {
-                resp.sendRedirect(req.getContextPath() + "/app?commandName=" + ApplicationConstant.VIEW_ALL_USERS_CMD);
-            } catch (IOException e) {
-                throw new CommandException("Failed to update user", e);
-            }
+            resp.sendRedirect(req.getContextPath() + "/app?commandName=" + ApplicationConstant.VIEW_ALL_USERS_CMD);
+        } catch (DaoException | IOException e) {
+            e.printStackTrace();
         }
     }
 }

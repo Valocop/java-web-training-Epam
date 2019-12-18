@@ -1,11 +1,17 @@
 package by.training.machine.monitoring.user;
 
-import by.training.machine.monitoring.SecurityService;
+import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.core.Bean;
 import by.training.machine.monitoring.dao.DaoException;
 import by.training.machine.monitoring.dao.TransactionSupport;
 import by.training.machine.monitoring.dao.Transactional;
+import by.training.machine.monitoring.machine.MachineDao;
+import by.training.machine.monitoring.machine.MachineDto;
+import by.training.machine.monitoring.machine.MachineInfoDto;
+import by.training.machine.monitoring.machine.MachineService;
+import by.training.machine.monitoring.manufacture.ManufactureService;
 import by.training.machine.monitoring.role.RoleService;
+import by.training.machine.monitoring.service.ServiceException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -21,6 +27,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
     private RoleService roleService;
+    private MachineDao machineDao;
+    private ManufactureService manufactureService;
+    private MachineService machineService;
 
     @Override
     public boolean loginUser(UserDto userDto) {
@@ -36,16 +45,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean registerUser(UserDto userDto) throws DaoException {
-        Optional<UserDto> findUser = Optional.empty();
-        findUser = userDao.findByLogin(userDto.getLogin());
-        if (!findUser.isPresent()) {
-            String securityPas = DigestUtils.md5Hex(userDto.getPassword());
-            userDto.setPassword(securityPas);
-            Long saved = userDao.save(userDto);
-            roleService.assignDefaultRoles(saved);
-            return saved > 0;
-        } else {
+    public boolean registerUser(UserDto userDto) {
+        try {
+            Optional<UserDto> findUser = userDao.findByLogin(userDto.getLogin());
+            if (!findUser.isPresent()) {
+                String securityPas = DigestUtils.md5Hex(userDto.getPassword());
+                userDto.setPassword(securityPas);
+                Long saved = userDao.save(userDto);
+                roleService.assignDefaultRoles(saved);
+                return saved > 0;
+            } else {
+                return false;
+            }
+        } catch (ServiceException | DaoException e) {
+            log.error("Failed to register user", e);
             return false;
         }
     }
@@ -54,6 +67,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public boolean deleteUser(UserDto userDto) throws DaoException {
         if (roleService.deleteAssignRoles(userDto.getId())) {
+            userDao.deleteAssignUserMachine(userDto.getId());
+            manufactureService.deleteManufactureByUserId(userDto.getId());
             if (userDao.delete(userDto)) {
                 SecurityService.getInstance().deleteSession(userDto.getId());
                 return true;
@@ -74,9 +89,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getByLogin(String login) throws DaoException {
-        Optional<UserDto> findUser = Optional.empty();
-        findUser = userDao.findByLogin(login);
-        return findUser.orElse(null);
+        return userDao.findByLogin(login).orElse(null);
     }
 
     @Override
@@ -128,6 +141,58 @@ public class UserServiceImpl implements UserService {
             return userDao.getUsersByMachineId(machineId);
         } catch (DaoException e) {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public Optional<UserDto> getUserById(Long userId) {
+        try {
+            return Optional.of(userDao.getById(userId));
+        } catch (DaoException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean registerMachine(Long userId, String uniqNumber) {
+        try {
+            Optional<MachineDto> machineDtoOptional = machineDao.getByUniqCode(uniqNumber);
+            if (machineDtoOptional.isPresent()) {
+                if (!userDao.assignUserMachineIsPresent(userId, machineDtoOptional.get().getId())) {
+                    return userDao.assignUserMachine(userId, machineDtoOptional.get().getId());
+                }
+            }
+            return false;
+        } catch (DaoException e) {
+            log.error("Failed to register machine by uniq code", e);
+            return false;
+        }
+    }
+
+    @Override
+    public List<MachineInfoDto> getAssignMachines(Long userId) {
+        List<MachineInfoDto> machineInfoDtoList = new ArrayList<>();
+        try {
+            List<MachineDto> assignMachines = machineDao.getAssignMachineByUser(userId);
+            assignMachines.forEach(machineDto -> {
+                machineService.getMachineInfoByMachineId(machineDto.getId()).ifPresent(machineInfoDtoList::add);
+            });
+            return machineInfoDtoList;
+        } catch (DaoException e) {
+            log.error("Failed to get assign machines by user id");
+            return machineInfoDtoList;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteAssignUserMachine(Long userId, Long machineId) {
+        try {
+            return userDao.deleteAssignUserMachine(userId, machineId);
+        } catch (DaoException e) {
+            log.error("Failed to delete assign user and machine", e);
+            return false;
         }
     }
 }

@@ -2,8 +2,10 @@ package by.training.machine.monitoring.user;
 
 
 import by.training.machine.monitoring.dao.DaoException;
+import by.training.machine.monitoring.machine.MachineInfoDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     boolean loginUser(UserDto userDto);
@@ -15,4 +17,8 @@ public interface UserService {
     boolean updateUser(UserDto userDto);
     boolean updateUser(UserDto userDto, String roleName) throws DaoException;
     List<UserDto> getUsersByMachineId(Long machineId);
+    Optional<UserDto> getUserById(Long userId);
+    boolean registerMachine(Long userId, String uniqNumber);
+    List<MachineInfoDto> getAssignMachines(Long userId);
+    boolean deleteAssignUserMachine(Long userId, Long machineId);
 }

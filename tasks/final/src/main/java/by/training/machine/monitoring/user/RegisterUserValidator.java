@@ -1,6 +1,5 @@
 package by.training.machine.monitoring.user;
 
-import by.training.machine.monitoring.ApplicationContext;
 import by.training.machine.monitoring.message.MessageManager;
 import by.training.machine.monitoring.validator.ResultValidator;
 import by.training.machine.monitoring.validator.ResultValidatorImpl;

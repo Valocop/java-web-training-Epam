@@ -1,6 +1,6 @@
 package by.training.machine.monitoring.user;
 
-import by.training.machine.monitoring.SecurityService;
+import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
 import by.training.machine.monitoring.core.Bean;
