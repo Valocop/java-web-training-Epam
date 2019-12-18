@@ -1,6 +1,6 @@
 package by.training.machine.monitoring.listener;
 
-import by.training.machine.monitoring.SecurityService;
+import by.training.machine.monitoring.app.SecurityService;
 import lombok.extern.log4j.Log4j;
 
 import javax.servlet.annotation.WebListener;

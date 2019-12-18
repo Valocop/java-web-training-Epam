@@ -1,6 +1,6 @@
 package by.training.machine.monitoring.listener;
 
-import by.training.machine.monitoring.ApplicationContext;
+import by.training.machine.monitoring.app.ApplicationContext;
 import by.training.machine.monitoring.message.MessageManager;
 import lombok.extern.log4j.Log4j;
 
