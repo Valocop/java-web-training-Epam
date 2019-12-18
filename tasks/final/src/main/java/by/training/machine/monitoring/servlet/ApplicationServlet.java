@@ -1,6 +1,7 @@
 package by.training.machine.monitoring.servlet;
 
-import by.training.machine.monitoring.ApplicationContext;
+import by.training.machine.monitoring.app.ApplicationConstant;
+import by.training.machine.monitoring.app.ApplicationContext;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
 import lombok.extern.log4j.Log4j;
@@ -19,7 +20,7 @@ public class ApplicationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String commandName = req.getParameter("commandName");
+        String commandName = req.getParameter(ApplicationConstant.COMMAND_NAME);
         ServletCommand command = ApplicationContext.getInstance().getBean(commandName);
         if (command != null) {
             try {
@@ -28,7 +29,7 @@ public class ApplicationServlet extends HttpServlet {
                 throw new ServletException(e);
             }
         } else {
-            req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath());
         }
     }
 
