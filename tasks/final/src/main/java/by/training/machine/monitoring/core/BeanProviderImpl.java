@@ -233,7 +233,7 @@ public class BeanProviderImpl implements BeanProvider {
             if (info.getConcreteBean() != null) {
                 beans.put(info, info.getConcreteBean());
             } else if (!beans.containsKey(info)) {
-                final Object bean = info.getFactory().get();
+                final Object bean = info.getFactory().get();//попадая сюда продолжает строится
                 beans.put(info, bean);
             }
             return beans.get(info);
