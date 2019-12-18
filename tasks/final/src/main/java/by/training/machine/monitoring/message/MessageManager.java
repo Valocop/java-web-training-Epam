@@ -45,4 +45,8 @@ public enum MessageManager {
     public String getMessage(String key) {
         return resourceBundle.getString(key);
     }
+
+    public Locale getLocale() {
+        return Locale.forLanguageTag(this.name());
+    }
 }
