@@ -72,7 +72,6 @@
     <%@include file="views/adminPanelView.jsp" %>
     <%@include file="views/manufacturerPanelView.jsp" %>
     <main class="mdl-layout__content mdl-color--grey-100"
-<%--          display: flex;flex-direction: column;justify-content: space-between;--%>
             <c:if test="${not ApplicationConstant.SECURITY_SERVICE.isLogIn(pageContext.request.session)}"> style="margin-left: 0px;"
             </c:if>>
         <div class="mdl-grid demo-content">
