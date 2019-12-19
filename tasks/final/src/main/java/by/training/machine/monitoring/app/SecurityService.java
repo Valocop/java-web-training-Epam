@@ -91,13 +91,9 @@ public final class SecurityService {
         if (user != null) {
             RoleService roleService = ApplicationContext.getInstance().getBean(RoleServiceImpl.class);
             UserDto userDto = UserUtil.fromEntity(user);
-            try {
-                userRoles = roleService.getUserRoles(userDto).stream()
-                        .map(RoleUtil::fromDto)
-                        .collect(Collectors.toList());
-            } catch (DaoException e) {
-                throw new IllegalStateException("Failed to get user roles");
-            }
+            userRoles = roleService.getUserRoles(userDto).stream()
+                    .map(RoleUtil::fromDto)
+                    .collect(Collectors.toList());
         }
         return userRoles;
     }
@@ -106,12 +102,8 @@ public final class SecurityService {
         List<UserRole> userRoles = new ArrayList<>();
         if (sessionUserMap.containsKey(session)) {
             RoleService service = ApplicationContext.getInstance().getBean(RoleServiceImpl.class);
-            try {
-                userRoles = service.getUserRoles(UserUtil.fromEntity(userEntity)).stream()
-                        .map(RoleUtil::fromDto).collect(Collectors.toList());
-            } catch (DaoException e) {
-                throw new IllegalStateException("Failed to get user roles");
-            }
+            userRoles = service.getUserRoles(UserUtil.fromEntity(userEntity)).stream()
+                    .map(RoleUtil::fromDto).collect(Collectors.toList());
         }
         return userRoles;
     }

@@ -1,5 +1,6 @@
 package by.training.machine.monitoring.user;
 
+import by.training.machine.monitoring.app.ApplicationConstant;
 import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Bean(name = "logoutUser")
+@Bean(name = ApplicationConstant.LOGOUT_USER_CMD)
 public class LogoutUserCommand implements ServletCommand {
 
     @Override
@@ -24,7 +25,7 @@ public class LogoutUserCommand implements ServletCommand {
                 throw new CommandException("Failed to logout command", e);
             }
         } else {
-            req.setAttribute("toast", messageManager.getMessage("user.logout.error.toast"));
+            req.setAttribute(ApplicationConstant.TOAST, messageManager.getMessage("user.logout.error.toast"));
             try {
                 req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
             } catch (ServletException | IOException e) {

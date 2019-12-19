@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Bean(name = "updateUser")
+@Bean(name = ApplicationConstant.UPDATE_USER_CMD)
 public class UpdateUserCommand implements ServletCommand {
     private UserService userService;
 
@@ -41,7 +41,7 @@ public class UpdateUserCommand implements ServletCommand {
                 userService.updateUser(userDto, role);
             }
             resp.sendRedirect(req.getContextPath() + "/app?commandName=" + ApplicationConstant.VIEW_ALL_USERS_CMD);
-        } catch (DaoException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

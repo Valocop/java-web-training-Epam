@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @Log4j
-@Bean(name = "registerNewCar")
+@Bean(name = ApplicationConstant.REGISTER_NEW_CAR_CMD)
 @AllArgsConstructor
 public class RegisterNewCarCommand implements ServletCommand {
     private UserService userService;
@@ -50,8 +50,8 @@ public class RegisterNewCarCommand implements ServletCommand {
     private void failForward(HttpServletRequest req, HttpServletResponse resp, ResultValidator rv) throws CommandException {
         try {
             rv.getExceptionMap().forEach(req::setAttribute);
-            req.setAttribute("commandName", "showRegisterCar");
-            req.setAttribute("toast", "Machine not found");
+            req.setAttribute(ApplicationConstant.COMMAND_NAME, ApplicationConstant.SHOW_REGISTER_CAR_CMD);
+            req.setAttribute(ApplicationConstant.TOAST, "Machine not found");
             req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
         } catch (ServletException | IOException e) {
             log.error("Failed to execute register new car command", e);

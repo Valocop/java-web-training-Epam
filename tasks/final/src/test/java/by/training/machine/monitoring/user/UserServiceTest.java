@@ -59,14 +59,14 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldRegisterUser() throws DaoException, ServiceException {
+    public void shouldRegisterUser() throws ServiceException {
         boolean isUserRegister = userService.registerUser(registerUser);
         Assert.assertTrue(isUserRegister);
         Mockito.verify(mockRoleService, Mockito.times(1)).assignDefaultRoles(2L);
     }
 
     @Test
-    public void shouldDeleteUser() throws DaoException {
+    public void shouldDeleteUser() {
         boolean isUserDeleted = userService.deleteUser(testUser);
         Assert.assertTrue(isUserDeleted);
     }

@@ -65,16 +65,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean deleteUser(UserDto userDto) throws DaoException {
-        if (roleService.deleteAssignRoles(userDto.getId())) {
-            userDao.deleteAssignUserMachine(userDto.getId());
-            manufactureService.deleteManufactureByUserId(userDto.getId());
-            if (userDao.delete(userDto)) {
-                SecurityService.getInstance().deleteSession(userDto.getId());
-                return true;
+    public boolean deleteUser(UserDto userDto) {
+        try {
+            if (roleService.deleteAssignRoles(userDto.getId())) {
+                userDao.deleteAssignUserMachine(userDto.getId());
+                manufactureService.deleteManufactureByUserId(userDto.getId());
+                if (userDao.delete(userDto)) {
+                    SecurityService.getInstance().deleteSession(userDto.getId());
+                    return true;
+                }
             }
+            return false;
+        } catch (DaoException e) {
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -88,8 +92,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getByLogin(String login) throws DaoException {
-        return userDao.findByLogin(login).orElse(null);
+    public UserDto getByLogin(String login) {
+        try {
+            return userDao.findByLogin(login).orElse(null);
+        } catch (DaoException e) {
+            return null;
+        }
     }
 
     @Override
@@ -131,8 +139,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public boolean updateUser(UserDto userDto, String roleName) throws DaoException {
-        return userDao.update(userDto) && roleService.updateAssignUserRole(userDto.getId(), roleName);
+    public boolean updateUser(UserDto userDto, String roleName) {
+        try {
+            return userDao.update(userDto) && roleService.updateAssignUserRole(userDto.getId(), roleName);
+        } catch (DaoException e) {
+            return false;
+        }
     }
 
     @Override

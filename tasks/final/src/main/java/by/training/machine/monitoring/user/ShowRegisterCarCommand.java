@@ -1,5 +1,6 @@
 package by.training.machine.monitoring.user;
 
+import by.training.machine.monitoring.app.ApplicationConstant;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
 import by.training.machine.monitoring.core.Bean;
@@ -11,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Bean(name = "showRegisterCar")
+@Bean(name = ApplicationConstant.SHOW_REGISTER_CAR_CMD)
 @Log4j
 @AllArgsConstructor
 public class ShowRegisterCarCommand implements ServletCommand {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException {
-        req.setAttribute("commandName", "showRegisterCar");
+        req.setAttribute(ApplicationConstant.COMMAND_NAME, ApplicationConstant.SHOW_REGISTER_CAR_CMD);
         try {
             req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
         } catch (ServletException | IOException e) {

@@ -1,5 +1,6 @@
 package by.training.machine.monitoring.user;
 
+import by.training.machine.monitoring.app.ApplicationConstant;
 import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@Bean(name = "showUserListCars")
+@Bean(name = ApplicationConstant.SHOW_LIST_USER_MACHINES_CMD)
 @Log4j
 @AllArgsConstructor
 public class ShowUserListCarsCommand implements ServletCommand {
@@ -32,7 +33,7 @@ public class ShowUserListCarsCommand implements ServletCommand {
         });
         if (!assignMachines.isEmpty()) {
             req.setAttribute("userMachines", assignMachines);
-            req.setAttribute("commandName", "showUserListCars");
+            req.setAttribute(ApplicationConstant.COMMAND_NAME, ApplicationConstant.SHOW_LIST_USER_MACHINES_CMD);
             try {
                 req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
             } catch (ServletException | IOException e) {
@@ -40,8 +41,8 @@ public class ShowUserListCarsCommand implements ServletCommand {
                 throw new CommandException(e);
             }
         } else {
-            req.setAttribute("toast", "Not assailable cars");
-            req.setAttribute("commandName", "showRegisterCar");
+            req.setAttribute(ApplicationConstant.TOAST, "Not assailable cars");
+            req.setAttribute(ApplicationConstant.COMMAND_NAME, ApplicationConstant.SHOW_REGISTER_CAR_CMD);
             try {
                 req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
             } catch (ServletException | IOException e) {

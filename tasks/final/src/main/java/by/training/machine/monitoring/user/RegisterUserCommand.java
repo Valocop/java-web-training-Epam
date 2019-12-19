@@ -1,10 +1,10 @@
 package by.training.machine.monitoring.user;
 
+import by.training.machine.monitoring.app.ApplicationConstant;
 import by.training.machine.monitoring.app.SecurityService;
 import by.training.machine.monitoring.command.CommandException;
 import by.training.machine.monitoring.command.ServletCommand;
 import by.training.machine.monitoring.core.Bean;
-import by.training.machine.monitoring.dao.DaoException;
 import by.training.machine.monitoring.message.MessageManager;
 import by.training.machine.monitoring.validator.ResultValidator;
 
@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
-@Bean(name = "registerUser")
+@Bean(name = ApplicationConstant.REGISTER_USER_CMD)
 public class RegisterUserCommand implements ServletCommand {
     private UserService userService;
 
@@ -32,14 +33,14 @@ public class RegisterUserCommand implements ServletCommand {
         String name = req.getParameter("user.name");
         String address = req.getParameter("user.address");
         String tel = req.getParameter("user.tel");
-        ResultValidator rs = new RegisterUserValidator().validate(new HashMap<String, String>() {{
-            put("user.login", login);
-            put("user.password", password);
-            put("user.email", email);
-            put("user.name", name);
-            put("user.address", address);
-            put("user.tel", tel);
-        }}, messageManager);
+        Map<String, String> data = new HashMap<>();
+        data.put("user.login", login);
+        data.put("user.password", password);
+        data.put("user.email", email);
+        data.put("user.name", name);
+        data.put("user.address", address);
+        data.put("user.tel", tel);
+        ResultValidator rs = new RegisterUserValidator().validate(data, messageManager);
         if (rs.isValid()) {
             UserDto userDto = UserDto.builder()
                     .login(login)
@@ -49,28 +50,23 @@ public class RegisterUserCommand implements ServletCommand {
                     .address(address)
                     .tel(tel)
                     .build();
-            try {
-                if (userService.registerUser(userDto)) {
-                    try {
-                        userDto = userService.getByLogin(login);
-                        SecurityService.getInstance().createSession(req.getSession(true), UserUtil.fromDto(userDto));
-                        resp.sendRedirect(req.getContextPath());
-                    } catch (IOException e) {
-                        throw new CommandException(e);
-                    }
-                } else {
-                    rs.addException("user.login.incorrect",
-                            Arrays.asList(messageManager.getMessage("user.login.incorrect.user.exist")));
-                    req.setAttribute("user.registration", "true");
-                    rs.getExceptionMap().forEach(req::setAttribute);
-                    try {
-                        req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
-                    } catch (ServletException | IOException e) {
-                        throw new CommandException(e);
-                    }
+            if (userService.registerUser(userDto)) {
+                try {
+                    userDto = userService.getByLogin(login);
+                    SecurityService.getInstance().createSession(req.getSession(true), UserUtil.fromDto(userDto));
+                    resp.sendRedirect(req.getContextPath());
+                } catch (IOException e) {
+                    throw new CommandException(e);
                 }
-            } catch (DaoException e) {
-                throw new CommandException(e);
+            } else {
+                rs.addException("user.login.incorrect", Arrays.asList(messageManager.getMessage("user.login.incorrect.user.exist")));
+                req.setAttribute("user.registration", "true");
+                rs.getExceptionMap().forEach(req::setAttribute);
+                try {
+                    req.getRequestDispatcher("/jsp/main.jsp").forward(req, resp);
+                } catch (ServletException | IOException e) {
+                    throw new CommandException(e);
+                }
             }
         } else {
             req.setAttribute("user.registration", "true");
@@ -81,9 +77,5 @@ public class RegisterUserCommand implements ServletCommand {
                 throw new CommandException(e);
             }
         }
-    }
-
-    public UserService getUserService() {
-        return userService;
     }
 }

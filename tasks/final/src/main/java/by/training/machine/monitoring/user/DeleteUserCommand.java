@@ -48,7 +48,7 @@ public class DeleteUserCommand implements ServletCommand {
         try {
             userService.deleteUser(userDto);
             resp.sendRedirect(req.getContextPath() + "/app?commandName=" + ApplicationConstant.VIEW_ALL_USERS_CMD);
-        } catch (DaoException | IOException e) {
+        } catch (IOException e) {
             log.error("Failed to delete user", e);
             throw new CommandException(e);
         }
