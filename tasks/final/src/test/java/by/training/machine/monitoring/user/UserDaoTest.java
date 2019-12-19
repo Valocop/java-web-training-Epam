@@ -35,8 +35,12 @@ public class UserDaoTest {
     private static final String DROP_USER_ACCOUNT_TABLE = "drop table machine_monitoring_schema.user_account";
 
     @BeforeClass
-    public static void contextInit() {
-        ApplicationContext.initialize();
+    public static void contextInit() throws SQLException, DaoException {
+        try {
+            ApplicationContext.initialize();
+        } catch (Exception e) {
+            log.warn("Context was initialized", e);
+        }
     }
 
     @Before
@@ -80,10 +84,11 @@ public class UserDaoTest {
     }
 
     private void executeSql(String sql) throws DaoException, SQLException {
-        DataSource dataSource = ApplicationContext.getInstance().getBean(DataSource.class);
-        Assert.assertNotNull(dataSource);
-        try (Connection connection = dataSource.getConnection();
+        ConnectionManager connectionManager = ApplicationContext.getInstance().getBean(ConnectionManager.class);
+        Assert.assertNotNull(connectionManager);
+        try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
+            connection.setAutoCommit(true);
             ps.executeUpdate();
         }
     }

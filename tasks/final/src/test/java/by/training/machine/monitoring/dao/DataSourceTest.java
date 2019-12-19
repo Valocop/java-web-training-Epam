@@ -1,10 +1,8 @@
 package by.training.machine.monitoring.dao;
 
+import by.training.machine.monitoring.app.ApplicationContext;
 import lombok.extern.log4j.Log4j;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -32,16 +30,20 @@ public class DataSourceTest {
     private static final String USER_NAME = "Alex";
     private static final String EMAIL = "Alex@gmail.com";
 
-    @Before
-    public void init() throws DaoException {
-        PoolConnection poolConnection = PoolConnection.getInstance();
-        poolConnection.init();
+    @BeforeClass
+    public static void init() throws DaoException {
+        try {
+            ApplicationContext.initialize();
+        } catch (Exception e) {
+            log.warn("Context was initialized", e);
+        }
     }
 
     @Test
     public void shouldTestConnection() throws DaoException, SQLException {
         DataSource dataSource = new DataSourceImpl();
-        Connection connection = dataSource.getConnection();
+        ConnectionManager connectionManager = new ConnectionManagerImpl(new TransactionManagerImpl(dataSource), dataSource);
+        Connection connection = connectionManager.getConnection();
         Assert.assertNotNull(connection);
 
         try {
@@ -93,11 +95,12 @@ public class DataSourceTest {
     @Test
     public void shouldReturnFreeConnections() throws InterruptedException, DaoException {
         DataSource dataSource = new DataSourceImpl();
+        ConnectionManager connectionManager = new ConnectionManagerImpl(new TransactionManagerImpl(dataSource), dataSource);
         int poolCount = PoolConnection.getInstance().getPoolSize();
         List<Connection> connectionList = new ArrayList<>(poolCount);
 
         for (int i = 0; i < poolCount; i ++) {
-            connectionList.add(dataSource.getConnection());
+            connectionList.add(connectionManager.getConnection());
         }
 
         Assert.assertEquals(0, PoolConnection.getInstance().getFreeConnections());

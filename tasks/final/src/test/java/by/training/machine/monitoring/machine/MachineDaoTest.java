@@ -1,8 +1,7 @@
 package by.training.machine.monitoring.machine;
 
 import by.training.machine.monitoring.app.ApplicationContext;
-import by.training.machine.monitoring.dao.DaoException;
-import by.training.machine.monitoring.dao.DataSource;
+import by.training.machine.monitoring.dao.*;
 import lombok.extern.log4j.Log4j;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -32,7 +31,11 @@ public class MachineDaoTest {
 
     @BeforeClass
     public static void contextInit() {
-        ApplicationContext.initialize();
+        try {
+            ApplicationContext.initialize();
+        } catch (Exception e) {
+            log.warn("Context was initialized", e);
+        }
     }
 
     @Before
@@ -86,10 +89,11 @@ public class MachineDaoTest {
     }
 
     private void executeSql(String sql) throws DaoException, SQLException {
-        DataSource dataSource = ApplicationContext.getInstance().getBean(DataSource.class);
-        Assert.assertNotNull(dataSource);
-        try (Connection connection = dataSource.getConnection();
+        ConnectionManager connectionManager = ApplicationContext.getInstance().getBean(ConnectionManager.class);
+        Assert.assertNotNull(connectionManager);
+        try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
+            connection.setAutoCommit(true);
             ps.executeUpdate();
         }
     }
