@@ -19,15 +19,20 @@ alter DEFAULT PRIVILEGES IN SCHEMA machine_monitoring_schema
 -- Create table user_account
 create table machine_monitoring_schema.user_account
 (
-    id BIGSERIAL not null,
-    login VARCHAR(30) not null,
-    password VARCHAR(50) not null,
-    email VARCHAR(50) not null,
-    name VARCHAR(40) not null,
-    address VARCHAR(50) not null,
-    tel VARCHAR(30) not null,
-    picture bytea
+    id       bigserial   not null
+        constraint user_account_pk
+            primary key,
+    login    varchar(30) not null,
+    password varchar(50) not null,
+    email    varchar(50) not null,
+    name     varchar(40) not null,
+    address  varchar(50) not null,
+    tel      varchar(30) not null,
+    picture  bytea
 );
+
+alter table machine_monitoring_schema.user_account
+    owner to valocop;
 
 create unique index user_account_id_uindex
     on machine_monitoring_schema.user_account (id);
@@ -35,17 +40,18 @@ create unique index user_account_id_uindex
 create unique index user_account_login_uindex
     on machine_monitoring_schema.user_account (login);
 
-alter table machine_monitoring_schema.user_account
-    add constraint user_account_pk
-        primary key (id);
-
 -- Create table role
 create table machine_monitoring_schema.role
 (
-    id SERIAL not null,
-    name VARCHAR(30) not null,
-    default_role BOOLEAN
+    id           serial      not null
+        constraint role_pk
+            primary key,
+    name         varchar(30) not null,
+    default_role boolean
 );
+
+alter table machine_monitoring_schema.role
+    owner to valocop;
 
 create unique index role_id_uindex
     on machine_monitoring_schema.role (id);
@@ -53,19 +59,18 @@ create unique index role_id_uindex
 create unique index role_name_uindex
     on machine_monitoring_schema.role (name);
 
-alter table machine_monitoring_schema.role
-    add constraint role_pk
-        primary key (id);
-
-insert into "machine_monitoring_schema"."role" ("id", "name", "default_role") values (1, 'DEFAULT', true)
-insert into "machine_monitoring_schema"."role" ("id", "name", "default_role") values (2, 'ADMIN', null)
-insert into "machine_monitoring_schema"."role" ("id", "name", "default_role") values (2, 'MANUFACTURER', null)
+insert into "machine_monitoring_schema"."role" ("id", "name", "default_role")
+values (1, 'DEFAULT', true);
+insert into "machine_monitoring_schema"."role" ("id", "name", "default_role")
+values (2, 'ADMIN', null);
+insert into "machine_monitoring_schema"."role" ("id", "name", "default_role")
+values (2, 'MANUFACTURER', null);
 
 -- Create table machine_monitoring_schema.user_account_role_relation
 create table machine_monitoring_schema.user_account_role_relation
 (
     user_account_id BIGINT not null,
-    role_id BIGINT not null
+    role_id         BIGINT not null
 );
 
 alter table machine_monitoring_schema.user_account_role_relation
@@ -79,42 +84,44 @@ alter table machine_monitoring_schema.user_account_role_relation
 -- Create table machine_monitoring_schema.manufacture
 create table machine_monitoring_schema.manufacture
 (
-    id BIGSERIAL not null,
-    name VARCHAR(150) not null,
-    user_id BIGINT not null
+    id      bigserial    not null
+        constraint manufacture_pk
+            primary key,
+    name    varchar(150) not null,
+    user_id bigint       not null
         constraint manufacture_user_account_id_fk
             references machine_monitoring_schema.user_account
 );
 
+alter table machine_monitoring_schema.manufacture
+    owner to valocop;
+
 create unique index manufacture_id_uindex
     on machine_monitoring_schema.manufacture (id);
-
-alter table machine_monitoring_schema.manufacture
-    add constraint manufacture_pk
-        primary key (id);
 
 -- Create table machine_monitoring_schema.machine_model
 create table machine_monitoring_schema.machine_model
 (
-    id BIGSERIAL not null,
-    name VARCHAR(100) not null,
-    release_date date not null,
-    picture bytea,
-    description VARCHAR(200) not null,
-    manufacture_id BIGINT not null
+    id             bigserial    not null
+        constraint machine_model_pk
+            primary key,
+    name           varchar(100) not null,
+    release_date   date         not null,
+    picture        bytea,
+    description    varchar(200) not null,
+    manufacture_id bigint       not null
         constraint machine_model_manufacture_id_fk
             references machine_monitoring_schema.manufacture
 );
 
+alter table machine_monitoring_schema.machine_model
+    owner to valocop;
+
 create unique index machine_model_id_uindex
     on machine_monitoring_schema.machine_model (id);
 
-alter table machine_monitoring_schema.machine_model
-    add constraint machine_model_pk
-        primary key (id);
-
 -- Create table characteristic
-create table characteristic
+create table machine_monitoring_schema.characteristic
 (
     id              bigserial    not null
         constraint characteristic_pk
@@ -126,17 +133,17 @@ create table characteristic
     transmission    varchar(150) not null,
     manufacturer_id bigint       not null
         constraint characteristic_manufacture_id_fk
-            references manufacture
+            references machine_monitoring_schema.manufacture
 );
 
-alter table characteristic
+alter table machine_monitoring_schema.characteristic
     owner to valocop;
 
 create unique index characteristic_id_uindex
-    on characteristic (id);
+    on machine_monitoring_schema.characteristic (id);
 
 -- Create table machine
-create table machine
+create table machine_monitoring_schema.machine
 (
     id                bigserial    not null
         constraint machine_pk
@@ -144,44 +151,45 @@ create table machine
     uniq_code         varchar(100) not null,
     model_id          bigint       not null
         constraint machine_machine_model_id_fk
-            references machine_model,
+            references machine_monitoring_schema.machine_model,
     characteristic_id bigint       not null
         constraint machine_characteristic_id_fk
-            references characteristic,
+            references machine_monitoring_schema.characteristic,
     manufacture_id    bigint       not null
         constraint machine_manufacture_id_fk
-            references manufacture
+            references machine_monitoring_schema.manufacture
 );
 
-alter table machine
+alter table machine_monitoring_schema.machine
     owner to valocop;
 
 create unique index machine_id_uindex
-    on machine (id);
+    on machine_monitoring_schema.machine (id);
 
 create unique index machine_uniq_code_uindex
-    on machine (uniq_code);
+    on machine_monitoring_schema.machine (uniq_code);
 
 -- Create table machine_log
 create table machine_monitoring_schema.machine_log
 (
-	id BIGSERIAL not null,
-	date date not null,
-	fuel_level decimal not null,
-	oil_pressure decimal not null,
-	oil_level decimal not null,
-	coolant_temp decimal not null,
-	machine_id bigint not null
-		constraint machine_log_machine_id_fk
-			references machine_monitoring_schema.machine
+    id           bigserial not null
+        constraint machine_log_pk
+            primary key,
+    date         date      not null,
+    fuel_level   numeric   not null,
+    oil_pressure numeric   not null,
+    oil_level    numeric   not null,
+    coolant_temp numeric   not null,
+    machine_id   bigint    not null
+        constraint machine_log_machine_id_fk
+            references machine_monitoring_schema.machine
 );
 
-create unique index machine_log_id_uindex
-	on machine_monitoring_schema.machine_log (id);
-
 alter table machine_monitoring_schema.machine_log
-	add constraint machine_log_pk
-		primary key (id);
+    owner to valocop;
+
+create unique index machine_log_id_uindex
+    on machine_monitoring_schema.machine_log (id);
 
 -- Create table machine_error
 create table machine_monitoring_schema.machine_error
@@ -205,13 +213,14 @@ create unique index machine_error_id_uindex
 -- Create table user_machine
 create table machine_monitoring_schema.user_machine
 (
-	user_id BIGINT not null
-		constraint user_machine_user_account_id_fk
-			references machine_monitoring_schema.user_account,
-	machine_id BIGINT not null
-		constraint user_machine_machine_id_fk
-			references machine_monitoring_schema.machine
+    user_id    bigint not null
+        constraint user_machine_user_account_id_fk
+            references machine_monitoring_schema.user_account,
+    machine_id bigint not null
+        constraint user_machine_machine_id_fk
+            references machine_monitoring_schema.machine
 );
+
 
 
 
