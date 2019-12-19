@@ -15,7 +15,6 @@ public class ApplicationContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ApplicationContext.initialize();
-        servletContextEvent.getServletContext().setAttribute("messageManager", ApplicationContext.getInstance().getBean(MessageManager.class));
         log.info("Context was initialized");
     }
 
