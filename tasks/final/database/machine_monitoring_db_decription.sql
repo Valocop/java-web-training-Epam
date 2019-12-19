@@ -1,5 +1,4 @@
 -- PostgreSQL 11
-
 -- Create db
 create DATABASE machine_monitoring
     with
